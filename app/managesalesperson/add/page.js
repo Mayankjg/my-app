@@ -131,7 +131,7 @@ export default function AddSalespersonForm() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-6">
             <div>
               <label className="block text-sm text-gray-600 mb-2">
-                User Name
+                User Name*
               </label>
               <input
                 type="text"
@@ -170,7 +170,7 @@ export default function AddSalespersonForm() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-6">
             <div>
               <label className="block text-sm text-gray-600 mb-2">
-                First Name
+                First Name*
               </label>
               <input
                 type="text"
@@ -185,7 +185,7 @@ export default function AddSalespersonForm() {
 
             <div>
               <label className="block text-sm text-gray-600 mb-2">
-                Last Name
+                Last Name*
               </label>
               <input
                 type="text"
@@ -203,7 +203,7 @@ export default function AddSalespersonForm() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-6">
             <div>
               <label className="block text-sm text-gray-600 mb-2">
-                Email
+                Email*
               </label>
               <input
                 type="email"
@@ -218,7 +218,7 @@ export default function AddSalespersonForm() {
 
             <div>
               <label className="block text-sm text-gray-600 mb-2">
-                Designation
+                Designation*
               </label>
               <input
                 type="text"
@@ -236,7 +236,7 @@ export default function AddSalespersonForm() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
             <div>
               <label className="block text-sm text-gray-600 mb-2">
-                Country
+                Country*
               </label>
               <select
                 name="country"
@@ -270,7 +270,7 @@ export default function AddSalespersonForm() {
               </div>
               <div>
                 <label className="block text-sm text-gray-600 mb-2">
-                  Contact No
+                  Contact No*
                 </label>
                 <input
                   type="tel"
