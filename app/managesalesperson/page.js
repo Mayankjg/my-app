@@ -28,23 +28,22 @@ const NewPasswordModal = ({ salespersonId, onClose, onPasswordChange }) => {
 
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000] p-5"
+            className="fixed inset-0 flex justify-center items-center z-[1000] p-5"
             onClick={onClose}
         >
             <div
-                className="bg-white p-8 rounded-lg w-full max-w-md shadow-lg"
-                onClick={(e) => e.stopPropagation()}
+                className="bg-[white] p-4 border border-[black] rounded-lg w-full max-w-md shadow-lg"
             >
-                <h3 className="text-xl font-semibold mb-4 text-gray-900">Change Password</h3>
+                <h3 className="text-xl font-semibold bg-[#e5e9ec] mb-4 text-gray-900">Change Password</h3>
                 <div>
                     {error && <p className="text-red-500 mb-3 text-sm">{error}</p>}
-
+                    <hr className="-mx-4 border-t mb-5 border-gray-300 mt-4 mb-0" />
                     <label className="block mb-2 text-sm font-medium text-gray-700">New Password</label>
                     <input
                         type="password"
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
-                        className="w-full p-2.5 mb-4 border border-gray-300 rounded-md pl-5"
+                        className="w-full p-2.5 mb-4 text-[black] border border-gray-300 rounded-md pl-5"
                         placeholder="Enter new password"
                         required
                         minLength="6"
@@ -55,7 +54,7 @@ const NewPasswordModal = ({ salespersonId, onClose, onPasswordChange }) => {
                         type="password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        className="w-full p-2.5 mb-4 border border-gray-300 rounded-md pl-5"
+                        className="w-full p-2.5 mb-4 text-[black] border border-gray-300 rounded-md pl-5"
                         placeholder="Confirm password"
                         required
                     />
@@ -107,23 +106,22 @@ const ChangeEmailModal = ({ salespersonId, onClose, onEmailChange }) => {
 
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000] p-5"
+            className="fixed inset-0 flex justify-center items-center z-[1000] p-5"
             onClick={onClose}
         >
             <div
-                className="bg-white p-8 rounded-lg w-full max-w-md shadow-lg"
-                onClick={(e) => e.stopPropagation()}
+                className="bg-white p-8 border border-[black] rounded-lg w-full max-w-md shadow-lg"
             >
-                <h3 className="text-xl font-semibold mb-4 text-gray-900">Change Email ID</h3>
+                <h3 className="text-xl font-semibold bg-[#e5e9ec] mb-4 text-gray-900">Change Email ID</h3>
                 <div>
                     {error && <p className="text-red-500 mb-3 text-sm">{error}</p>}
-
+                     <hr className="-mx-8 border-t mb-5 border-gray-300 mt-4 mb-0" />
                     <label className="block mb-2 text-sm font-medium text-gray-700">New Email ID</label>
                     <input
                         type="email"
                         value={newEmail}
                         onChange={(e) => setNewEmail(e.target.value)}
-                        className="w-full p-2.5 mb-4 border border-gray-300 rounded-md pl-5"
+                        className="w-full p-2.5 mb-4 text-[black] border border-gray-300 rounded-md pl-5"
                         placeholder="Enter new email address"
                         required
                     />
