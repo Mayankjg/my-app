@@ -351,7 +351,7 @@ export default function SalespersonList() {
                           {sp.firstname} {sp.lastname}
                         </p>
                         <div className="flex items-center gap-3">
-                          <Briefcase className="w-[18px] h-[18px] text-gray-500" />
+                          <Briefcase className="w-[18px] h-[18px] ml-[130px] text-gray-500" />
                           <span className="text-sm sm:text-base text-gray-700">
                             Designation: <span className="font-semibold">{sp.designation}</span>
                           </span>
@@ -364,15 +364,15 @@ export default function SalespersonList() {
                           onClick={() => handleDelete(sp.id)}
                         >
                           <Trash2
-                            className="w-5 h-5 text-gray-600 hover:text-red-600 transition"
+                            className="w-5 h-5 mr-[80px] text-gray-600 hover:text-red-600 transition"
                             title="Delete"
                           />
-                          <span className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap pointer-events-none">
+                          <span className="absolute bottom-6 left-[10] -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap pointer-events-none">
                             Delete
                           </span>
                         </div>
 
-                        <button className="bg-[#dc3545] flex-1 sm:flex-none h-9 sm:w-[120px] rounded-[5px] text-white hover:bg-[#c82333] text-sm sm:text-[15px] font-medium transition-colors">
+                        <button className="bg-[#dc3545] mr-[20px] flex-1 sm:flex-none h-9 sm:w-[120px] rounded-[5px] text-white hover:bg-[#c82333] text-sm sm:text-[15px] font-medium transition-colors">
                           View Leads
                         </button>
                       </div>
@@ -406,10 +406,10 @@ export default function SalespersonList() {
                           onClick={() => handleOpenChangePassword(sp.id)}
                         >
                           <Key
-                            className="w-5 h-5 text-gray-600 hover:text-[#133b74] transition"
+                            className="w-5 h-5 mr-[80px] text-gray-600 hover:text-[#133b74] transition"
                             title="Change Password"
                           />
-                          <span className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap pointer-events-none">
+                          <span className="absolute bottom-6 left-[10] -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap pointer-events-none">
                             Change Password
                           </span>
                         </div>
