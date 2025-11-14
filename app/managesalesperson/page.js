@@ -161,12 +161,10 @@ export default function SalespersonList() {
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [salespersonToChangeEmail, setSalespersonToChangeEmail] = useState(null);
 
-  // Load data from localStorage when component mounts
   useEffect(() => {
     loadSalespersons();
   }, []);
 
-  // Listen for visibility changes to reload data when page becomes visible
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (!document.hidden) {
@@ -178,11 +176,10 @@ export default function SalespersonList() {
       loadSalespersons();
     };
 
-    // Add event listeners
     document.addEventListener('visibilitychange', handleVisibilityChange);
     window.addEventListener('focus', handleFocus);
 
-    // Cleanup
+    
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('focus', handleFocus);
