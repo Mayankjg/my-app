@@ -161,12 +161,10 @@ export default function SalespersonList() {
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [salespersonToChangeEmail, setSalespersonToChangeEmail] = useState(null);
 
-  // Load data from localStorage when component mounts
   useEffect(() => {
     loadSalespersons();
   }, []);
 
-  // Listen for visibility changes to reload data when page becomes visible
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (!document.hidden) {
@@ -178,11 +176,10 @@ export default function SalespersonList() {
       loadSalespersons();
     };
 
-    // Add event listeners
     document.addEventListener('visibilitychange', handleVisibilityChange);
     window.addEventListener('focus', handleFocus);
 
-    // Cleanup
+    
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('focus', handleFocus);
@@ -298,7 +295,7 @@ export default function SalespersonList() {
         />
       )}
 
-      <div className="p-1.5 bg-white rounded-md w-full max-w-[1200px]">
+      <div className="p-1 bg-white rounded-md w-full max-w-[1000px]">
         <div className="bg-white w-full px-4 py-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <h2 className="text-xl sm:text-2xl ml-2 sm:ml-5 font-semibold text-gray-900">
@@ -364,15 +361,15 @@ export default function SalespersonList() {
                           onClick={() => handleDelete(sp.id)}
                         >
                           <Trash2
-                            className="w-5 h-5 text-gray-600 hover:text-red-600 transition"
+                            className="w-5 h-5 mr-[30px] text-gray-600 hover:text-red-600 transition"
                             title="Delete"
                           />
-                          <span className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap pointer-events-none">
+                          <span className="absolute bottom-6 left-[10px] -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap pointer-events-none">
                             Delete
                           </span>
                         </div>
 
-                        <button className="bg-[#dc3545] flex-1 sm:flex-none h-9 sm:w-[120px] rounded-[5px] text-white hover:bg-[#c82333] text-sm sm:text-[15px] font-medium transition-colors">
+                        <button className="bg-[#dc3545] mr-[20px] flex-1 sm:flex-none h-9 sm:w-[120px] rounded-[5px] text-white hover:bg-[#c82333] text-sm sm:text-[15px] font-medium transition-colors">
                           View Leads
                         </button>
                       </div>
@@ -406,7 +403,7 @@ export default function SalespersonList() {
                           onClick={() => handleOpenChangePassword(sp.id)}
                         >
                           <Key
-                            className="w-5 h-5 text-gray-600 hover:text-[#133b74] transition"
+                            className="w-5 h-5 mr-[30px] text-gray-600 hover:text-[#133b74] transition"
                             title="Change Password"
                           />
                           <span className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap pointer-events-none">
