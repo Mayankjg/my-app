@@ -369,7 +369,7 @@ export default function SalespersonList() {
                           </span>
                         </div>
 
-                        <button className="bg-[#dc3545] mr-[20px] flex-1 sm:flex-none h-9 sm:w-[120px] rounded-[5px] text-white hover:bg-[#c82333] text-sm sm:text-[15px] font-medium transition-colors">
+                        <button className="bg-[#dc3545] flex-1 sm:flex-none h-9 sm:w-[140px] rounded-md text-white hover:bg-[#0f2f5a] text-sm font-medium transition-colors">
                           View Leads
                         </button>
                       </div>

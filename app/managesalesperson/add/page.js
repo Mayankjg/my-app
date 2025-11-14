@@ -287,7 +287,7 @@ export default function AddSalespersonForm() {
         </div>
 
         {/* Footer Buttons */}
-        <div className="border-t border-gray-200 px-6 py-4 flex justify-end gap-3">
+        <div className="border-t bg-[#e5e9ec] border-gray-200 px-6 py-4 flex justify-end gap-3">
           <button
             onClick={handleSave}
             className="px-8 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600 transition-colors"
