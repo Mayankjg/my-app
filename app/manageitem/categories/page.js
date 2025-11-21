@@ -21,12 +21,12 @@ export default function CategoriesPage() {
   const [newCategoryName, setNewCategoryName] = useState("");
   const [editingCategory, setEditingCategory] = useState(null);
 
-  // Filter categories based on search
+  
   const filteredCategories = categories.filter((cat) =>
     cat.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Handle select all
+  
   const handleSelectAll = (e) => {
     if (e.target.checked) {
       setSelected(filteredCategories.map((cat) => cat.id));
@@ -35,14 +35,14 @@ export default function CategoriesPage() {
     }
   };
 
-  // Handle single row selection
+ 
   const handleSelectRow = (id) => {
     setSelected((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
   };
 
-  // Add new category
+
   const handleAddCategory = (e) => {
     if (e) {
       e.preventDefault();
@@ -61,7 +61,7 @@ export default function CategoriesPage() {
     setShowAddModal(false);
   };
 
-  // Edit category
+ 
   const handleEditClick = (category) => {
     setEditingCategory(category);
     setShowEditModal(true);
@@ -87,7 +87,7 @@ export default function CategoriesPage() {
     setEditingCategory(null);
   };
 
-  // Delete single category
+  
   const handleDeleteSingle = (id) => {
     if (confirm("Are you sure you want to delete this category?")) {
       setCategories((prev) => prev.filter((cat) => cat.id !== id));
@@ -95,7 +95,7 @@ export default function CategoriesPage() {
     }
   };
 
-  // Delete selected categories
+ 
   const handleDeleteSelected = () => {
     if (selected.length === 0) {
       alert("Please select categories to delete");
@@ -107,15 +107,13 @@ export default function CategoriesPage() {
     }
   };
 
-  // Handle search
+  
   const handleSearch = () => {
-    // Search is already filtered in real-time
   };
 
   return (
     <div className="bg-[#f9f9f9] min-h-screen flex justify-center py-8">
       <div className="bg-white border border-[#d9d9d9] w-[95%] md:w-[90%] p-6 rounded-lg shadow-sm">
-        {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-gray-700">Categories</h2>
           <button
@@ -126,10 +124,8 @@ export default function CategoriesPage() {
           </button>
         </div>
 
-        {/* Divider */}
         <div className="-mx-6 border-b border-[#d9d9d9] mt-3 mb-7"></div>
 
-        {/* Search */}
         <div className="flex justify-end items-center gap-2 mb-4">
           <input
             type="text"
@@ -146,7 +142,6 @@ export default function CategoriesPage() {
           </button>
         </div>
 
-        {/* Table */}
         <div className="overflow-x-auto border border-[#d9d9d9] rounded-md">
           <table className="w-full border-collapse text-sm">
             <thead className="bg-[#f1f1f1] text-gray-800 font-semibold">
@@ -231,7 +226,6 @@ export default function CategoriesPage() {
             </tbody>
           </table>
 
-          {/* Bottom Delete Button */}
           <div className="p-4">
             <button
               onClick={handleDeleteSelected}
@@ -248,7 +242,6 @@ export default function CategoriesPage() {
         </div>
       </div>
 
-      {/* Add Category Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-[90%] max-w-md">
@@ -305,7 +298,6 @@ export default function CategoriesPage() {
         </div>
       )}
 
-      {/* Edit Category Modal */}
       {showEditModal && editingCategory && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-[90%] max-w-md">
