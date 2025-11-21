@@ -159,7 +159,7 @@ export default function CategoriesPage() {
                 <th className="border border-[#d9d9d9] p-2 text-left">
                   SR. NO.
                 </th>
-                <th className="border border-[#d9d9d9] p-2 text-left">
+                <th className="border border-[#d9d9d9] text-[#black] p-2 text-left">
                   CATEGORY NAME
                 </th>
                 <th className="border border-[#d9d9d9] p-2 text-center">
