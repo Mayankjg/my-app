@@ -14,11 +14,11 @@ export default function LeadStatus() {
   const [selected, setSelected] = useState([]);
   const [search, setSearch] = useState("");
 
-  // ⭐ Add modal state (Option A - LeadSource style)
+
   const [showAddModal, setShowAddModal] = useState(false);
   const [newStatusName, setNewStatusName] = useState("");
 
-  // ⭐ Inline edit state (LeadSource style)
+ 
   const [editingId, setEditingId] = useState(null);
   const [editedName, setEditedName] = useState("");
 
@@ -52,7 +52,7 @@ export default function LeadStatus() {
     }
   };
 
-  // ⭐ Add Lead Status (modal save)
+
   const handleAddStatus = () => {
     if (!newStatusName.trim()) {
       alert("Please enter lead status");
@@ -69,7 +69,7 @@ export default function LeadStatus() {
     setShowAddModal(false);
   };
 
-  // ⭐ Bulk delete (bottom red button)
+
   const handleBulkDelete = () => {
     if (selected.length === 0) {
       alert("Please select Special lead status to delete");
@@ -92,7 +92,6 @@ export default function LeadStatus() {
             Lead <span className="font-normal">Status</span>
           </h2>
 
-          {/* ⭐ Add Lead Status → open modal */}
           <button
             onClick={() => setShowAddModal(true)}
             className="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-md text-sm sm:text-base w-full sm:w-auto"
@@ -166,7 +165,7 @@ export default function LeadStatus() {
                     className="hover:bg-gray-50 transition"
                     style={{ borderTop: "1px solid #e6e6e6" }}
                   >
-                    {/* checkbox */}
+                  
                     <td
                       className="py-2 px-3 text-left"
                       style={{ borderRight: "1px solid #e6e6e6" }}
@@ -183,7 +182,7 @@ export default function LeadStatus() {
                       )}
                     </td>
 
-                    {/* SR NO */}
+                  
                     <td
                       className="py-2 px-3"
                       style={{ borderRight: "1px solid #e6e6e6" }}
@@ -191,7 +190,6 @@ export default function LeadStatus() {
                       {index + 1}
                     </td>
 
-                    {/* LEAD STATUS NAME (inline edit for Special) */}
                     <td
                       className="py-2 px-3"
                       style={{ borderRight: "1px solid #e6e6e6" }}
@@ -208,7 +206,7 @@ export default function LeadStatus() {
                       )}
                     </td>
 
-                    {/* EDIT */}
+                  
                     <td
                       className="py-2 text-center"
                       style={{ borderRight: "1px solid #e6e6e6" }}
@@ -256,7 +254,7 @@ export default function LeadStatus() {
                       )}
                     </td>
 
-                    {/* DELETE */}
+                
                     <td
                       className="py-2 text-center"
                       style={{ borderRight: "1px solid #e6e6e6" }}
@@ -273,7 +271,7 @@ export default function LeadStatus() {
                       )}
                     </td>
 
-                    {/* VIEW LEAD button */}
+            
                     <td className="py-2 text-center">
                       <button className="bg-red-500 hover:bg-red-600 text-white px-2 sm:px-5 py-1 rounded text-[10px] sm:text-sm w-full sm:w-auto">
                         View Lead
@@ -282,7 +280,6 @@ export default function LeadStatus() {
                   </tr>
                 ))}
 
-                {/* bottom bulk delete button */}
                 <tr style={{ borderTop: "1px solid #e6e6e6" }}>
                   <td colSpan="6" className="py-4 px-3 text-left">
                     <button
@@ -299,7 +296,6 @@ export default function LeadStatus() {
         </div>
       </div>
 
-      {/* ⭐ ADD LEAD STATUS MODAL (Option A - same feel as LeadSource) */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
           <div className="bg-white w-[500px] rounded-md shadow-lg">

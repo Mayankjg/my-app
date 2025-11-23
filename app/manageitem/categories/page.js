@@ -17,11 +17,11 @@ export default function CategoriesPage() {
   const [selected, setSelected] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // ⭐ Inline edit (same as Lead-Source)
+
   const [editingId, setEditingId] = useState(null);
   const [editedName, setEditedName] = useState("");
 
-  // ⭐ Add modal
+
   const [showAddModal, setShowAddModal] = useState(false);
   const [newCategory, setNewCategory] = useState("");
 
@@ -50,7 +50,6 @@ export default function CategoriesPage() {
     }
   };
 
-  // ⭐ Add Category (modal save)
   const handleAddCategory = () => {
     if (newCategory.trim() === "") {
       alert("Please enter category name");
@@ -65,7 +64,6 @@ export default function CategoriesPage() {
     setShowAddModal(false);
   };
 
-  // ⭐ Delete selected
   const handleDeleteSelected = () => {
     if (selected.length === 0) return;
     if (confirm("Delete selected categories?")) {
@@ -78,11 +76,9 @@ export default function CategoriesPage() {
     <div className="bg-[#f9f9f9] min-h-screen flex justify-center py-8">
       <div className="bg-white border border-[#d9d9d9] w-[95%] md:w-[90%] p-6 rounded-lg shadow-sm">
 
-        {/* HEADER */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-gray-700">Categories</h2>
 
-          {/* ⭐ Add Category Button */}
           <button
             onClick={() => setShowAddModal(true)}
             className="bg-[#1b2b41] hover:bg-[#142336] text-white text-sm font-medium px-4 py-2 rounded"
@@ -93,7 +89,7 @@ export default function CategoriesPage() {
 
         <div className="-mx-6 border-b border-[#d9d9d9] mt-3 mb-7"></div>
 
-        {/* SEARCH */}
+ 
         <div className="flex justify-end items-center gap-2 mb-4">
           <input
             type="text"
@@ -107,7 +103,7 @@ export default function CategoriesPage() {
           </button>
         </div>
 
-        {/* TABLE */}
+ 
         <div className="overflow-x-auto border border-[#d9d9d9] rounded-md">
           <table className="w-full border-collapse text-sm">
             <thead className="bg-[#f1f1f1] text-gray-800 font-semibold">
@@ -143,7 +139,6 @@ export default function CategoriesPage() {
 
                   <td className="border border-[#d9d9d9] p-2">{index + 1}</td>
 
-                  {/* ⭐ Inline Edit (LeadSource style) */}
                   <td className="border border-[#d9d9d9] p-2">
                     {editingId === cat.id ? (
                       <input
@@ -156,7 +151,7 @@ export default function CategoriesPage() {
                     )}
                   </td>
 
-                  {/* EDIT BUTTON */}
+
                   <td className="border border-[#d9d9d9] p-2 text-center">
                     {editingId === cat.id ? (
                       <>
@@ -196,7 +191,7 @@ export default function CategoriesPage() {
                     )}
                   </td>
 
-                  {/* DELETE BUTTON */}
+              
                   <td className="border border-[#d9d9d9] p-2 text-center">
                     <button
                       onClick={() => handleDeleteSingle(cat.id)}
@@ -206,7 +201,7 @@ export default function CategoriesPage() {
                     </button>
                   </td>
 
-                  {/* VIEW LEADS */}
+            
                   <td className="border border-[#d9d9d9] p-2 text-center">
                     <button className="bg-[#dc3545] hover:bg-[#bb2d3b] text-white text-sm px-4 py-1 rounded-sm">
                       View Leads
@@ -217,7 +212,6 @@ export default function CategoriesPage() {
             </tbody>
           </table>
 
-          {/* DELETE SELECTED */}
           <div className="p-4">
             <button
               onClick={handleDeleteSelected}
@@ -229,7 +223,7 @@ export default function CategoriesPage() {
         </div>
       </div>
 
-      {/* ⭐ ADD CATEGORY MODAL (same as lead-source) */}
+  
       {showAddModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
           <div className="bg-white w-[500px] rounded-md shadow-lg">
