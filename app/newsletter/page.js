@@ -6,13 +6,11 @@ export default function TemplatePage() {
 
   return (
     <div className="w-full bg-[#e9edf1] min-h-screen p-4 md:p-6">
-      {/* Header */}
+    
       <h2 className="text-xl font-semibold mb-4 md:mb-6">Templates</h2>
 
-      {/* Buttons + Search */}
+ 
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-        
-        {/* Buttons */}
         <div className="flex gap-3">
           <button className="bg-[#113f67] text-white px-5 md:px-6 py-2 rounded hover:bg-[#0d304f] text-sm md:text-base">
             Add Custom Template
@@ -23,7 +21,6 @@ export default function TemplatePage() {
           </button>
         </div>
 
-        {/* Search Field */}
         <div className="flex gap-3">
           <input
             type="text"
@@ -39,7 +36,6 @@ export default function TemplatePage() {
         </div>
       </div>
 
-      {/* Table */}
       <div className="bg-white rounded-lg shadow border overflow-x-auto">
         <table className="w-full text-sm min-w-[900px]">
           <thead className="bg-[#eef1f4] text-gray-600">

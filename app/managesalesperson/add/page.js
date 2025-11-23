@@ -118,16 +118,13 @@ export default function AddSalespersonForm() {
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-sm">
-        {/* Header */}
         <div className="border-b border-gray-200 px-6 py-4">
           <h1 className="text-xl font-normal text-gray-700">
             Add <span className="font-semibold">Salesperson</span>
           </h1>
         </div>
 
-        {/* Form Content */}
         <div className="p-6 md:p-8">
-          {/* Row 1: User Name and Profile Image */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-6">
             <div>
               <label className="block text-sm text-gray-600 mb-2">
@@ -166,7 +163,6 @@ export default function AddSalespersonForm() {
             </div>
           </div>
 
-          {/* Row 2: First Name and Last Name */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-6">
             <div>
               <label className="block text-sm text-gray-600 mb-2">
@@ -199,7 +195,6 @@ export default function AddSalespersonForm() {
             </div>
           </div>
 
-          {/* Row 3: Email and Designation */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-6">
             <div>
               <label className="block text-sm text-gray-600 mb-2">
@@ -232,7 +227,6 @@ export default function AddSalespersonForm() {
             </div>
           </div>
 
-          {/* Row 4: Country, Country Code and Contact No */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
             <div>
               <label className="block text-sm text-gray-600 mb-2">
@@ -286,7 +280,6 @@ export default function AddSalespersonForm() {
           </div>
         </div>
 
-        {/* Footer Buttons */}
         <div className="border-t bg-[#e5e9ec] border-gray-200 px-6 py-4 flex justify-end gap-3">
           <button
             onClick={handleSave}

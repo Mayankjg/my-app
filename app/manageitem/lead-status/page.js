@@ -47,8 +47,6 @@ export default function LeadStatus() {
   return (
       <div className="bg-gray-100 min-h-screen flex justify-center items-center p-2">
       <div className="bg-white w-full max-w-7xl rounded-md shadow-md border border-gray-400">
-    
-      {/* Header */}
       <div
         className="flex flex-col sm:flex-row items-start sm:items-center justify-between px-3 sm:px-6 py-3 gap-2"
         style={{ borderBottom: "1px solid #e6e6e6" }}
@@ -61,7 +59,6 @@ export default function LeadStatus() {
         </button>
       </div>
 
-      {/* Search Bar */}
       <div
         className="flex flex-col sm:flex-row justify-end items-center px-3 sm:px-6 py-3 gap-3"
         style={{
@@ -82,7 +79,6 @@ export default function LeadStatus() {
         </button>
       </div>
 
-      {/* Table */}
       <div className="overflow-x-auto w-full">
         <div className="min-w-[500px] sm:min-w-full">
           <table
@@ -192,8 +188,7 @@ export default function LeadStatus() {
                   </td>
                 </tr>
               ))}
-
-              {/* Delete Button Row */}
+              
               <tr style={{ borderTop: "1px solid #e6e6e6" }}>
                 <td colSpan="6" className="py-4 px-3 text-left">
                   <button className="bg-red-500 hover:bg-red-700 text-white px-6 sm:px-12 py-2 rounded-md text-xs sm:text-base">

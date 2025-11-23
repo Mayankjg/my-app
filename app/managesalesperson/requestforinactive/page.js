@@ -191,7 +191,6 @@ export default function SalespersonList() {
                 const parsedData = JSON.parse(storedData);
                 setSalespersons(parsedData);
             } else {
-                // Initialize with empty array if no data exists
                 setSalespersons([]);
             }
         } catch (error) {
@@ -228,7 +227,6 @@ export default function SalespersonList() {
         await new Promise(resolve => setTimeout(resolve, 500));
 
         try {
-            // Update password in localStorage (in real app, this would be an API call)
             const updatedList = salespersons.map(sp =>
                 sp.id === id ? { ...sp, password: newPassword } : sp
             );

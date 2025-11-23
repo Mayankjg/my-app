@@ -106,7 +106,6 @@ const LeadsCalendar = () => {
     return (
         <div className="min-h-screen bg-[#e8ecef] p-2 sm:p-4 md:p-6">
             <div className="max-w-[1400px] mx-auto bg-white rounded shadow border border-gray-200">
-                {/* Header Section */}
                 <div className="p-4 sm:p-6">
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
                         <h1 className="text-xl sm:text-2xl font-normal text-[#4a4a4a]">
@@ -122,7 +121,6 @@ const LeadsCalendar = () => {
                     <hr className="border-t border-gray-300 -mx-4 sm:-mx-6" />
                 </div>
 
-                {/* Navigation and View Toggle */}
                 <div className="px-4 sm:px-6 pb-6">
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <div className="flex gap-0 bg-[#38bdf8] rounded overflow-hidden">
@@ -163,11 +161,10 @@ const LeadsCalendar = () => {
                     </div>
                 </div>
 
-                {/* Month View */}
                 {viewMode === 'month' && (
                     <div className="px-2 sm:px-6 pb-6">
                         <div className="bg-white rounded border border-gray-300 overflow-hidden">
-                            {/* Days Header */}
+                        
                             <div className="grid grid-cols-7 bg-[#e5e7eb]">
                                 {daysOfWeek.map((day) => (
                                     <div
@@ -179,7 +176,6 @@ const LeadsCalendar = () => {
                                 ))}
                             </div>
 
-                            {/* Calendar Grid */}
                             <div className="grid grid-cols-7">
                                 {days.map((dayInfo, index) => {
                                     const leads = getLeadsForDate(dayInfo.date);
@@ -227,13 +223,11 @@ const LeadsCalendar = () => {
                     </div>
                 )}
 
-                {/* Week View */}
                 {viewMode === 'week' && (
                     <div className="px-2 sm:px-6 pb-6">
                         <div className="bg-white rounded border border-gray-300 overflow-hidden">
                             <div className="overflow-x-auto">
                                 <div className="min-w-[400px]">
-                                    {/* Week Header - Days */}
                                     <div className="grid grid-cols-8 bg-[#e5e7eb] border-b border-gray-300">
                                         <div className="bg-[#e5e7eb] border-r border-gray-300"></div>
                                         {weekDays.map((day, dayIndex) => (
@@ -248,7 +242,6 @@ const LeadsCalendar = () => {
                                         ))}
                                     </div>
 
-                                    {/* All-day Row */}
                                     <div className="grid grid-cols-8 border-b border-gray-300">
                                         <div className="bg-[#e5e7eb] text-left py-2 sm:py-3 px-2 text-xs sm:text-sm font-normal text-gray-600 border-r border-gray-300">
                                             all-day
@@ -262,7 +255,7 @@ const LeadsCalendar = () => {
                                         ))}
                                     </div>
 
-                                    {/* Time Slots - Only Vertical Scroll */}
+                
                                     <div className="overflow-y-auto max-h-[500px]">
                                         {timeSlots.map((time, timeIndex) => (
                                             <div key={timeIndex} className="grid grid-cols-8 border-b border-gray-200 hover:bg-gray-50">
@@ -275,7 +268,7 @@ const LeadsCalendar = () => {
                                                         className="min-h-[60px] p-2 border-r border-gray-300 bg-white hover:bg-blue-50 transition-colors cursor-pointer"
                                                         onClick={() => handleTimeSlotClick(day, time)}
                                                     >
-                                                        {/* Events આ અંદર show થશે */}
+                    
                                                     </div>
                                                 ))}
                                             </div>

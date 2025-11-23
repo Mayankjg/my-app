@@ -34,7 +34,6 @@ const ProductsTable = () => {
   return (
     <div className="bg-gray-100 min-h-screen flex justify-center items-center p-2">
       <div className="bg-white w-full max-w-7xl rounded-md shadow-md border border-gray-400">
-        {/* Header */}
         <div className="flex justify-between items-center p-4 border-b border-gray-400">
           <h2 className="text-lg font-semibold text-gray-800">Products</h2>
           <button className="bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-800">
