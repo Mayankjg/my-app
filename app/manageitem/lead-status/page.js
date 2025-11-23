@@ -45,10 +45,9 @@ export default function LeadStatus() {
   };
 
   return (
-    <div
-      className="w-[95%] xl:w-[90%] mx-auto bg-white rounded-lg mt-10 overflow-hidden"
-      style={{ border: "1px solid #e6e6e6" }}
-    >
+      <div className="bg-gray-100 min-h-screen flex justify-center items-center p-2">
+      <div className="bg-white w-full max-w-7xl rounded-md shadow-md border border-gray-400">
+    
       {/* Header */}
       <div
         className="flex flex-col sm:flex-row items-start sm:items-center justify-between px-3 sm:px-6 py-3 gap-2"
@@ -206,6 +205,7 @@ export default function LeadStatus() {
           </table>
         </div>
       </div>
+    </div>
     </div>
   );
 }

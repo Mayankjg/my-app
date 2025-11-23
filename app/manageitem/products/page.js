@@ -42,7 +42,6 @@ const ProductsTable = () => {
           </button>
         </div>
 
-        {/* Search Bar */}
         <div className="flex justify-end items-center p-4">
           <input
             type="text"
@@ -54,7 +53,6 @@ const ProductsTable = () => {
           </button>
         </div>
 
-        {/* Table Section */}
         <div className="overflow-x-auto px-4 py-4">
           <table className="w-full text-sm border border-gray-200 border-collapse">
             <thead
@@ -157,7 +155,6 @@ const ProductsTable = () => {
                 </tr>
               ))}
 
-              {/* Delete Button Row */}
               <tr>
                 <td
                   colSpan="6"
