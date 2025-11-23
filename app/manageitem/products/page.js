@@ -280,7 +280,7 @@ export default function ProductsTable() {
           </div>
         </div>
       )}
-      
+
     </div>
   );
 }
