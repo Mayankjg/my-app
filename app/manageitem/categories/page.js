@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Pencil, Trash2, X } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState([
@@ -16,17 +16,19 @@ export default function CategoriesPage() {
 
   const [selected, setSelected] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [newCategoryName, setNewCategoryName] = useState("");
-  const [editingCategory, setEditingCategory] = useState(null);
 
-  
+  // ⭐ Inline edit (same as Lead-Source)
+  const [editingId, setEditingId] = useState(null);
+  const [editedName, setEditedName] = useState("");
+
+  // ⭐ Add modal
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newCategory, setNewCategory] = useState("");
+
   const filteredCategories = categories.filter((cat) =>
     cat.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  
   const handleSelectAll = (e) => {
     if (e.target.checked) {
       setSelected(filteredCategories.map((cat) => cat.id));
@@ -35,87 +37,52 @@ export default function CategoriesPage() {
     }
   };
 
- 
   const handleSelectRow = (id) => {
     setSelected((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
   };
 
-
-  const handleAddCategory = (e) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
+  const handleDeleteSingle = (id) => {
+    if (confirm("Are you sure?")) {
+      setCategories((prev) => prev.filter((cat) => cat.id !== id));
+      setSelected((prev) => prev.filter((x) => x !== id));
     }
-    if (newCategoryName.trim() === "") {
-      alert("Please enter a category name");
+  };
+
+  // ⭐ Add Category (modal save)
+  const handleAddCategory = () => {
+    if (newCategory.trim() === "") {
+      alert("Please enter category name");
       return;
     }
-    const newCategory = {
+    const newItem = {
       id: Math.max(...categories.map((c) => c.id), 0) + 1,
-      name: newCategoryName.trim(),
+      name: newCategory.trim(),
     };
-    setCategories([...categories, newCategory]);
-    setNewCategoryName("");
+    setCategories([...categories, newItem]);
+    setNewCategory("");
     setShowAddModal(false);
   };
 
- 
-  const handleEditClick = (category) => {
-    setEditingCategory(category);
-    setShowEditModal(true);
-  };
-
-  const handleUpdateCategory = (e) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    if (editingCategory.name.trim() === "") {
-      alert("Please enter a category name");
-      return;
-    }
-    setCategories((prev) =>
-      prev.map((cat) =>
-        cat.id === editingCategory.id
-          ? { ...cat, name: editingCategory.name.trim() }
-          : cat
-      )
-    );
-    setShowEditModal(false);
-    setEditingCategory(null);
-  };
-
-  
-  const handleDeleteSingle = (id) => {
-    if (confirm("Are you sure you want to delete this category?")) {
-      setCategories((prev) => prev.filter((cat) => cat.id !== id));
-      setSelected((prev) => prev.filter((item) => item !== id));
-    }
-  };
-
- 
+  // ⭐ Delete selected
   const handleDeleteSelected = () => {
-    if (selected.length === 0) {
-      alert("Please select categories to delete");
-      return;
-    }
-    if (confirm(`Are you sure you want to delete ${selected.length} category(ies)?`)) {
+    if (selected.length === 0) return;
+    if (confirm("Delete selected categories?")) {
       setCategories((prev) => prev.filter((cat) => !selected.includes(cat.id)));
       setSelected([]);
     }
   };
 
-  
-  const handleSearch = () => {
-  };
-
   return (
     <div className="bg-[#f9f9f9] min-h-screen flex justify-center py-8">
       <div className="bg-white border border-[#d9d9d9] w-[95%] md:w-[90%] p-6 rounded-lg shadow-sm">
+
+        {/* HEADER */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-gray-700">Categories</h2>
+
+          {/* ⭐ Add Category Button */}
           <button
             onClick={() => setShowAddModal(true)}
             className="bg-[#1b2b41] hover:bg-[#142336] text-white text-sm font-medium px-4 py-2 rounded"
@@ -126,6 +93,7 @@ export default function CategoriesPage() {
 
         <div className="-mx-6 border-b border-[#d9d9d9] mt-3 mb-7"></div>
 
+        {/* SEARCH */}
         <div className="flex justify-end items-center gap-2 mb-4">
           <input
             type="text"
@@ -134,14 +102,12 @@ export default function CategoriesPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="border border-[#d9d9d9] rounded-sm px-3 py-2 text-sm focus:outline-none text-gray-700"
           />
-          <button
-            onClick={handleSearch}
-            className="bg-[#00b4d8] hover:bg-[#0096c7] text-white text-sm font-medium px-4 py-2 rounded-sm"
-          >
+          <button className="bg-[#00b4d8] hover:bg-[#0096c7] text-white text-sm font-medium px-4 py-2 rounded-sm">
             Search
           </button>
         </div>
 
+        {/* TABLE */}
         <div className="overflow-x-auto border border-[#d9d9d9] rounded-md">
           <table className="w-full border-collapse text-sm">
             <thead className="bg-[#f1f1f1] text-gray-800 font-semibold">
@@ -156,85 +122,106 @@ export default function CategoriesPage() {
                     onChange={handleSelectAll}
                   />
                 </th>
-                <th className="border border-[#d9d9d9] p-2 text-left">
-                  SR. NO.
-                </th>
-                <th className="border border-[#d9d9d9] text-[#black] p-2 text-left">
-                  CATEGORY NAME
-                </th>
-                <th className="border border-[#d9d9d9] p-2 text-center">
-                  EDIT
-                </th>
-                <th className="border border-[#d9d9d9] p-2 text-center">
-                  DELETE
-                </th>
-                <th className="border border-[#d9d9d9] p-2 text-center">
-                  VIEW LEADS
-                </th>
+                <th className="border border-[#d9d9d9] p-2">SR. NO.</th>
+                <th className="border border-[#d9d9d9] p-2">CATEGORY NAME</th>
+                <th className="border border-[#d9d9d9] p-2 text-center">EDIT</th>
+                <th className="border border-[#d9d9d9] p-2 text-center">DELETE</th>
+                <th className="border border-[#d9d9d9] p-2 text-center">VIEW LEADS</th>
               </tr>
             </thead>
 
             <tbody>
-              {filteredCategories.length > 0 ? (
-                filteredCategories.map((cat, index) => (
-                  <tr
-                    key={cat.id}
-                    className="text-gray-700 hover:bg-gray-50 transition"
-                  >
-                    <td className="border border-[#d9d9d9] p-2 text-left">
+              {filteredCategories.map((cat, index) => (
+                <tr key={cat.id} className="hover:bg-gray-50 text-gray-700">
+                  <td className="border border-[#d9d9d9] p-2">
+                    <input
+                      type="checkbox"
+                      checked={selected.includes(cat.id)}
+                      onChange={() => handleSelectRow(cat.id)}
+                    />
+                  </td>
+
+                  <td className="border border-[#d9d9d9] p-2">{index + 1}</td>
+
+                  {/* ⭐ Inline Edit (LeadSource style) */}
+                  <td className="border border-[#d9d9d9] p-2">
+                    {editingId === cat.id ? (
                       <input
-                        type="checkbox"
-                        checked={selected.includes(cat.id)}
-                        onChange={() => handleSelectRow(cat.id)}
+                        className="border px-2 py-1 w-full rounded text-gray-700"
+                        value={editedName}
+                        onChange={(e) => setEditedName(e.target.value)}
                       />
-                    </td>
-                    <td className="border border-[#d9d9d9] p-2">{index + 1}</td>
-                    <td className="border border-[#d9d9d9] p-2">{cat.name}</td>
-                    <td className="border border-[#d9d9d9] p-2 text-center">
+                    ) : (
+                      cat.name
+                    )}
+                  </td>
+
+                  {/* EDIT BUTTON */}
+                  <td className="border border-[#d9d9d9] p-2 text-center">
+                    {editingId === cat.id ? (
+                      <>
+                        <button
+                          className="text-blue-600 font-semibold mr-2"
+                          onClick={() => {
+                            setCategories((prev) =>
+                              prev.map((c) =>
+                                c.id === cat.id
+                                  ? { ...c, name: editedName }
+                                  : c
+                              )
+                            );
+                            setEditingId(null);
+                          }}
+                        >
+                          Update
+                        </button>
+
+                        <button
+                          className="text-red-600 font-semibold"
+                          onClick={() => setEditingId(null)}
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    ) : (
                       <button
-                        onClick={() => handleEditClick(cat)}
+                        onClick={() => {
+                          setEditingId(cat.id);
+                          setEditedName(cat.name);
+                        }}
                         className="text-gray-700 hover:text-blue-600"
                       >
                         <Pencil size={16} />
                       </button>
-                    </td>
-                    <td className="border border-[#d9d9d9] p-2 text-center">
-                      <button
-                        onClick={() => handleDeleteSingle(cat.id)}
-                        className="text-gray-700 hover:text-red-600"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </td>
-                    <td className="border border-[#d9d9d9] p-2 text-center">
-                      <button className="bg-[#dc3545] hover:bg-[#bb2d3b] text-white text-sm px-4 py-1 rounded-sm">
-                        View Leads
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="6"
-                    className="border border-[#d9d9d9] p-4 text-center text-gray-500"
-                  >
-                    No categories found
+                    )}
+                  </td>
+
+                  {/* DELETE BUTTON */}
+                  <td className="border border-[#d9d9d9] p-2 text-center">
+                    <button
+                      onClick={() => handleDeleteSingle(cat.id)}
+                      className="text-gray-700 hover:text-red-600"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </td>
+
+                  {/* VIEW LEADS */}
+                  <td className="border border-[#d9d9d9] p-2 text-center">
+                    <button className="bg-[#dc3545] hover:bg-[#bb2d3b] text-white text-sm px-4 py-1 rounded-sm">
+                      View Leads
+                    </button>
                   </td>
                 </tr>
-              )}
+              ))}
             </tbody>
           </table>
 
+          {/* DELETE SELECTED */}
           <div className="p-4">
             <button
               onClick={handleDeleteSelected}
-              disabled={selected.length === 0}
-              className={`text-sm font-medium px-8 py-2 rounded-sm ${
-                selected.length === 0
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-[#dc3545] hover:bg-[#bb2d3b] text-white"
-              }`}
+              className="bg-[#dc3545] hover:bg-[#bb2d3b] text-white text-sm px-8 py-2 rounded-sm"
             >
               Delete ({selected.length})
             </button>
@@ -242,116 +229,50 @@ export default function CategoriesPage() {
         </div>
       </div>
 
+      {/* ⭐ ADD CATEGORY MODAL (same as lead-source) */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-[90%] max-w-md">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-gray-700">
-                Add New Category
-              </h3>
-              <button
-                onClick={() => {
-                  setShowAddModal(false);
-                  setNewCategoryName("");
-                }}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <X size={20} />
-              </button>
-            </div>
-            <input
-              type="text"
-              placeholder="Enter category name"
-              value={newCategoryName}
-              onChange={(e) => setNewCategoryName(e.target.value)}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  handleAddCategory(e);
-                }
-              }}
-              className="w-full border border-[#d9d9d9] rounded px-3 py-2 text-sm focus:outline-none text-gray-700 mb-4"
-              autoFocus
-            />
-            <div className="flex justify-end gap-2">
-              <button
-                onClick={() => {
-                  setShowAddModal(false);
-                  setNewCategoryName("");
-                }}
-                className="bg-gray-300 hover:bg-gray-400 text-gray-700 text-sm font-medium px-4 py-2 rounded"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleAddCategory(e);
-                }}
-                className="bg-[#1b2b41] hover:bg-[#142336] text-white text-sm font-medium px-4 py-2 rounded"
-              >
-                Add Category
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+          <div className="bg-white w-[500px] rounded-md shadow-lg">
 
-      {showEditModal && editingCategory && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-[90%] max-w-md">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-gray-700">
-                Edit Category
-              </h3>
+            <div className="flex justify-between items-center px-6 py-4 bg-gray-100 border-b">
+              <h3 className="text-xl font-semibold text-gray-700">Add Category</h3>
+
               <button
-                onClick={() => {
-                  setShowEditModal(false);
-                  setEditingCategory(null);
-                }}
-                className="text-gray-500 hover:text-gray-700"
+                onClick={() => setShowAddModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-xl"
               >
-                <X size={20} />
+                ✕
               </button>
             </div>
-            <input
-              type="text"
-              placeholder="Enter category name"
-              value={editingCategory.name}
-              onChange={(e) =>
-                setEditingCategory({ ...editingCategory, name: e.target.value })
-              }
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  handleUpdateCategory(e);
-                }
-              }}
-              className="w-full border border-[#d9d9d9] rounded px-3 py-2 text-sm focus:outline-none text-gray-700 mb-4"
-              autoFocus
-            />
-            <div className="flex justify-end gap-2">
+
+            <div className="px-6 py-6">
+              <label className="block text-gray-700 mb-2">Category Name</label>
+
+              <input
+                type="text"
+                placeholder="Category"
+                value={newCategory}
+                onChange={(e) => setNewCategory(e.target.value)}
+                className="w-full border border-gray-300 px-3 py-2 rounded text-gray-700"
+              />
+            </div>
+
+            <div className="flex justify-end gap-3 px-6 py-4 bg-gray-100 border-t">
               <button
-                onClick={() => {
-                  setShowEditModal(false);
-                  setEditingCategory(null);
-                }}
-                className="bg-gray-300 hover:bg-gray-400 text-gray-700 text-sm font-medium px-4 py-2 rounded"
+                onClick={handleAddCategory}
+                className="bg-sky-500 hover:bg-sky-600 text-white px-5 py-2 rounded"
               >
-                Cancel
+                Save
               </button>
+
               <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleUpdateCategory(e);
-                }}
-                className="bg-[#00b4d8] hover:bg-[#0096c7] text-white text-sm font-medium px-4 py-2 rounded"
+                onClick={() => setShowAddModal(false)}
+                className="bg-gray-300 hover:bg-gray-400 px-5 py-2 rounded"
               >
-                Update
+                Close
               </button>
             </div>
+
           </div>
         </div>
       )}
