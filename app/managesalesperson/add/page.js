@@ -124,7 +124,7 @@ export default function AddSalespersonForm() {
 
   const handleSave = () => {
     if (!validateForm()) {
-      alert("Please fix errors before submitting.");
+      alert("Please fill all fields");
       return;
     }
 
