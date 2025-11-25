@@ -20,9 +20,6 @@ export default function AddSalespersonForm() {
   const [imagePreview, setImagePreview] = useState(null);
   const [errors, setErrors] = useState({});
 
-  // -----------------------------
-  // HANDLE INPUT CHANGE
-  // -----------------------------
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
@@ -33,9 +30,7 @@ export default function AddSalespersonForm() {
     }
   };
 
-  // -----------------------------
-  // HANDLE IMAGE UPLOAD
-  // -----------------------------
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -67,59 +62,50 @@ export default function AddSalespersonForm() {
     reader.readAsDataURL(file);
   };
 
-  // -----------------------------
-  // FULL VALIDATION
-  // -----------------------------
+
   const validateForm = () => {
     const newErrors = {};
 
-    // Username
+
     if (!formData.userName.trim()) {
       newErrors.userName = "User Name is required";
     } else if (formData.userName.length < 3) {
       newErrors.userName = "User Name must be at least 3 characters";
     }
 
-    // First Name
     if (!formData.firstName.trim()) {
       newErrors.firstName = "First Name is required";
     }
 
-    // Last Name
+
     if (!formData.lastName.trim()) {
       newErrors.lastName = "Last Name is required";
     }
 
-    // Email
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Invalid email format";
     }
 
-    // Designation
     if (!formData.designation.trim()) {
       newErrors.designation = "Designation is required";
     }
 
-    // Country
     if (!formData.country) {
       newErrors.country = "Please select a country";
     }
 
-    // Country Code
     if (formData.countryCode && !/^\+?[0-9]+$/.test(formData.countryCode)) {
       newErrors.countryCode = "Country Code must be digits only (Ex: +91)";
     }
 
-    // Contact No
     if (!formData.contactNo.trim()) {
       newErrors.contactNo = "Contact Number is required";
     } else if (!/^[0-9]{7,10}$/.test(formData.contactNo)) {
       newErrors.contactNo = "Contact Number must be 7–10 digits";
     }
 
-    // Image Validation
     if (formData.profileImage) {
       const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
 
@@ -136,9 +122,6 @@ export default function AddSalespersonForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // -----------------------------
-  // SAVE DATA
-  // -----------------------------
   const handleSave = () => {
     if (!validateForm()) {
       alert("Please fix errors before submitting.");
@@ -165,9 +148,6 @@ export default function AddSalespersonForm() {
     router.push("/managesalesperson");
   };
 
-  // -----------------------------
-  // CANCEL
-  // -----------------------------
   const handleCancel = () => {
     if (confirm("Unsaved changes will be lost. Continue?")) {
       router.push("/managesalesperson");
@@ -185,10 +165,8 @@ export default function AddSalespersonForm() {
 
         <div className="p-6 md:p-8">
 
-          {/* ------------------ USERNAME + IMAGE ------------------ */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
 
-            {/* Username */}
             <div>
               <label className="block text-sm text-gray-600 mb-2">User Name*</label>
               <input
@@ -202,7 +180,6 @@ export default function AddSalespersonForm() {
               {errors.userName && <p className="text-red-500 text-xs">{errors.userName}</p>}
             </div>
 
-            {/* Image Upload */}
             <div>
               <label className="block text-sm text-gray-600 mb-2">Profile Image</label>
               <div className="flex gap-4">
@@ -224,10 +201,8 @@ export default function AddSalespersonForm() {
             </div>
           </div>
 
-          {/* ------------------ NAME FIELDS ------------------ */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
 
-            {/* First Name */}
             <div>
               <label className="block text-sm text-gray-600 mb-2">First Name*</label>
               <input
@@ -241,7 +216,6 @@ export default function AddSalespersonForm() {
               {errors.firstName && <p className="text-red-500 text-xs">{errors.firstName}</p>}
             </div>
 
-            {/* Last Name */}
             <div>
               <label className="block text-sm text-gray-600 mb-2">Last Name*</label>
               <input
@@ -256,10 +230,8 @@ export default function AddSalespersonForm() {
             </div>
           </div>
 
-          {/* ------------------ EMAIL + DESIGNATION ------------------ */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
 
-            {/* Email */}
             <div>
               <label className="block text-sm text-gray-600 mb-2">Email*</label>
               <input
@@ -273,7 +245,6 @@ export default function AddSalespersonForm() {
               {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
             </div>
 
-            {/* Designation */}
             <div>
               <label className="block text-sm text-gray-600 mb-2">Designation*</label>
               <input
@@ -288,10 +259,8 @@ export default function AddSalespersonForm() {
             </div>
           </div>
 
-          {/* ------------------ COUNTRY + CONTACT ------------------ */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-            {/* Country */}
             <div>
               <label className="block text-sm text-gray-600 mb-2">Country*</label>
               <select
@@ -310,9 +279,7 @@ export default function AddSalespersonForm() {
               {errors.country && <p className="text-red-500 text-xs">{errors.country}</p>}
             </div>
 
-            {/* Country Code + Contact No */}
             <div className="grid grid-cols-2 gap-4">
-              {/* Country Code */}
               <div>
                 <label className="block text-sm text-gray-600 mb-2">Code</label>
                 <input
@@ -326,7 +293,6 @@ export default function AddSalespersonForm() {
                 {errors.countryCode && <p className="text-red-500 text-xs">{errors.countryCode}</p>}
               </div>
 
-              {/* Contact Number */}
               <div>
                 <label className="block text-sm text-gray-600 mb-2">Contact No*</label>
                 <input
@@ -343,7 +309,6 @@ export default function AddSalespersonForm() {
           </div>
         </div>
 
-        {/* ------------------ FOOTER BUTTONS ------------------ */}
         <div className="border-t bg-[#e5e9ec] border-gray-200 px-6 py-4 flex justify-end gap-3">
           <button
             onClick={handleSave}
