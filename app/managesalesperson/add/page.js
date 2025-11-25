@@ -187,7 +187,7 @@ export default function AddSalespersonForm() {
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
-                  className="file:px-4 file:py-2 file:border file:border-gray-300 file:rounded"
+                  className="file:px-4 text-black file:py-2 file:border file:border-gray-300 file:rounded"
                 />
                 <div className="w-28 h-28 border border-gray-300 rounded overflow-hidden flex items-center justify-center">
                   {imagePreview ? (
@@ -287,7 +287,7 @@ export default function AddSalespersonForm() {
                   name="countryCode"
                   value={formData.countryCode}
                   onChange={handleInputChange}
-                  placeholder="+91"
+                  placeholder="code"
                   className={`w-full text-black px-4 py-2.5 border ${errors.countryCode ? "border-red-500" : "border-gray-300"} rounded`}
                 />
                 {errors.countryCode && <p className="text-red-500 text-xs">{errors.countryCode}</p>}
