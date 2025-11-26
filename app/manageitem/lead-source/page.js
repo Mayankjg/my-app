@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { FaTrash, FaPen } from "react-icons/fa";
 
@@ -14,11 +15,9 @@ export default function LeadSource() {
   const [editedName, setEditedName] = useState("");
   const [search, setSearch] = useState("");
 
-
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false);
   const [newLeadSource, setNewLeadSource] = useState("");
 
- 
   const handleAddLeadSource = () => {
     if (!newLeadSource.trim()) {
       alert("Please enter lead source");
@@ -26,32 +25,79 @@ export default function LeadSource() {
     }
 
     const newItem = {
-      id: leadSources.length + 1,
+      id:
+        leadSources.length > 0
+          ? leadSources[leadSources.length - 1].id + 1
+          : 1,
       name: newLeadSource.trim(),
     };
 
     setLeadSources([...leadSources, newItem]);
     setNewLeadSource("");
-    setShowAddModal(false);
+    setShowAddForm(false);
+  };
+
+  const handleUpdate = (id) => {
+    setLeadSources((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, name: editedName } : item))
+    );
+    setEditingId(null);
+  };
+
+  const handleDelete = (id) => {
+    setLeadSources((prev) => prev.filter((l) => l.id !== id));
   };
 
   return (
-    <div className="p-8 bg-gray-100 min-h-screen text-gray-700">
-      <div className="bg-white p-6 rounded-md shadow-md">
+    <div className="bg-[#f9f9f9] min-h-screen flex justify-center py-8">
+      <div className="bg-white border border-[#d9d9d9] w-[95%] md:w-[90%] p-6 rounded-lg shadow-sm">
 
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-gray-800">Lead Source</h2>
+          <h2 className="text-xl font-semibold text-gray-700">Lead Source</h2>
 
-          
           <button
-            onClick={() => setShowAddModal(true)}
+            onClick={() => setShowAddForm(!showAddForm)}
             className="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded"
           >
-            Add Lead Source
+            {showAddForm ? "Close" : "Add Lead Source"}
           </button>
         </div>
 
-    
+        {showAddForm && (
+          <div className="border border-gray-300 p-5 rounded mb-6 bg-[#f7f9fb]">
+            <h3 className="text-lg font-semibold mb-3 text-gray-800">
+              Add New Lead Source
+            </h3>
+
+            <label className="block mb-2 text-sm text-gray-700">
+              Lead Source Name
+            </label>
+            <input
+              type="text"
+              value={newLeadSource}
+              onChange={(e) => setNewLeadSource(e.target.value)}
+              className="w-full border border-gray-300 px-3 py-2 rounded text-black mb-2"
+              placeholder="Enter lead source name"
+            />
+
+            <div className="flex justify-end gap-3">
+              <button
+                className="bg-gray-300 hover:bg-gray-400 px-5 py-2 rounded"
+                onClick={() => setShowAddForm(false)}
+              >
+                Cancel
+              </button>
+
+              <button
+                className="bg-sky-500 hover:bg-sky-600 text-white px-5 py-2 rounded"
+                onClick={handleAddLeadSource}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        )}
+
         <div className="flex justify-end mb-4 space-x-2">
           <input
             type="text"
@@ -65,11 +111,12 @@ export default function LeadSource() {
           </button>
         </div>
 
-       
         <table className="w-full border-collapse text-gray-700">
           <thead>
             <tr className="bg-gray-200 text-gray-800 font-medium">
-              <th className="border px-3 py-2"><input type="checkbox" /></th>
+              <th className="border px-3 py-2">
+                <input type="checkbox" />
+              </th>
               <th className="border px-3 py-2">SR. NO.</th>
               <th className="border px-3 py-2">LEAD SOURCE</th>
               <th className="border px-3 py-2">EDIT</th>
@@ -84,11 +131,16 @@ export default function LeadSource() {
                 l.name.toLowerCase().includes(search.toLowerCase())
               )
               .map((lead, index) => (
-                <tr key={lead.id} className="text-center hover:bg-gray-50 transition-colors">
-                  <td className="border px-3 py-2"><input type="checkbox" /></td>
+                <tr
+                  key={lead.id}
+                  className="text-center hover:bg-gray-50 transition-colors"
+                >
+                  <td className="border px-3 py-2">
+                    <input type="checkbox" />
+                  </td>
+
                   <td className="border px-3 py-2">{index + 1}</td>
 
-                 
                   <td className="border px-3 py-2">
                     {editingId === lead.id ? (
                       <input
@@ -101,20 +153,12 @@ export default function LeadSource() {
                     )}
                   </td>
 
-                 
                   <td className="border px-3 py-2">
                     {editingId === lead.id ? (
                       <>
                         <button
                           className="text-blue-600 font-semibold mr-2"
-                          onClick={() => {
-                            setLeadSources((prev) =>
-                              prev.map((l) =>
-                                l.id === lead.id ? { ...l, name: editedName } : l
-                              )
-                            );
-                            setEditingId(null);
-                          }}
+                          onClick={() => handleUpdate(lead.id)}
                         >
                           Update
                         </button>
@@ -138,15 +182,10 @@ export default function LeadSource() {
                     )}
                   </td>
 
-                
                   <td className="border px-3 py-2">
                     <button
                       className="text-red-600 hover:text-red-700"
-                      onClick={() =>
-                        setLeadSources((prev) =>
-                          prev.filter((l) => l.id !== lead.id)
-                        )
-                      }
+                      onClick={() => handleDelete(lead.id)}
                     >
                       <FaTrash />
                     </button>
@@ -168,51 +207,6 @@ export default function LeadSource() {
           </button>
         </div>
       </div>
-
-
-      {showAddModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
-          <div className="bg-white w-[500px] rounded-md shadow-lg">
-
-            <div className="flex justify-between items-center px-6 py-4 bg-gray-100 border-b">
-              <h3 className="text-xl font-semibold text-gray-700">Add Lead Source</h3>
-              <button
-                onClick={() => setShowAddModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-xl"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div className="px-6 py-6">
-              <label className="block text-gray-700 mb-2">Lead Source Name</label>
-              <input
-                type="text"
-                placeholder="Lead Source"
-                value={newLeadSource}
-                onChange={(e) => setNewLeadSource(e.target.value)}
-                className="w-full border border-gray-300 px-3 py-2 rounded text-gray-700"
-              />
-            </div>
-
-            <div className="flex justify-end gap-3 px-6 py-4 bg-gray-100 border-t">
-              <button
-                onClick={handleAddLeadSource}
-                className="bg-sky-500 hover:bg-sky-600 text-white px-5 py-2 rounded"
-              >
-                Save
-              </button>
-              <button
-                onClick={() => setShowAddModal(false)}
-                className="bg-gray-300 hover:bg-gray-400 px-5 py-2 rounded"
-              >
-                Close
-              </button>
-            </div>
-
-          </div>
-        </div>
-      )}
     </div>
   );
 }
