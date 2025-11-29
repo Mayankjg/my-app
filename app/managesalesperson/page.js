@@ -299,12 +299,14 @@ export default function SalespersonList() {
                         <h2 className="text-xl sm:text-2xl font-normal text-gray-700">
                             Salesperson <strong>List</strong>
                         </h2>
+
                         <button
                             onClick={() => router.push("/managesalesperson/add")}
                             className="w-full sm:w-auto bg-[#374151] hover:bg-[#1f2937] text-white text-base px-5 py-2.5 rounded transition-colors"
                         >
                             Add Sales Person
                         </button>
+                        
                     </div>
                     <hr className="-mx-4 sm:-mx-6 border-t border-gray-300 mt-4 mb-0" />
                 </div>
