@@ -4,17 +4,10 @@ import { useState } from "react";
 import { FaTrash, FaPen } from "react-icons/fa";
 
 export default function LeadSource() {
-  const [leadSources, setLeadSources] = useState([
-    { id: 1, name: "Facebook" },
-    { id: 2, name: "Google" },
-    { id: 3, name: "Instagram" },
-    { id: 4, name: "Internet" },
-  ]);
-
+  const [leadSources, setLeadSources] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [editedName, setEditedName] = useState("");
   const [search, setSearch] = useState("");
-
   const [showAddForm, setShowAddForm] = useState(false);
   const [newLeadSource, setNewLeadSource] = useState("");
 
