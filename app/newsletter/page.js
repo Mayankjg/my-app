@@ -4,14 +4,13 @@ import React, { useState } from "react";
 
 export default function TemplatePage() {
   const [search, setSearch] = useState("");
-  const [currentPage, setCurrentPage] = useState("list"); // 'list', 'addCustom', 'addTemplate'
+  const [currentPage, setCurrentPage] = useState("list"); 
   const [templateName, setTemplateName] = useState("");
   const [message, setMessage] = useState("Hello");
   const [visibility, setVisibility] = useState("admin");
   const [productName, setProductName] = useState("");
   const [selectedProduct, setSelectedProduct] = useState("");
 
-  // List Page
   if (currentPage === "list") {
     return (
       <div className="w-full min-h-screen bg-white">
@@ -99,7 +98,6 @@ export default function TemplatePage() {
     );
   }
 
-  // Add Custom Template Page (Image 1)
   if (currentPage === "addCustom") {
     return (
       <div className="w-full min-h-screen bg-[#d9dce0] p-6">
@@ -213,7 +211,6 @@ export default function TemplatePage() {
     );
   }
 
-  // Add Template Page (Image 2)
   if (currentPage === "addTemplate") {
     return (
       <div className="w-full min-h-screen bg-[#e5e7eb]">
