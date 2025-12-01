@@ -79,41 +79,46 @@ export default function ProductsPage() {
         </div>
 
         {showAddForm && (
-          <div className="border border-gray-300 p-5 rounded mb-6 bg-[#f7f9fb]">
-            <h3 className="text-lg font-semibold mb-3 text-gray-800">
-              Add New Product
-            </h3>
+          <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
 
-            <label className="block mb-2 text-sm text-gray-700">
-              Product Name
-            </label>
+            <div className="bg-white w-[90%] max-w-md rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.3)] p-6">
 
-            <input
-              type="text"
-              value={newProduct}
-              onChange={(e) => setNewProduct(e.target.value)}
-              className="w-full border border-gray-300 px-3 py-2 rounded text-black mb-2"
-              placeholder="Enter product name"
-            />
+              <h3 className="text-lg font-semibold mb-4 text-gray-800 border-b pb-2">
+                Add New Product
+              </h3>
 
-            <div className="flex justify-end gap-3 mt-3">
-              <button
-                className="bg-gray-300 hover:bg-gray-400 px-5 py-2 rounded"
-                onClick={() => setShowAddForm(false)}
-              >
-                Cancel
-              </button>
+              <label className="block mb-2 text-sm text-gray-700">
+                Product Name
+              </label>
 
-              <button
-                className="bg-sky-500 hover:bg-sky-600 text-white px-5 py-2 rounded"
-                onClick={handleAddProduct}
-              >
-                Save
-              </button>
+              <input
+                type="text"
+                value={newProduct}
+                onChange={(e) => setNewProduct(e.target.value)}
+                className="w-full border border-gray-300 px-3 py-2 rounded text-black mb-4"
+                placeholder="Enter product name"
+              />
+
+              <div className="flex justify-end gap-3 mt-3">
+                <button
+                  className="bg-gray-300 hover:bg-gray-400 px-5 py-2 rounded"
+                  onClick={() => setShowAddForm(false)}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  className="bg-sky-500 hover:bg-sky-600 text-white px-5 py-2 rounded"
+                  onClick={handleAddProduct}
+                >
+                  Save
+                </button>
+              </div>
+
             </div>
+
           </div>
         )}
-
         <div className="flex justify-end gap-2 mb-4">
           <input
             type="text"

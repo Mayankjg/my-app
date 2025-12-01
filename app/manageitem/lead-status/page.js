@@ -14,11 +14,9 @@ export default function LeadStatus() {
   const [selected, setSelected] = useState([]);
   const [search, setSearch] = useState("");
 
-
   const [showAddModal, setShowAddModal] = useState(false);
   const [newStatusName, setNewStatusName] = useState("");
 
- 
   const [editingId, setEditingId] = useState(null);
   const [editedName, setEditedName] = useState("");
 
@@ -52,7 +50,6 @@ export default function LeadStatus() {
     }
   };
 
-
   const handleAddStatus = () => {
     if (!newStatusName.trim()) {
       alert("Please enter lead status");
@@ -68,7 +65,6 @@ export default function LeadStatus() {
     setNewStatusName("");
     setShowAddModal(false);
   };
-
 
   const handleBulkDelete = () => {
     if (selected.length === 0) {
@@ -165,7 +161,6 @@ export default function LeadStatus() {
                     className="hover:bg-gray-50 transition"
                     style={{ borderTop: "1px solid #e6e6e6" }}
                   >
-                  
                     <td
                       className="py-2 px-3 text-left"
                       style={{ borderRight: "1px solid #e6e6e6" }}
@@ -182,7 +177,6 @@ export default function LeadStatus() {
                       )}
                     </td>
 
-                  
                     <td
                       className="py-2 px-3"
                       style={{ borderRight: "1px solid #e6e6e6" }}
@@ -206,7 +200,6 @@ export default function LeadStatus() {
                       )}
                     </td>
 
-                  
                     <td
                       className="py-2 text-center"
                       style={{ borderRight: "1px solid #e6e6e6" }}
@@ -254,7 +247,6 @@ export default function LeadStatus() {
                       )}
                     </td>
 
-                
                     <td
                       className="py-2 text-center"
                       style={{ borderRight: "1px solid #e6e6e6" }}
@@ -271,7 +263,6 @@ export default function LeadStatus() {
                       )}
                     </td>
 
-            
                     <td className="py-2 text-center">
                       <button className="bg-red-500 hover:bg-red-600 text-white px-2 sm:px-5 py-1 rounded text-[10px] sm:text-sm w-full sm:w-auto">
                         View Lead
@@ -297,45 +288,36 @@ export default function LeadStatus() {
       </div>
 
       {showAddModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
-          <div className="bg-white w-[500px] rounded-md shadow-lg">
-            <div className="flex justify-between items-center px-6 py-4 bg-gray-100 border-b">
-              <h3 className="text-xl font-semibold text-gray-700">
-                Add Lead Status
-              </h3>
+        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
+          <div className="bg-white w-[90%] max-w-md rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.3)] p-6">
+            <h3 className="text-lg font-semibold mb-4 text-gray-800 border-b pb-2">
+              Add New Lead Status
+            </h3>
+
+            <label className="block mb-2 text-sm text-gray-700">
+              Lead Status Name
+            </label>
+            <input
+              type="text"
+              placeholder="Lead Status"
+              value={newStatusName}
+              onChange={(e) => setNewStatusName(e.target.value)}
+              className="w-full border border-gray-300 px-3 py-2 rounded text-gray-700 mb-4"
+            />
+
+            <div className="flex justify-end gap-3">
               <button
                 onClick={() => setShowAddModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-xl"
+                className="bg-gray-300 hover:bg-gray-400 px-5 py-2 rounded"
               >
-                ✕
+                Cancel
               </button>
-            </div>
 
-            <div className="px-6 py-6">
-              <label className="block text-gray-700 mb-2">
-                Lead Status Name
-              </label>
-              <input
-                type="text"
-                placeholder="Lead Status"
-                value={newStatusName}
-                onChange={(e) => setNewStatusName(e.target.value)}
-                className="w-full border border-gray-300 px-3 py-2 rounded text-gray-700"
-              />
-            </div>
-
-            <div className="flex justify-end gap-3 px-6 py-4 bg-gray-100 border-t">
               <button
                 onClick={handleAddStatus}
                 className="bg-sky-500 hover:bg-sky-600 text-white px-5 py-2 rounded"
               >
                 Save
-              </button>
-              <button
-                onClick={() => setShowAddModal(false)}
-                className="bg-gray-300 hover:bg-gray-400 px-5 py-2 rounded"
-              >
-                Close
               </button>
             </div>
           </div>

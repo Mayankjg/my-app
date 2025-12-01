@@ -92,33 +92,48 @@ export default function CategoriesPage() {
         </div>
 
         {showAddForm && (
-          <div className="border border-gray-300 p-5 rounded mb-6 bg-[#f7f9fb]">
-            <h3 className="text-lg font-semibold mb-3 text-gray-800">Add New Category</h3>
+          <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
 
-            <label className="block mb-2 text-sm text-gray-700">Category Name</label>
-            <input
-              type="text"
-              value={newCategory}
-              onChange={(e) => setNewCategory(e.target.value)}
-              className="w-full border border-gray-300 px-3 py-2 rounded text-black mb-2"
-              placeholder="Enter category name"
-            />
+            <div className="bg-white w-[90%] md:w-[430px] rounded-lg shadow-[0_0_25px_rgba(0,0,0,0.3)]">
 
-            <div className="flex justify-end gap-3">
-              <button
-                className="bg-gray-300 hover:bg-gray-400 px-5 py-2 rounded"
-                onClick={() => setShowAddForm(false)}
-              >
-                Cancel
-              </button>
+              {/* Header */}
+              <div className="border-b px-6 py-3">
+                <h2 className="text-xl font-semibold text-gray-800">Add New Category</h2>
+              </div>
 
-              <button
-                className="bg-sky-500 hover:bg-sky-600 text-white px-5 py-2 rounded"
-                onClick={handleAddCategory}
-              >
-                Save
-              </button>
+              {/* Body */}
+              <div className="px-6 py-4">
+                <label className="block mb-2 text-sm text-gray-700">Category Name</label>
+
+                <input
+                  type="text"
+                  value={newCategory}
+                  onChange={(e) => setNewCategory(e.target.value)}
+                  className="w-full border border-gray-300 px-3 py-2 rounded text-black"
+                  placeholder="Enter category name"
+                />
+              </div>
+
+              {/* Footer */}
+              <div className="px-6 py-4 flex justify-end gap-3 border-t">
+
+                <button
+                  onClick={() => setShowAddForm(false)}
+                  className="px-5 py-2 rounded bg-gray-200 hover:bg-gray-300"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  onClick={handleAddCategory}
+                  className="px-5 py-2 rounded bg-sky-600 hover:bg-sky-700 text-white"
+                >
+                  Save
+                </button>
+
+              </div>
             </div>
+
           </div>
         )}
 
