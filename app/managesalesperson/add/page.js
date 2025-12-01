@@ -19,6 +19,7 @@ export default function AddSalespersonForm() {
 
   const [imagePreview, setImagePreview] = useState(null);
   const [errors, setErrors] = useState({});
+  const [countries, setCountries] = useState([]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -258,6 +259,7 @@ export default function AddSalespersonForm() {
               {errors.designation && <p className="text-red-500 text-xs">{errors.designation}</p>}
             </div>
           </div>
+
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
