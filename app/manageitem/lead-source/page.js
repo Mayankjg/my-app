@@ -64,46 +64,45 @@ export default function LeadSource() {
         </div>
 
         {showAddForm && (
-  <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
+          <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
 
-    <div className="bg-white w-[90%] md:w-[430px] rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.3)] p-6">
-      
-      <h3 className="text-lg font-semibold mb-4 text-gray-800 border-b pb-2">
-        Add New Lead Source
-      </h3>
+            <div className="bg-white w-[90%] md:w-[430px] rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.3)] p-6">
 
-      <label className="block mb-2 text-sm text-gray-700">
-        Lead Source Name
-      </label>
+              <h3 className="text-lg font-semibold mb-4 text-gray-800 border-b pb-2">
+                Add New Lead Source
+              </h3>
 
-      <input
-        type="text"
-        value={newLeadSource}
-        onChange={(e) => setNewLeadSource(e.target.value)}
-        className="w-full border border-gray-300 px-3 py-2 rounded text-black mb-4"
-        placeholder="Enter lead source name"
-      />
+              <label className="block mb-2 text-sm text-gray-700">
+                Lead Source Name
+              </label>
 
-      <div className="flex justify-end gap-3">
-        <button
-          className="bg-gray-300 hover:bg-gray-400 px-5 py-2 rounded"
-          onClick={() => setShowAddForm(false)}
-        >
-          Cancel
-        </button>
+              <input
+                type="text"
+                value={newLeadSource}
+                onChange={(e) => setNewLeadSource(e.target.value)}
+                className="w-full border border-gray-300 px-3 py-2 rounded text-black mb-4"
+                placeholder="Enter lead source name"
+              />
 
-        <button
-          className="bg-sky-500 hover:bg-sky-600 text-white px-5 py-2 rounded"
-          onClick={handleAddLeadSource}
-        >
-          Save
-        </button>
-      </div>
+              <div className="flex justify-end gap-3">
+                <button
+                  className="bg-gray-300 hover:bg-gray-400 px-5 py-2 rounded"
+                  onClick={() => setShowAddForm(false)}
+                >
+                  Cancel
+                </button>
 
-    </div>
-  </div>
-)}
+                <button
+                  className="bg-sky-500 hover:bg-sky-600 text-white px-5 py-2 rounded"
+                  onClick={handleAddLeadSource}
+                >
+                  Save
+                </button>
+              </div>
 
+            </div>
+          </div>
+        )}
 
         <div className="flex justify-end mb-4 space-x-2">
           <input

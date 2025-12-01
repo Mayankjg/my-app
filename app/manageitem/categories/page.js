@@ -152,16 +152,15 @@ export default function CategoriesPage() {
           <table className="w-full border-collapse text-sm">
             <thead className="bg-[#f1f1f1] text-gray-800 font-semibold">
               <tr>
-                <th className="border p-2 w-12">
+                <th className="border p-2 text-center" style={{ width: "50px" }}>
                   <input
                     type="checkbox"
-                    checked={
-                      selected.length === filteredCategories.length &&
-                      filteredCategories.length > 0
-                    }
+                    checked={selected.length === filteredCategories.length && filteredCategories.length > 0}
                     onChange={handleSelectAll}
+                    className="w-3.5 h-4 mx-auto"
                   />
                 </th>
+
                 <th className="border p-2">SR. NO.</th>
                 <th className="border p-2">CATEGORY NAME</th>
                 <th className="border p-2 text-center">EDIT</th>
@@ -173,12 +172,12 @@ export default function CategoriesPage() {
             <tbody>
               {filteredCategories.map((cat, index) => (
                 <tr key={cat.id} className="hover:bg-gray-50 text-gray-700">
-
-                  <td className="border p-2">
+                  <td className="border p-2 text-center" style={{ width: "20px" }}>
                     <input
                       type="checkbox"
                       checked={selected.includes(cat.id)}
                       onChange={() => handleSelectRow(cat.id)}
+                      className="w-3.5 h-4 mx-auto"
                     />
                   </td>
 
