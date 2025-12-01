@@ -93,15 +93,11 @@ export default function CategoriesPage() {
 
         {showAddForm && (
           <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-
             <div className="bg-white w-[90%] md:w-[430px] rounded-lg shadow-[0_0_25px_rgba(0,0,0,0.3)]">
-
-              {/* Header */}
               <div className="border-b px-6 py-3">
                 <h2 className="text-xl font-semibold text-gray-800">Add New Category</h2>
               </div>
 
-              {/* Body */}
               <div className="px-6 py-4">
                 <label className="block mb-2 text-sm text-gray-700">Category Name</label>
 
@@ -114,7 +110,6 @@ export default function CategoriesPage() {
                 />
               </div>
 
-              {/* Footer */}
               <div className="px-6 py-4 flex justify-end gap-3 border-t">
 
                 <button
@@ -146,7 +141,6 @@ export default function CategoriesPage() {
             className="border text-black border-[#d9d9d9] rounded-sm px-3 py-2 text-sm"
           />
         </div>
-
 
         <div className="overflow-x-auto border border-[#d9d9d9] rounded-md">
           <table className="w-full border-collapse text-sm">
