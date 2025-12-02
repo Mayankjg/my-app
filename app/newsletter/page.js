@@ -13,8 +13,10 @@ export default function TemplateApp() {
   const [showPreview, setShowPreview] = useState(false);
   const [showTextColorPicker, setShowTextColorPicker] = useState(false);
   const [showBgColorPicker, setShowBgColorPicker] = useState(false);
+  const [fileMenuOpen, setfileMenuopen] = useState(false);
+  const [Showprint, setShowprint] = useState(false);
   const editorRef = useRef(null);
-  
+
   const execCommand = (command, value = null) => {
     document.execCommand(command, false, value);
     editorRef.current?.focus();
@@ -55,6 +57,21 @@ export default function TemplateApp() {
     }
   };
 
+  const handleNewDocument = () => {
+    window.open(window.location.href, '_blank');
+    setfileMenuopen(false);
+  };
+
+  const handlePrint = () => {
+    setfileMenuopen(false);
+    setShowprint(true);
+  };
+
+  const executePrint = () => {
+    window.print();
+    setShowprint(false);
+  };
+
   const colors = [
     ["#000000", "#8B4500", "#556B2F", "#006400", "#003366", "#000080", "#4B0082", "#2F4F4F"],
     ["#800000", "#FF6600", "#808000", "#00AA00", "#008080", "#0000FF", "#9370DB", "#808080"],
@@ -71,8 +88,8 @@ export default function TemplateApp() {
           <h1 className="text-xl font-normal text-gray-800">Templates</h1>
           <div className="flex gap-3">
             <button
-            onClick={() => setCurrentPage("addCustom")}
-            className="bg-[#2d4456] text-white px-6 py-2 rounded text-sm hover:bg-[#1f2f3d]"            
+              onClick={() => setCurrentPage("addCustom")}
+              className="bg-[#2d4456] text-white px-6 py-2 rounded text-sm hover:bg-[#1f2f3d]"
             >
               Add Custom Template
             </button>
@@ -99,6 +116,8 @@ export default function TemplateApp() {
             </button>
           </div>
         </div>
+
+
 
         <div className="bg-white px-6 pb-6">
           <div className="border border-gray-200 overflow-hidden">
@@ -153,7 +172,7 @@ export default function TemplateApp() {
 
 
 
-                                   //  ADD CUSTOM TEMPLATE PAGE 
+  //  ADD CUSTOM TEMPLATE PAGE 
 
 
 
@@ -178,16 +197,42 @@ export default function TemplateApp() {
               />
             </div>
 
+
+
             <div className="mb-6">
               <label className="block text-sm text-gray-700 mb-2">
-                Message <span className="text-red-600 font-normal text-sm">(Note : Please Enter Plain Text Only For Better Result)</span>
+                Message <span className="text-red-600 font-semibold text-sm">(Note : Please Enter Plain Text Only For Better Result)</span>
               </label>
 
               <div className="border border-gray-300 rounded overflow-hidden bg-white">
                 <div className="flex items-center gap-2 md:gap-4 px-3 py-2 border-b border-gray-300 bg-gray-50 flex-wrap">
-                  <button className="text-sm text-gray-700 hover:text-gray-900 flex items-center gap-1">
+                  <button
+                    onClick={() => setFileMenuOpen(!fileMenuOpen)}
+                    className="text-sm text-gray-700 hover:text-gray-900 flex items-center gap-1 px-3 py-1"
+                  >
                     File <span className="text-xs">▼</span>
                   </button>
+                  {fileMenuOpen && (
+                    <div className="absolute top-full left-0 mt-1 bg-white border border-gray-300 shadow-lg rounded-md w-64 z-50">
+                      <button
+                        onClick={handleNewDocument}
+                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 text-left"
+                      >
+                        <FileText size={20} className="text-gray-700" />
+                        <span className="text-gray-800">New document</span>
+                        <span className="ml-auto text-gray-400 text-sm">Ctrl+N</span>
+                      </button>
+
+                      <button
+                        onClick={handlePrint}
+                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 text-left"
+                      >
+                        <Printer size={20} className="text-gray-700" />
+                        <span className="text-gray-800">Print</span>
+                        <span className="ml-auto text-gray-400 text-sm">Ctrl+P</span>
+                      </button>
+                    </div>
+                  )}
                   <button className="text-sm text-gray-700 hover:text-gray-900 flex items-center gap-1">
                     Edit <span className="text-xs">▼</span>
                   </button>
@@ -267,24 +312,31 @@ export default function TemplateApp() {
 
                   <div className="flex items-center border-r border-gray-300 pr-2 mr-2">
                     <button
-                      onClick={() => execCommand("insertUnorderedList")}
+                      onClick={() => execCommand("insertBulleteList")}
                       className="p-2 hover:bg-gray-100 rounded text-gray-700"
-                      title="Bullet List"
+                      title="Bullete List"
                     >
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                        <circle cx="4" cy="6" r="2" />
-                        <circle cx="4" cy="12" r="2" />
-                        <circle cx="4" cy="18" r="2" />
-                        <path d="M9 5h12v2H9V5zm0 6h12v2H9v-2zm0 6h12v2H9v-2z" />
+                        <rect x="2" y="5" width="3" height="3" rx="0.5" />
+                        <rect x="2" y="10.5" width="3" height="3" rx="0.5" />
+                        <rect x="2" y="16" width="3" height="3" rx="0.5" />
+                        <rect x="7" y="5.5" width="15" height="2" />
+                        <rect x="7" y="11" width="15" height="2" />
+                        <rect x="7" y="16.5" width="15" height="2" />
                       </svg>
                     </button>
                     <button
-                      onClick={() => execCommand("insertOrderedList")}
+                      onClick={() => execCommand("insertNumberedList")}
                       className="p-2 hover:bg-gray-100 rounded text-gray-700"
                       title="Numbered List"
                     >
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M3 4h2v2H3V4zm0 6h2v2H3v-2zm0 6h2v2H3v-2zM9 5h12v2H9V5zm0 6h12v2H9v-2zm0 6h12v2H9v-2z" />
+                        <text x="2" y="8" fontSize="7" fontWeight="bold">1.</text>
+                        <text x="2" y="13.5" fontSize="7" fontWeight="bold">2.</text>
+                        <text x="2" y="19" fontSize="7" fontWeight="bold">3.</text>
+                        <rect x="7" y="5.5" width="15" height="2" />
+                        <rect x="7" y="11" width="15" height="2" />
+                        <rect x="7" y="16.5" width="15" height="2" />
                       </svg>
                     </button>
                     <button
@@ -293,7 +345,12 @@ export default function TemplateApp() {
                       title="Increase Indent"
                     >
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M3 3h18v2H3V3zm8 4h10v2H11V7zm-8 4h18v2H3v-2zm8 4h10v2H11v-2zm-8 4h18v2H3v-2zM3 7v10l4-5-4-5z" />
+                        <rect x="2" y="5" width="3" height="3" rx="0.5" />
+                        <rect x="2" y="10.5" width="3" height="3" rx="0.5" />
+                        <rect x="2" y="16" width="3" height="3" rx="0.5" />
+                        <rect x="10" y="5.5" width="12" height="2" />
+                        <rect x="10" y="11" width="12" height="2" />
+                        <rect x="10" y="16.5" width="12" height="2" />
                       </svg>
                     </button>
                     <button
@@ -302,7 +359,12 @@ export default function TemplateApp() {
                       title="Decrease Indent"
                     >
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M3 3h18v2H3V3zm8 4h10v2H11V7zm-8 4h18v2H3v-2zm8 4h10v2H11v-2zm-8 4h18v2H3v-2zM7 7v10l-4-5 4-5z" />
+                        <rect x="2" y="5" width="3" height="3" rx="0.5" />
+                        <rect x="2" y="10.5" width="3" height="3" rx="0.5" />
+                        <rect x="2" y="16" width="3" height="3" rx="0.5" />
+                        <rect x="7" y="5.5" width="15" height="2" />
+                        <rect x="7" y="11" width="15" height="2" />
+                        <rect x="7" y="16.5" width="15" height="2" />
                       </svg>
                     </button>
                   </div>
@@ -487,10 +549,10 @@ export default function TemplateApp() {
   }
 
 
-  
 
 
-                                    //  ADD TEMPLATE PAGE 
+
+  //  ADD TEMPLATE PAGE 
 
 
 
@@ -547,7 +609,7 @@ export default function TemplateApp() {
               />
             </div>
 
-            <div className="bg-red-50 border border-red-200 rounded px-4 py-3 mb-8">
+            <div className="bg-red-50 w-168 border border-red-200 rounded px-4 py-3 mb-8">
               <p className="text-sm text-red-500">
                 Note: Please Do not Include <span className="font-semibold">Background-image</span> Tag in Template.
               </p>
