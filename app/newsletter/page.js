@@ -150,6 +150,10 @@ export default function TemplateApp() {
     );
   }
 
+
+                                   //  ADD CUSTOM TEMPLATE PAGE 
+
+
   if (currentPage === "addCustom") {
     return (
       <div className="w-full min-h-screen bg-gray-50 p-4 md:p-6 lg:p-8">
@@ -413,8 +417,6 @@ export default function TemplateApp() {
                     style={{ whiteSpace: "pre-wrap" }}
                     suppressContentEditableWarning
                   >
-                    {/* Hello */}
-
                   </div>
                 ) : (
                   <div className="w-full h-[250px] p-4 text-base text-gray-800 bg-gray-50 overflow-y-auto">
@@ -478,6 +480,13 @@ export default function TemplateApp() {
       </div>
     );
   }
+
+
+
+                                    //  ADD TEMPLATE PAGE 
+
+
+                                    
 
   if (currentPage === "addTemplate") {
     return (
