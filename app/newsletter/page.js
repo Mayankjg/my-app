@@ -151,7 +151,12 @@ export default function TemplateApp() {
   }
 
 
+
+
                                    //  ADD CUSTOM TEMPLATE PAGE 
+
+
+
 
 
   if (currentPage === "addCustom") {
@@ -482,11 +487,15 @@ export default function TemplateApp() {
   }
 
 
+  
+
 
                                     //  ADD TEMPLATE PAGE 
 
 
-                                    
+
+
+
 
   if (currentPage === "addTemplate") {
     return (
@@ -561,6 +570,10 @@ export default function TemplateApp() {
     );
   }
 }
+
+
+
+
 
 
 
