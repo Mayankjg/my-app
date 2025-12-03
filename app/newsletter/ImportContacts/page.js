@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function ImportContacts() {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState("import");
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -39,6 +41,7 @@ export default function ImportContacts() {
       setSelectedFile(null);
       const fileInput = document.querySelector('input[type="file"]');
       if (fileInput) fileInput.value = '';
+      router.push('/newsletter/ContactList');
     };
 
     return (
@@ -136,11 +139,11 @@ export default function ImportContacts() {
         return;
       }
       alert('Contacts imported successfully!');
-      setCurrentPage("import");
+      router.push('/newsletter/ContactList');
     };
 
     const handleCancel = () => {
-      setCurrentPage("import");
+      router.push('/newsletter/ContactList');
     };
 
     return (
@@ -174,9 +177,11 @@ export default function ImportContacts() {
                     className="w-full max-w-md border border-gray-300 rounded px-4 py-2 text-sm text-gray-600 focus:outline-none focus:border-gray-400"
                   >
                     <option value="">Select Products</option>
-                    <option value="product1">Product 1</option>
-                    <option value="product2">Product 2</option>
-                    <option value="product3">Product 3</option>
+                    <option value="product1">Bandhani</option>
+                    <option value="product2">Galaxy S1</option>
+                    <option value="product3">Galaxy S3</option>
+                    <option value="product3">Realme Narzo 50</option>
+                    <option value="product3">Realme Narzo 30</option>
                   </select>
                 </div>
 
