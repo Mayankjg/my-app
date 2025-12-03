@@ -8,7 +8,6 @@ export default function ImportContacts() {
   const [currentPage, setCurrentPage] = useState("import");
   const [selectedFile, setSelectedFile] = useState(null);
 
-  // Import Contacts Component
   const ImportContactsPage = () => {
     const handleFileChange = (e) => {
       if (e.target.files && e.target.files[0]) {
@@ -17,7 +16,7 @@ export default function ImportContacts() {
     };
 
     const handleDownload = () => {
-      const csvContent = "Name,Email,Phone,Company\nJohn Doe,john@example.com,123-456-7890,Acme Corp\nJane Smith,jane@example.com,098-765-4321,Tech Inc";
+      const csvContent = "Name,Email\nJohn Doe,john@gmail.com\nJane Smith,jane@gmail.com";
       const blob = new Blob([csvContent], { type: 'text/csv' });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -119,7 +118,7 @@ export default function ImportContacts() {
     );
   };
 
-  // Import Contact Detail Component
+
   const ImportContactDetail = () => {
     const [selectedProduct, setSelectedProduct] = useState("");
     const [firstName, setFirstName] = useState("");
@@ -237,6 +236,5 @@ export default function ImportContacts() {
     );
   };
 
-  // Render current page
   return currentPage === "import" ? <ImportContactsPage /> : <ImportContactDetail />;
 }
