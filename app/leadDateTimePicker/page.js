@@ -13,6 +13,9 @@ export default function LeadDateTimePicker() {
     const [showCalendar, setShowCalendar] = useState(false);
     const [showTimePicker, setShowTimePicker] = useState(false);
     const [currentMonth, setCurrentMonth] = useState(new Date());
+    const [selectingMinute, setSelectingMinute] = useState(false);
+    const [isDragging, setIsDragging] = useState(false);
+
     const daysInMonth = (date) => {
         const year = date.getFullYear();
         const month = date.getMonth();
@@ -60,8 +63,67 @@ export default function LeadDateTimePicker() {
 
     const handleTimeClick = (hour) => {
         const hourStr = String(hour).padStart(2, '0');
-        setRemindTime(`${hourStr}:00`);
-        setShowTimePicker(false);
+        const currentMinute = remindTime.split(':')[1];
+        setRemindTime(`${hourStr}:${currentMinute}`);
+        setSelectingMinute(true);
+    };
+
+    const handleMinuteClick = (minute) => {
+        const hourStr = remindTime.split(':')[0];
+        const minuteStr = String(minute).padStart(2, '0');
+        setRemindTime(`${hourStr}:${minuteStr}`);
+        if (minute % 5 === 0) {
+            setShowTimePicker(false);
+            setSelectingMinute(false);
+        }
+    };
+
+    const handleClockClick = (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const x = e.clientX - rect.left - centerX;
+        const y = e.clientY - rect.top - centerY;
+        
+        let angle = Math.atan2(y, x) * (180 / Math.PI);
+        angle = (angle + 90 + 360) % 360;
+
+        if (!selectingMinute) {
+            // Hour selection (24 hours)
+            const hour = Math.round(angle / 15) % 24;
+            handleTimeClick(hour);
+        } else {
+            // Minute selection (0-59 minutes)
+            const totalMinutes = Math.round(angle / 6) % 60;
+            handleMinuteClick(totalMinutes);
+        }
+    };
+
+    const handleClockMouseMove = (e) => {
+        if (!isDragging) return;
+        
+        const rect = e.currentTarget.getBoundingClientRect();
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const x = e.clientX - rect.left - centerX;
+        const y = e.clientY - rect.top - centerY;
+        
+        let angle = Math.atan2(y, x) * (180 / Math.PI);
+        angle = (angle + 90 + 360) % 360;
+
+        if (!selectingMinute) {
+            // Hour selection
+            const hour = Math.round(angle / 15) % 24;
+            const hourStr = String(hour).padStart(2, '0');
+            const currentMinute = remindTime.split(':')[1];
+            setRemindTime(`${hourStr}:${currentMinute}`);
+        } else {
+            // Minute selection (0-59)
+            const totalMinutes = Math.round(angle / 6) % 60;
+            const hourStr = remindTime.split(':')[0];
+            const minuteStr = String(totalMinutes).padStart(2, '0');
+            setRemindTime(`${hourStr}:${minuteStr}`);
+        }
     };
 
     const prevMonth = () => {
@@ -128,7 +190,7 @@ export default function LeadDateTimePicker() {
                                         setShowCalendar(!showCalendar);
                                         setShowTimePicker(false);
                                     }}
-                                    className="absolute right-0 top-0 h-full px-3 bg-blue-500 text-white rounded-r flex items-center justify-center hover:bg-blue-600"
+                                    className="absolute right-0 top-0 h-full px-3 bg-blue-500 text-white rounded-r flex items-center justify-center cursor-pointer hover:bg-blue-600"
                                 >
                                     <Calendar className="w-5 h-5" />
                                 </button>
@@ -140,6 +202,7 @@ export default function LeadDateTimePicker() {
                                 onClick={() => {
                                     setShowTimePicker(!showTimePicker);
                                     setShowCalendar(false);
+                                    setSelectingMinute(false);
                                 }}
                                 className="w-32 px-4 py-2.5 border border-gray-300 rounded bg-white text-gray-700 text-center cursor-pointer"
                             />
@@ -197,41 +260,88 @@ export default function LeadDateTimePicker() {
 
                         {/* Time Picker */}
                         {showTimePicker && (
-                            <div className="mt-3 bg-white ml-55 border border-gray-300 rounded-lg shadow-lg p-4 w-72">
-                                <div className="text-center mb-2">
-                                    <span className="text-3xl font-light text-blue-400">
-                                        {remindTime.split(':')[0]} <span className="text-gray-400">:</span> {remindTime.split(':')[1]}
+                            <div className="mt-3 bg-white ml-55 border border-gray-300 rounded-lg shadow-lg p-3 w-72">
+                                <div className="text-center mb-2 bg-gray-50 py-2 rounded">
+                                    <span className="text-xs text-gray-600">
+                                        {remindTime}
                                     </span>
                                 </div>
 
-                                <div className="relative w-56 h-56 mx-auto">
+                                <div className="text-center mb-4">
+                                    <span className={`text-4xl font-light ${selectingMinute ? 'text-gray-400' : 'text-blue-500'}`}>
+                                        {remindTime.split(':')[0]}
+                                    </span>
+                                    <span className="text-4xl font-light text-gray-400 mx-1">:</span>
+                                    <span className={`text-4xl font-light ${selectingMinute ? 'text-blue-500' : 'text-gray-400'}`}>
+                                        {remindTime.split(':')[1]}
+                                    </span>
+                                </div>
+
+                                <div 
+                                    className="relative w-56 h-56 mx-auto cursor-pointer"
+                                    onClick={handleClockClick}
+                                    onMouseDown={() => setIsDragging(true)}
+                                    onMouseUp={() => setIsDragging(false)}
+                                    onMouseLeave={() => setIsDragging(false)}
+                                    onMouseMove={handleClockMouseMove}
+                                >
                                     <div className="absolute inset-0 border-2 border-gray-200 rounded-full"></div>
 
-                                    {/* Hour numbers */}
-                                    {[...Array(24)].map((_, i) => {
-                                        const angle = (i * 15 - 90) * (Math.PI / 180);
-                                        const radius = 92;
-                                        const x = 112 + radius * Math.cos(angle);
-                                        const y = 112 + radius * Math.sin(angle);
+                                    {/* Hour/Minute numbers */}
+                                    {!selectingMinute ? (
+                                        // Hour selection - 24 hour format
+                                        [...Array(24)].map((_, i) => {
+                                            const angle = (i * 15 - 90) * (Math.PI / 180);
+                                            const radius = 92;
+                                            const x = 112 + radius * Math.cos(angle);
+                                            const y = 112 + radius * Math.sin(angle);
 
-                                        return (
-                                            <button
-                                                key={i}
-                                                onClick={() => handleTimeClick(i)}
-                                                className={`    
+                                            return (
+                                                <button
+                                                    key={i}
+                                                    onClick={() => handleTimeClick(i)}
+                                                    className={`    
                           absolute w-7 h-7 flex items-center justify-center rounded-full
-                          text-xs hover:bg-blue-100 transition-colors
-                          ${parseInt(remindTime.split(':')[0]) === i ? 'bg-blue-500 text-white font-bold' : 'text-gray-600'}
+                          text-xs hover:bg-blue-50 transition-colors font-medium
+                          ${parseInt(remindTime.split(':')[0]) === i ? 'bg-blue-500 text-white' : 'text-gray-600'}
                         `}
-                                                style={{
-                                                    left: `${x - 14}px`,
-                                                    top: `${y - 14}px`
-                                                }}
-                                            >
-                                                {i}
-                                            </button>
-                                        );
-                                    })}
+                                                    style={{
+                                                        left: `${x - 14}px`,
+                                                        top: `${y - 14}px`
+                                                    }}
+                                                >
+                                                    {i}
+                                                </button>
+                                            );
+                                        })
+                                    ) : (
+                                        // Minute selection - 12 positions (0, 5, 10, ..., 55)
+                                        [...Array(12)].map((_, i) => {
+                                            const minute = i * 5;
+                                            const angle = (i * 30 - 90) * (Math.PI / 180);
+                                            const radius = 92;
+                                            const x = 112 + radius * Math.cos(angle);
+                                            const y = 112 + radius * Math.sin(angle);
+
+                                            return (
+                                                <button
+                                                    key={i}
+                                                    onClick={() => handleMinuteClick(minute)}
+                                                    className={`    
+                          absolute w-7 h-7 flex items-center justify-center rounded-full
+                          text-xs hover:bg-blue-50 transition-colors font-medium
+                          ${parseInt(remindTime.split(':')[1]) === minute ? 'bg-blue-500 text-white' : 'text-gray-600'}
+                        `}
+                                                    style={{
+                                                        left: `${x - 14}px`,
+                                                        top: `${y - 14}px`
+                                                    }}
+                                                >
+                                                    {String(minute).padStart(2, '0')}
+                                                </button>
+                                            );
+                                        })
+                                    )}
 
                                     {/* Clock hand */}
                                     <div
@@ -239,15 +349,15 @@ export default function LeadDateTimePicker() {
                                         style={{
                                             left: '50%',
                                             top: '50%',
-                                            height: '90px',
-                                            transform: `translateX(-50%) translateY(-100%) rotate(${(parseInt(remindTime.split(':')[0]) * 15)}deg)`,
+                                            height: '88px',
+                                            transform: `translateX(-50%) translateY(-100%) rotate(${selectingMinute ? (parseInt(remindTime.split(':')[1]) * 6) : (parseInt(remindTime.split(':')[0]) * 15)}deg)`,
                                             transformOrigin: 'bottom center'
                                         }}
                                     >
-                                        <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-blue-400 rounded-full"></div>
+                                        <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-blue-400 rounded-full border-2 border-white"></div>
                                     </div>
 
-                                    <div className="absolute top-1/2 left-1/2 w-3 h-3 bg-blue-400 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+                                    <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-blue-400 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
                                 </div>
                             </div>
                         )}
