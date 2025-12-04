@@ -94,7 +94,7 @@ export default function LeadDateTimePicker() {
         setCurrentAngle(angle);
 
         if (!selectingMinute) {
-            const isInner = distance < 65; // adjusted for smaller clock
+            const isInner = distance < 65;
             setCurrentRadius(isInner ? 'inner' : 'outer');
             
             let baseHour = Math.round(angle / 30);
@@ -264,123 +264,125 @@ export default function LeadDateTimePicker() {
                         )}
 
                         {showTimePicker && (
-                            <div className="mt-3 bg-white ml-55 border border-gray-300 rounded-lg shadow-lg p-3 w-64">
-                                <div className="text-center mb-4">
-                                    <span className={`text-3xl font-light ${selectingMinute ? 'text-gray-400' : 'text-blue-400'}`}>
+                            <div className="mt-2 bg-white ml-55 border border-gray-500 rounded-lg shadow-lg overflow-hidden w-64">
+                                <div className="text-center mb-1 bg-white py-2">
+                                    <span className={`text-3xl font-light ${selectingMinute ? 'text-gray-400' : 'text-cyan-400'}`}>
                                         {remindTime.split(':')[0]}
                                     </span>
                                     <span className="text-3xl font-light text-gray-400 mx-1">:</span>
-                                    <span className={`text-3xl font-light ${selectingMinute ? 'text-blue-400' : 'text-gray-400'}`}>
+                                    <span className={`text-3xl font-light ${selectingMinute ? 'text-cyan-400' : 'text-gray-400'}`}>
                                         {remindTime.split(':')[1]}
                                     </span>
                                 </div>
 
-                                <div 
-                                    className="relative w-48 h-48 mx-auto cursor-pointer"
-                                    onClick={handleClockClick}
-                                    onMouseDown={() => setIsDragging(true)}
-                                    onMouseUp={() => setIsDragging(false)}
-                                    onMouseLeave={() => setIsDragging(false)}
-                                    onMouseMove={handleClockMouseMove}
-                                >
-                                    <div className="absolute inset-0 border border-gray-300 rounded-full bg-white"></div>
-                                    {!selectingMinute ? (
-                                        <>
-                                            {[...Array(12)].map((_, i) => {
-                                                const hour = i + 1;
-                                                const angle = (hour * 30 - 90) * (Math.PI / 180);
-                                                const radius = 50;
-                                                const x = 96 + radius * Math.cos(angle);
-                                                const y = 96 + radius * Math.sin(angle);
+                                <div className="bg-gray-100 p-2">
+                                    <div 
+                                        className="relative w-48 h-48 mx-auto cursor-pointer"
+                                        onClick={handleClockClick}
+                                        onMouseDown={() => setIsDragging(true)}
+                                        onMouseUp={() => setIsDragging(false)}
+                                        onMouseLeave={() => setIsDragging(false)}
+                                        onMouseMove={handleClockMouseMove}
+                                    >
+                                        <div className="absolute inset-0 border-2 border-gray-300 rounded-full bg-white"></div>
+                                        {!selectingMinute ? (
+                                            <>
+                                                {[...Array(12)].map((_, i) => {
+                                                    const hour = i + 1;
+                                                    const angle = (hour * 30 - 90) * (Math.PI / 180);
+                                                    const radius = 50;
+                                                    const x = 96 + radius * Math.cos(angle);
+                                                    const y = 96 + radius * Math.sin(angle);
 
-                                                return (
-                                                    <button
-                                                        key={hour}
-                                                        onClick={() => handleTimeClick(hour)}
-                                                        className={`    
+                                                    return (
+                                                        <button
+                                                            key={hour}
+                                                            onClick={() => handleTimeClick(hour)}
+                                                            className={`    
                               absolute w-7 h-7 flex items-center justify-center rounded-full
-                              text-sm hover:bg-blue-50 transition-colors
-                              ${parseInt(remindTime.split(':')[0]) === hour ? 'bg-blue-300 text-gray-800 font-semibold' : 'text-gray-500 font-normal'}
+                              text-sm hover:bg-cyan-100 transition-colors
+                              ${parseInt(remindTime.split(':')[0]) === hour ? 'bg-white text-gray-800 font-semibold shadow-sm' : 'text-gray-500 font-normal'}
                             `}
-                                                        style={{
-                                                            left: `${x - 14}px`,
-                                                            top: `${y - 14}px`
-                                                        }}
-                                                    >
-                                                        {hour}
-                                                    </button>
-                                                );
-                                            })}
-                                            
-                                            {[...Array(12)].map((_, i) => {
-                                                const hour = i === 11 ? 0 : i + 13;
-                                                const angle = ((i + 1) * 30 - 90) * (Math.PI / 180);
+                                                            style={{
+                                                                left: `${x - 14}px`,
+                                                                top: `${y - 14}px`
+                                                            }}
+                                                        >
+                                                            {hour}
+                                                        </button>
+                                                    );
+                                                })}
+                                                
+                                                {[...Array(12)].map((_, i) => {
+                                                    const hour = i === 11 ? 0 : i + 13;
+                                                    const angle = ((i + 1) * 30 - 90) * (Math.PI / 180);
+                                                    const radius = 80;
+                                                    const x = 96 + radius * Math.cos(angle);
+                                                    const y = 96 + radius * Math.sin(angle);
+
+                                                    return (
+                                                        <button
+                                                            key={`outer-${hour}`}
+                                                            onClick={() => handleTimeClick(hour)}
+                                                            className={`    
+                              absolute w-7 h-7 flex items-center justify-center rounded-full
+                              text-sm hover:bg-cyan-100 transition-colors
+                              ${parseInt(remindTime.split(':')[0]) === hour ? 'bg-white text-gray-800 font-semibold shadow-sm' : 'text-gray-500 font-normal'}
+                            `}
+                                                            style={{
+                                                                left: `${x - 14}px`,
+                                                                top: `${y - 14}px`
+                                                            }}
+                                                        >
+                                                            {hour === 0 ? '00' : hour}
+                                                        </button>
+                                                    );
+                                                })}
+                                            </>
+                                        ) : (
+                                            [...Array(12)].map((_, i) => {
+                                                const minute = i * 5;
+                                                const angle = (i * 30 - 90) * (Math.PI / 180);
                                                 const radius = 80;
                                                 const x = 96 + radius * Math.cos(angle);
                                                 const y = 96 + radius * Math.sin(angle);
 
                                                 return (
                                                     <button
-                                                        key={`outer-${hour}`}
-                                                        onClick={() => handleTimeClick(hour)}
+                                                        key={i}
+                                                        onClick={() => handleMinuteClick(minute)}
                                                         className={`    
-                              absolute w-7 h-7 flex items-center justify-center rounded-full
-                              text-sm hover:bg-blue-50 transition-colors
-                              ${parseInt(remindTime.split(':')[0]) === hour ? 'bg-blue-300 text-gray-800 font-semibold' : 'text-gray-500 font-normal'}
-                            `}
+                          absolute w-7 h-7 flex items-center justify-center rounded-full
+                          text-sm hover:bg-cyan-100 transition-colors
+                          ${parseInt(remindTime.split(':')[1]) === minute ? 'bg-white text-gray-800 font-semibold shadow-sm' : 'text-gray-500 font-normal'}
+                        `}
                                                         style={{
                                                             left: `${x - 14}px`,
                                                             top: `${y - 14}px`
                                                         }}
                                                     >
-                                                        {hour === 0 ? '00' : hour}
+                                                        {String(minute).padStart(2, '0')}
                                                     </button>
                                                 );
-                                            })}
-                                        </>
-                                    ) : (
-                                        [...Array(12)].map((_, i) => {
-                                            const minute = i * 5;
-                                            const angle = (i * 30 - 90) * (Math.PI / 180);
-                                            const radius = 80;
-                                            const x = 96 + radius * Math.cos(angle);
-                                            const y = 96 + radius * Math.sin(angle);
+                                            })
+                                        )}
 
-                                            return (
-                                                <button
-                                                    key={i}
-                                                    onClick={() => handleMinuteClick(minute)}
-                                                    className={`    
-                          absolute w-7 h-7 flex items-center justify-center rounded-full
-                          text-sm hover:bg-blue-50 transition-colors
-                          ${parseInt(remindTime.split(':')[1]) === minute ? 'bg-blue-300 text-gray-800 font-semibold' : 'text-gray-500 font-normal'}
-                        `}
-                                                    style={{
-                                                        left: `${x - 14}px`,
-                                                        top: `${y - 14}px`
-                                                    }}
-                                                >
-                                                    {String(minute).padStart(2, '0')}
-                                                </button>
-                                            );
-                                        })
-                                    )}
+                                        <div
+                                            className="absolute w-0.5 bg-cyan-400 origin-bottom"
+                                            style={{
+                                                left: '50%',
+                                                top: '50%',
+                                                height: selectingMinute ? '74px' : (currentRadius === 'inner' ? '46px' : '74px'),
+                                                transform: `translateX(-50%) translateY(-100%) rotate(${currentAngle}deg)`,
+                                                transformOrigin: 'bottom center',
+                                                transition: isDragging ? 'none' : 'all 0.1s ease-out'
+                                            }}
+                                        >
+                                            <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-cyan-400 rounded-full"></div>
+                                        </div>
 
-                                    <div
-                                        className="absolute w-0.5 bg-blue-400 origin-bottom"
-                                        style={{
-                                            left: '50%',
-                                            top: '50%',
-                                            height: selectingMinute ? '74px' : (currentRadius === 'inner' ? '46px' : '74px'),
-                                            transform: `translateX(-50%) translateY(-100%) rotate(${currentAngle}deg)`,
-                                            transformOrigin: 'bottom center',
-                                            transition: isDragging ? 'none' : 'all 0.1s ease-out'
-                                        }}
-                                    >
-                                        <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-blue-400 rounded-full"></div>
+                                        <div className="absolute top-1/2 left-1/2 w-2.5 h-2.5 bg-cyan-400 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
                                     </div>
-
-                                    <div className="absolute top-1/2 left-1/2 w-2.5 h-2.5 bg-blue-400 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
                                 </div>
                             </div>
                         )}
