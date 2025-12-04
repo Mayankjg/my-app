@@ -9,8 +9,8 @@ export default function AddTemplatePage() {
   const [selectedProduct, setSelectedProduct] = useState("");
 
   return (
-    <div className="w-full min-h-screen bg-[#e5e7eb]">
-      <div className="bg-white max-w-4xl mx-auto">
+    <div className="w-full min-h-screen bg-[#e5e7eb] py-8">
+      <div className="bg-white max-w-7xl mx-auto mt-7">
         <div className="border-b border-gray-200 px-8 py-5">
           <h1 className="text-xl font-normal text-gray-800">Templates</h1>
         </div>
