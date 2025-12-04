@@ -14,7 +14,6 @@ export default function ContactList() {
     if (savedContacts) {
       setContacts(JSON.parse(savedContacts));
     } else {
-
       const initialContacts = [
         { id: 1, name: "Pratik", email: "and.test.21990@gmail.com", product: "All" },
         { id: 2, name: "raj mistry", email: "rajmistry123@gmail.com", product: "All" },
@@ -68,32 +67,33 @@ export default function ContactList() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-gray-200 p-6">
-      <div className="max-w-10xl mx-auto">
+    <div className="w-full min-h-screen bg-gray-200 p-3 sm:p-4 md:p-6">
+      <div className="max-w-7xl mx-auto">
         <div className="bg-white rounded-lg shadow-sm">
-          <div className="flex items-center justify-between px-8 py-5 border-b border-gray-300">
-            <h1 className="text-2xl font-normal text-gray-600">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 py-4 md:py-5 border-b border-gray-300">
+            <h1 className="text-xl sm:text-2xl font-normal text-gray-600">
               Contact <span className="font-semibold text-gray-700">List</span>
             </h1>
             <button
               onClick={handleAddContacts}
-              className="bg-[#2d3e50] text-white px-6 py-2.5 rounded text-sm hover:bg-[#1a252f] transition-colors"
+              className="w-full sm:w-auto bg-[#2d3e50] text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded text-xs sm:text-sm hover:bg-[#1a252f] transition-colors"
             >
               Add Contacts
             </button>
           </div>
-          <div className="px-8 py-4 bg-white">
-            <p className="text-sm">
-              <span className="text-red-600 ml-7 font-semibold">Note :</span>{" "}
+
+          <div className="px-4 sm:px-6 md:px-8 py-3 md:py-4 bg-white">
+            <p className="text-xs ml-2 sm:text-sm">
+              <span className="text-red-600 font-semibold">Note :</span>{" "}
               <span className="text-red-600">Unsubscribe User(s) will not display in this List.</span>
             </p>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-350 ml-15 border-collapse">
+          <div className="hidden md:block overflow-x-auto">
+            <table className="w-300 ml-10 border-2">
               <thead>
                 <tr className="bg-gray-200">
-                  <th className="py-4 px-6 text-left w-16 border-r border-gray-300">
+                  <th className="py-4 px-4 lg:px-6 text-left w-12 lg:w-16 border-r border-gray-300">
                     <input
                       type="checkbox"
                       onChange={handleSelectAll}
@@ -101,19 +101,19 @@ export default function ContactList() {
                       className="w-4 h-4 cursor-pointer"
                     />
                   </th>
-                  <th className="py-4 px-6 text-left text-sm font-bold text-gray-600 uppercase tracking-wide border-r border-gray-300">
+                  <th className="py-4 px-4 lg:px-6 text-left text-xs lg:text-sm font-bold text-gray-600 uppercase tracking-wide border-r border-gray-300">
                     SR NO.
                   </th>
-                  <th className="py-4 px-6 text-left text-sm font-bold text-gray-600 uppercase tracking-wide border-r border-gray-300">
+                  <th className="py-4 px-4 lg:px-6 text-left text-xs lg:text-sm font-bold text-gray-600 uppercase tracking-wide border-r border-gray-300">
                     NAME
                   </th>
-                  <th className="py-4 px-6 text-left text-sm font-bold text-gray-600 uppercase tracking-wide border-r border-gray-300">
+                  <th className="py-4 px-4 lg:px-6 text-left text-xs lg:text-sm font-bold text-gray-600 uppercase tracking-wide border-r border-gray-300">
                     EMAIL
                   </th>
-                  <th className="py-4 px-6 text-left text-sm font-bold text-gray-600 uppercase tracking-wide border-r border-gray-300">
+                  <th className="py-4 px-4 lg:px-6 text-left text-xs lg:text-sm font-bold text-gray-600 uppercase tracking-wide border-r border-gray-300">
                     PRODUCT
                   </th>
-                  <th className="py-4 px-6 text-center text-sm font-bold text-gray-600 uppercase tracking-wide">
+                  <th className="py-4 px-4 lg:px-6 text-center text-xs lg:text-sm font-bold text-gray-600 uppercase tracking-wide">
                     DELETE
                   </th>
                 </tr>
@@ -121,7 +121,7 @@ export default function ContactList() {
               <tbody className="bg-white">
                 {contacts.map((contact, index) => (
                   <tr key={contact.id} className="border-b border-gray-300">
-                    <td className="py-4 px-6 border-r border-gray-300">
+                    <td className="py-4 px-4 lg:px-6 border-r border-gray-300">
                       <input
                         type="checkbox"
                         checked={selectedContacts.includes(contact.id)}
@@ -129,22 +129,21 @@ export default function ContactList() {
                         className="w-4 h-4 cursor-pointer"
                       />
                     </td>
-                    
-                    <td className="py-4 px-6 text-sm text-gray-600 border-r border-gray-200">{index + 1}</td>
-                    <td className="py-4 px-6 text-sm text-gray-600 border-r border-gray-300">{contact.name}</td>
-                    <td className="py-4 px-6 text-sm text-gray-600 border-r border-gray-300">{contact.email}</td>
-                    <td className="py-4 px-6 text-sm text-gray-600 border-r border-gray-300">{contact.product}</td>
-                    <td className="py-4 px-6 text-center">
+                    <td className="py-4 px-4 lg:px-6 text-xs lg:text-sm text-gray-600 border-r border-gray-200">{index + 1}</td>
+                    <td className="py-4 px-4 lg:px-6 text-xs lg:text-sm text-gray-600 border-r border-gray-300">{contact.name}</td>
+                    <td className="py-4 px-4 lg:px-6 text-xs lg:text-sm text-gray-600 border-r border-gray-300">{contact.email}</td>
+                    <td className="py-4 px-4 lg:px-6 text-xs lg:text-sm text-gray-600 border-r border-gray-300">{contact.product}</td>
+                    <td className="py-4 px-4 lg:px-6 text-center">
                       <button
                         onClick={() => handleDelete(contact.id)}
                         className="text-gray-500 hover:text-red-600 transition-colors"
                       >
                         <svg
-                          width="20"
-                          height="20"
+                          width="18"
+                          height="18"
                           viewBox="0 0 24 24"
                           fill="currentColor"
-                          className="inline-block"
+                          className="inline-block lg:w-5 lg:h-5"
                         >
                           <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
                         </svg>
@@ -156,8 +155,52 @@ export default function ContactList() {
             </table>
           </div>
 
-          <div className="px-8 py-6">
-            <button
+          <div className="md:hidden px-4 py-3 space-y-3">
+            {contacts.map((contact, index) => (
+              <div key={contact.id} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      checked={selectedContacts.includes(contact.id)}
+                      onChange={() => handleSelectContact(contact.id)}
+                      className="w-4 h-4 cursor-pointer mt-1"
+                    />
+                    <div>
+                      <div className="text-xs text-gray-500 mb-1">#{index + 1}</div>
+                      <div className="font-semibold text-sm text-gray-700">{contact.name}</div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => handleDelete(contact.id)}
+                    className="text-gray-500 hover:text-red-600 transition-colors p-1"
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                    </svg>
+                  </button>
+                </div>
+                <div className="space-y-2 text-xs">
+                  <div className="flex">
+                    <span className="text-gray-500 w-20">Email:</span>
+                    <span className="text-gray-700 break-all">{contact.email}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="text-gray-500 w-20">Product:</span>
+                    <span className="text-gray-700">{contact.product}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="px-4 sm:px-6 md:px-8 py-4 md:py-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+           <button
               onClick={handleBulkDelete}
               className="bg-red-500 text-white ml-7 px-12 py-2.5 rounded text-sm hover:bg-red-600 transition-colors"
             >
