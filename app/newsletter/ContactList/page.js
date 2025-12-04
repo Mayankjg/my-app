@@ -1,20 +1,36 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function ContactList() {
   const router = useRouter();
   
-  const [contacts, setContacts] = useState([
-    { id: 1, name: "Pratik", email: "and.test.21990@gmail.com", product: "All" },
-    { id: 2, name: "raj mistry", email: "rajmistry123@gmail.com", product: "All" },
-    { id: 3, name: "Raj mistry", email: "tenacioustechiestest@gmail.com", product: "All" },
-    { id: 4, name: "Raj Mistry", email: "rajmistry0054@gmail.com", product: "All" },
-    { id: 5, name: "Krunal Mendapara", email: "krunalmendapara88@gmail.com", product: "All" },
-  ]);
-  
+  const [contacts, setContacts] = useState([]);
   const [selectedContacts, setSelectedContacts] = useState([]);
+
+  // Load contacts from localStorage on component mount
+  useEffect(() => {
+    const savedContacts = localStorage.getItem('contacts');
+    if (savedContacts) {
+      setContacts(JSON.parse(savedContacts));
+    } else {
+      // Set initial data if no saved contacts
+      const initialContacts = [
+        { id: 1, name: "Pratik", email: "and.test.21990@gmail.com", product: "All" },
+        { id: 2, name: "raj mistry", email: "rajmistry123@gmail.com", product: "All" },
+      ];
+      setContacts(initialContacts);
+      localStorage.setItem('contacts', JSON.stringify(initialContacts));
+    }
+  }, []);
+
+  // Save contacts to localStorage whenever they change
+  useEffect(() => {
+    if (contacts.length > 0) {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+    }
+  }, [contacts]);
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {

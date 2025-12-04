@@ -1,17 +1,44 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import * as XLSX from 'xlsx';
 
 export default function ImportContacts() {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState("import");
   const [selectedFile, setSelectedFile] = useState(null);
+  const [fileData, setFileData] = useState([]);
+  const [columnHeaders, setColumnHeaders] = useState([]);
 
   const ImportContactsPage = () => {
-    const handleFileChange = (e) => {
+    const handleFileChange = async (e) => {
       if (e.target.files && e.target.files[0]) {
-        setSelectedFile(e.target.files[0]);
+        const file = e.target.files[0];
+        setSelectedFile(file);
+
+        // Read and parse the Excel file
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          try {
+            const data = new Uint8Array(event.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+            const jsonData = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+
+            if (jsonData.length > 0) {
+              const headers = jsonData[0];
+              const rows = jsonData.slice(1).filter(row => row.some(cell => cell));
+              
+              setColumnHeaders(headers);
+              setFileData(rows);
+            }
+          } catch (error) {
+            alert('Error reading file. Please make sure it is a valid Excel or CSV file.');
+            console.error(error);
+          }
+        };
+        reader.readAsArrayBuffer(file);
       }
     };
 
@@ -33,11 +60,17 @@ export default function ImportContacts() {
         alert('Please select a file first');
         return;
       }
+      if (fileData.length === 0) {
+        alert('The selected file is empty or could not be read');
+        return;
+      }
       setCurrentPage("detail");
     };
 
     const handleCancel = () => {
       setSelectedFile(null);
+      setFileData([]);
+      setColumnHeaders([]);
       const fileInput = document.querySelector('input[type="file"]');
       if (fileInput) fileInput.value = '';
       router.push('/newsletter/ContactList');
@@ -91,9 +124,14 @@ export default function ImportContacts() {
                     className="text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-medium file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 file:cursor-pointer cursor-pointer"
                   />
                   {selectedFile && (
-                    <p className="text-sm text-green-600 mt-2">
-                      Selected: {selectedFile.name}
-                    </p>
+                    <div className="mt-2">
+                      <p className="text-sm text-green-600">
+                        Selected: {selectedFile.name}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        {fileData.length} rows found
+                      </p>
+                    </div>
                   )}
                 </div>
                 <div className="flex gap-4">
@@ -118,26 +156,51 @@ export default function ImportContacts() {
     );
   };
 
-
   const ImportContactDetail = () => {
     const [selectedProduct, setSelectedProduct] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [email, setEmail] = useState("");
+    const [nameColumnIndex, setNameColumnIndex] = useState("");
+    const [emailColumnIndex, setEmailColumnIndex] = useState("");
 
     const handleSave = () => {
       if (!selectedProduct) {
         alert('Please select a product');
         return;
       }
-      if (!firstName) {
+      if (!nameColumnIndex) {
         alert('Please select First Name field');
         return;
       }
-      if (!email) {
+      if (!emailColumnIndex) {
         alert('Please select Email field');
         return;
       }
-      alert('Contacts imported successfully!');
+
+      // Process the data and save to localStorage
+      const newContacts = fileData.map((row, index) => {
+        const name = row[parseInt(nameColumnIndex)] || '';
+        const email = row[parseInt(emailColumnIndex)] || '';
+        
+        return {
+          id: Date.now() + index,
+          name: name.toString().trim(),
+          email: email.toString().trim(),
+          product: selectedProduct
+        };
+      }).filter(contact => contact.name && contact.email); // Filter out empty rows
+
+      if (newContacts.length === 0) {
+        alert('No valid contacts found in the selected columns');
+        return;
+      }
+
+      // Get existing contacts from localStorage
+      const existingContacts = JSON.parse(localStorage.getItem('contacts') || '[]');
+      
+      // Merge and save
+      const allContacts = [...existingContacts, ...newContacts];
+      localStorage.setItem('contacts', JSON.stringify(allContacts));
+
+      alert(`${newContacts.length} contacts imported successfully!`);
       router.push('/newsletter/ContactList');
     };
 
@@ -176,11 +239,12 @@ export default function ImportContacts() {
                     className="w-full max-w-md border border-gray-300 rounded px-4 py-2 text-sm text-gray-600 focus:outline-none focus:border-gray-400"
                   >
                     <option value="">Select Products</option>
-                    <option value="product1">Bandhani</option>
-                    <option value="product2">Galaxy S1</option>
-                    <option value="product3">Galaxy S3</option>
-                    <option value="product3">Realme Narzo 50</option>
-                    <option value="product3">Realme Narzo 30</option>
+                    <option value="Bandhani">Bandhani</option>
+                    <option value="Galaxy S1">Galaxy S1</option>
+                    <option value="Galaxy S3">Galaxy S3</option>
+                    <option value="Realme Narzo 50">Realme Narzo 50</option>
+                    <option value="Realme Narzo 30">Realme Narzo 30</option>
+                    <option value="All">All</option>
                   </select>
                 </div>
 
@@ -189,13 +253,16 @@ export default function ImportContacts() {
                     First Name <span className="text-red-500">*</span>
                   </label>
                   <select
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    value={nameColumnIndex}
+                    onChange={(e) => setNameColumnIndex(e.target.value)}
                     className="w-full max-w-md border border-gray-300 rounded px-4 py-2 text-sm text-gray-600 focus:outline-none focus:border-gray-400"
                   >
                     <option value="">None</option>
-                    <option value="firstName">First Name(col: A)</option>
-                    <option value="Email">Email(col: B)</option>
+                    {columnHeaders.map((header, index) => (
+                      <option key={index} value={index}>
+                        {header} (col: {String.fromCharCode(65 + index)})
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -204,13 +271,16 @@ export default function ImportContacts() {
                     Email <span className="text-red-500">*</span>
                   </label>
                   <select
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={emailColumnIndex}
+                    onChange={(e) => setEmailColumnIndex(e.target.value)}
                     className="w-full max-w-md border border-gray-300 rounded px-4 py-2 text-sm text-gray-600 focus:outline-none focus:border-gray-400"
                   >
                     <option value="">None</option>
-                    <option value="firstname">First Name(col: A)</option>
-                    <option value="Email">Email(col: B)</option>
+                    {columnHeaders.map((header, index) => (
+                      <option key={index} value={index}>
+                        {header} (col: {String.fromCharCode(65 + index)})
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -238,6 +308,3 @@ export default function ImportContacts() {
 
   return currentPage === "import" ? <ImportContactsPage /> : <ImportContactDetail />;
 }
-
-
-
