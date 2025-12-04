@@ -365,13 +365,13 @@ export default function TemplatesListPage() {
         <h1 className="text-xl font-normal text-gray-800">Templates</h1>
         <div className="flex gap-3">
           <button
-            onClick={() => router.push("/templates/add-custom")}
+            onClick={() => router.push("/newsletter/TemplatesListPage/AddCustomTemplate")}
             className="bg-[#2d4456] text-white px-6 py-2 rounded text-sm hover:bg-[#1f2f3d]"
           >
             Add Custom Template
           </button>
           <button
-            onClick={() => router.push("/templates/add-template")}
+            onClick={() => router.push("/newsletter/TemplatesListPage/AddTemplate")}
             className="bg-[#2d4456] text-white px-6 py-2 rounded text-sm hover:bg-[#1f2f3d]"
           >
             Add Template
