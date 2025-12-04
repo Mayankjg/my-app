@@ -62,7 +62,7 @@ export default function AddTemplatePage() {
               Next
             </button>
             <button
-              onClick={() => router.push("/templates")}
+              onClick={() => router.push("/newsletter/TemplatesListPage")}
               className="bg-gray-300 text-gray-700 px-8 py-2 rounded hover:bg-gray-400"
             >
               Cancel
