@@ -94,7 +94,7 @@ export default function LeadDateTimePicker() {
         setCurrentAngle(angle);
 
         if (!selectingMinute) {
-            const isInner = distance < 89;
+            const isInner = distance < 65; // adjusted for smaller clock
             setCurrentRadius(isInner ? 'inner' : 'outer');
             
             let baseHour = Math.round(angle / 30);
@@ -264,19 +264,19 @@ export default function LeadDateTimePicker() {
                         )}
 
                         {showTimePicker && (
-                            <div className="mt-3 bg-white ml-55 border border-gray-300 rounded-lg shadow-lg p-4 w-80">
-                                <div className="text-center mb-6">
-                                    <span className={`text-5xl font-light ${selectingMinute ? 'text-gray-400' : 'text-blue-400'}`}>
+                            <div className="mt-3 bg-white ml-55 border border-gray-300 rounded-lg shadow-lg p-3 w-64">
+                                <div className="text-center mb-4">
+                                    <span className={`text-3xl font-light ${selectingMinute ? 'text-gray-400' : 'text-blue-400'}`}>
                                         {remindTime.split(':')[0]}
                                     </span>
-                                    <span className="text-5xl font-light text-gray-400 mx-2">:</span>
-                                    <span className={`text-5xl font-light ${selectingMinute ? 'text-blue-400' : 'text-gray-400'}`}>
+                                    <span className="text-3xl font-light text-gray-400 mx-1">:</span>
+                                    <span className={`text-3xl font-light ${selectingMinute ? 'text-blue-400' : 'text-gray-400'}`}>
                                         {remindTime.split(':')[1]}
                                     </span>
                                 </div>
 
                                 <div 
-                                    className="relative w-64 h-64 mx-auto cursor-pointer"
+                                    className="relative w-48 h-48 mx-auto cursor-pointer"
                                     onClick={handleClockClick}
                                     onMouseDown={() => setIsDragging(true)}
                                     onMouseUp={() => setIsDragging(false)}
@@ -289,22 +289,22 @@ export default function LeadDateTimePicker() {
                                             {[...Array(12)].map((_, i) => {
                                                 const hour = i + 1;
                                                 const angle = (hour * 30 - 90) * (Math.PI / 180);
-                                                const radius = 70;
-                                                const x = 128 + radius * Math.cos(angle);
-                                                const y = 128 + radius * Math.sin(angle);
+                                                const radius = 50;
+                                                const x = 96 + radius * Math.cos(angle);
+                                                const y = 96 + radius * Math.sin(angle);
 
                                                 return (
                                                     <button
                                                         key={hour}
                                                         onClick={() => handleTimeClick(hour)}
                                                         className={`    
-                              absolute w-8 h-8 flex items-center justify-center rounded-full
-                              text-base hover:bg-blue-50 transition-colors
+                              absolute w-7 h-7 flex items-center justify-center rounded-full
+                              text-sm hover:bg-blue-50 transition-colors
                               ${parseInt(remindTime.split(':')[0]) === hour ? 'bg-blue-300 text-gray-800 font-semibold' : 'text-gray-500 font-normal'}
                             `}
                                                         style={{
-                                                            left: `${x - 16}px`,
-                                                            top: `${y - 16}px`
+                                                            left: `${x - 14}px`,
+                                                            top: `${y - 14}px`
                                                         }}
                                                     >
                                                         {hour}
@@ -315,22 +315,22 @@ export default function LeadDateTimePicker() {
                                             {[...Array(12)].map((_, i) => {
                                                 const hour = i === 11 ? 0 : i + 13;
                                                 const angle = ((i + 1) * 30 - 90) * (Math.PI / 180);
-                                                const radius = 108;
-                                                const x = 128 + radius * Math.cos(angle);
-                                                const y = 128 + radius * Math.sin(angle);
+                                                const radius = 80;
+                                                const x = 96 + radius * Math.cos(angle);
+                                                const y = 96 + radius * Math.sin(angle);
 
                                                 return (
                                                     <button
                                                         key={`outer-${hour}`}
                                                         onClick={() => handleTimeClick(hour)}
                                                         className={`    
-                              absolute w-8 h-8 flex items-center justify-center rounded-full
-                              text-base hover:bg-blue-50 transition-colors
+                              absolute w-7 h-7 flex items-center justify-center rounded-full
+                              text-sm hover:bg-blue-50 transition-colors
                               ${parseInt(remindTime.split(':')[0]) === hour ? 'bg-blue-300 text-gray-800 font-semibold' : 'text-gray-500 font-normal'}
                             `}
                                                         style={{
-                                                            left: `${x - 16}px`,
-                                                            top: `${y - 16}px`
+                                                            left: `${x - 14}px`,
+                                                            top: `${y - 14}px`
                                                         }}
                                                     >
                                                         {hour === 0 ? '00' : hour}
@@ -342,22 +342,22 @@ export default function LeadDateTimePicker() {
                                         [...Array(12)].map((_, i) => {
                                             const minute = i * 5;
                                             const angle = (i * 30 - 90) * (Math.PI / 180);
-                                            const radius = 108;
-                                            const x = 128 + radius * Math.cos(angle);
-                                            const y = 128 + radius * Math.sin(angle);
+                                            const radius = 80;
+                                            const x = 96 + radius * Math.cos(angle);
+                                            const y = 96 + radius * Math.sin(angle);
 
                                             return (
                                                 <button
                                                     key={i}
                                                     onClick={() => handleMinuteClick(minute)}
                                                     className={`    
-                          absolute w-8 h-8 flex items-center justify-center rounded-full
-                          text-base hover:bg-blue-50 transition-colors
+                          absolute w-7 h-7 flex items-center justify-center rounded-full
+                          text-sm hover:bg-blue-50 transition-colors
                           ${parseInt(remindTime.split(':')[1]) === minute ? 'bg-blue-300 text-gray-800 font-semibold' : 'text-gray-500 font-normal'}
                         `}
                                                     style={{
-                                                        left: `${x - 16}px`,
-                                                        top: `${y - 16}px`
+                                                        left: `${x - 14}px`,
+                                                        top: `${y - 14}px`
                                                     }}
                                                 >
                                                     {String(minute).padStart(2, '0')}
@@ -367,20 +367,20 @@ export default function LeadDateTimePicker() {
                                     )}
 
                                     <div
-                                        className="absolute w-1 bg-blue-400 origin-bottom"
+                                        className="absolute w-0.5 bg-blue-400 origin-bottom"
                                         style={{
                                             left: '50%',
                                             top: '50%',
-                                            height: selectingMinute ? '100px' : (currentRadius === 'inner' ? '62px' : '100px'),
+                                            height: selectingMinute ? '74px' : (currentRadius === 'inner' ? '46px' : '74px'),
                                             transform: `translateX(-50%) translateY(-100%) rotate(${currentAngle}deg)`,
                                             transformOrigin: 'bottom center',
                                             transition: isDragging ? 'none' : 'all 0.1s ease-out'
                                         }}
                                     >
-                                        <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-blue-400 rounded-full"></div>
+                                        <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-blue-400 rounded-full"></div>
                                     </div>
 
-                                    <div className="absolute top-1/2 left-1/2 w-3 h-3 bg-blue-400 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+                                    <div className="absolute top-1/2 left-1/2 w-2.5 h-2.5 bg-blue-400 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
                                 </div>
                             </div>
                         )}
