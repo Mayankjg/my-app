@@ -93,3 +93,23 @@ export default function TemplatesListPage() {
     </div>
   );
 }
+
+
+
+// "use client";
+
+// import React, {useState} from "react";
+// import { useRouter } from "next/navigation";
+
+// export default function TemplatesListPage() {
+//   const router = useRouter();
+//   const [search, setSearch] = useState("");
+
+//   return (
+//     <div className="w-full min-h-screen bg-[#e5e7eb] py-10">
+//       <div className="max-w-370 mx-auto mt-4">
+//         <div className="bg-white rounded-"></div>
+//       </div>
+//     </div>
+//   )
+// }
