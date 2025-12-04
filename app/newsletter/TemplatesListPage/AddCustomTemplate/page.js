@@ -11,6 +11,10 @@ export default function AddCustomTemplatePage() {
   const [showPreview, setShowPreview] = useState(false);
   const editorRef = useRef(null);
 
+  const handleBackToTemplates = () => {
+    router.push("/newsletter/TemplatesListPage");
+  };
+
   const handleSaveCustomTemplate = () => {
     if (!templateName.trim()) {
       alert('Please enter template name');
@@ -38,7 +42,7 @@ export default function AddCustomTemplatePage() {
     localStorage.setItem('customTemplates', JSON.stringify(updatedTemplates));
 
     alert('Template saved successfully!');
-    router.push("/templates");
+    router.push("/newsletter/TemplatesListPage");
   };
 
   return (
@@ -51,7 +55,7 @@ export default function AddCustomTemplatePage() {
                 Add Custom <span className="font-semibold">Template</span>
               </h1>
               <button
-                onClick={() => router.push("/templates")}
+                onClick={handleBackToTemplates}
                 className="bg-gray-600 text-white px-4 py-2 rounded text-sm hover:bg-gray-700"
               >
                 ← Back to Templates
@@ -149,7 +153,7 @@ export default function AddCustomTemplatePage() {
                 {showPreview ? 'Hide Preview' : 'Show Preview'}
               </button>
               <button
-                onClick={() => router.push("/templates")}
+                onClick={handleBackToTemplates}
                 className="bg-gray-500 text-white px-8 py-2.5 rounded text-sm hover:bg-gray-600 font-medium"
               >
                 Cancel
