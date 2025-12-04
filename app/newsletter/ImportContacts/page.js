@@ -17,7 +17,6 @@ export default function ImportContacts() {
         const file = e.target.files[0];
         setSelectedFile(file);
 
-        // Read and parse the Excel file
         const reader = new FileReader();
         reader.onload = (event) => {
           try {
@@ -175,7 +174,6 @@ export default function ImportContacts() {
         return;
       }
 
-      // Process the data and save to localStorage
       const newContacts = fileData.map((row, index) => {
         const name = row[parseInt(nameColumnIndex)] || '';
         const email = row[parseInt(emailColumnIndex)] || '';
@@ -186,17 +184,15 @@ export default function ImportContacts() {
           email: email.toString().trim(),
           product: selectedProduct
         };
-      }).filter(contact => contact.name && contact.email); // Filter out empty rows
+      }).filter(contact => contact.name && contact.email); 
 
       if (newContacts.length === 0) {
         alert('No valid contacts found in the selected columns');
         return;
       }
 
-      // Get existing contacts from localStorage
       const existingContacts = JSON.parse(localStorage.getItem('contacts') || '[]');
       
-      // Merge and save
       const allContacts = [...existingContacts, ...newContacts];
       localStorage.setItem('contacts', JSON.stringify(allContacts));
 

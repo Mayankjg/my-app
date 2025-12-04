@@ -9,13 +9,12 @@ export default function ContactList() {
   const [contacts, setContacts] = useState([]);
   const [selectedContacts, setSelectedContacts] = useState([]);
 
-  // Load contacts from localStorage on component mount
   useEffect(() => {
     const savedContacts = localStorage.getItem('contacts');
     if (savedContacts) {
       setContacts(JSON.parse(savedContacts));
     } else {
-      // Set initial data if no saved contacts
+
       const initialContacts = [
         { id: 1, name: "Pratik", email: "and.test.21990@gmail.com", product: "All" },
         { id: 2, name: "raj mistry", email: "rajmistry123@gmail.com", product: "All" },
@@ -25,7 +24,6 @@ export default function ContactList() {
     }
   }, []);
 
-  // Save contacts to localStorage whenever they change
   useEffect(() => {
     if (contacts.length > 0) {
       localStorage.setItem('contacts', JSON.stringify(contacts));
@@ -73,7 +71,6 @@ export default function ContactList() {
     <div className="w-full min-h-screen bg-gray-200 p-6">
       <div className="max-w-10xl mx-auto">
         <div className="bg-white rounded-lg shadow-sm">
-          {/* Header */}
           <div className="flex items-center justify-between px-8 py-5 border-b border-gray-300">
             <h1 className="text-2xl font-normal text-gray-600">
               Contact <span className="font-semibold text-gray-700">List</span>
@@ -85,8 +82,6 @@ export default function ContactList() {
               Add Contacts
             </button>
           </div>
-
-          {/* Note */}
           <div className="px-8 py-4 bg-white">
             <p className="text-sm">
               <span className="text-red-600 ml-7 font-semibold">Note :</span>{" "}
@@ -94,7 +89,6 @@ export default function ContactList() {
             </p>
           </div>
 
-          {/* Table */}
           <div className="overflow-x-auto">
             <table className="w-350 ml-15 border-collapse">
               <thead>
@@ -162,7 +156,6 @@ export default function ContactList() {
             </table>
           </div>
 
-          {/* Bulk Delete Button */}
           <div className="px-8 py-6">
             <button
               onClick={handleBulkDelete}
