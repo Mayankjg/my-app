@@ -122,7 +122,7 @@ export default function AddCustomTemplatePage() {
                   value="admin"
                   checked={visibility === "admin"}
                   onChange={(e) => setVisibility(e.target.value)}
-                  className="w-4 h-4 accent-cyan-500"
+                  className="w-4 h-4 accent-cyan-#0aa699"
                 />
                 <span className="text-sm text-gray-700">Visible To Admin</span>
               </label>
@@ -133,7 +133,7 @@ export default function AddCustomTemplatePage() {
                   value="all"
                   checked={visibility === "all"}
                   onChange={(e) => setVisibility(e.target.value)}
-                  className="w-4 h-4 accent-cyan-500"
+                  className="w-4 h-4 accent-cyan-#0aa699"
                 />
                 <span className="text-sm text-gray-700">Visible To All</span>
               </label>
