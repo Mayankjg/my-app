@@ -46,8 +46,8 @@ export default function AddCustomTemplatePage() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-gray-50 p-4 md:p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="w-full h-screen bg-gray-50 p-4 md:p-6 overflow-hidden flex">
+      <div className="max-w-7xl mx-auto w-full h-full overflow-y-auto">
         <div className="bg-white rounded-lg shadow-md">
           <div className="border-b border-gray-300 px-6 md:px-8 py-5">
             <div className="flex items-center justify-between">
@@ -122,7 +122,7 @@ export default function AddCustomTemplatePage() {
                   value="admin"
                   checked={visibility === "admin"}
                   onChange={(e) => setVisibility(e.target.value)}
-                  className="w-4 h-4 accent-cyan-#0aa699"
+                  className="w-4 h-4"
                 />
                 <span className="text-sm text-gray-700">Visible To Admin</span>
               </label>
@@ -133,7 +133,7 @@ export default function AddCustomTemplatePage() {
                   value="all"
                   checked={visibility === "all"}
                   onChange={(e) => setVisibility(e.target.value)}
-                  className="w-4 h-4 accent-cyan-#0aa699"
+                  className="w-4 h-4"
                 />
                 <span className="text-sm text-gray-700">Visible To All</span>
               </label>
@@ -163,7 +163,7 @@ export default function AddCustomTemplatePage() {
         </div>
 
         {showPreview && (
-          <div className="bg-white rounded-lg shadow-md mt-6">
+          <div className="bg-white rounded-lg shadow-md mt-6 mb-6">
             <div className="border-b border-gray-300 px-6 py-4">
               <h2 className="text-lg font-semibold text-gray-700">Template Preview</h2>
             </div>

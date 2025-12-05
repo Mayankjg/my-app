@@ -28,7 +28,7 @@ const NewPasswordModal = ({ salespersonId, onClose, onPasswordChange }) => {
 
     return (
         <div
-            className="fixed inset-0 flex justify-center items-center z-[1000] p-5"
+            className="fixed inset-0 flex justify-center items-center z-[1000] p-5 bg-black bg-opacity-50"
             onClick={onClose}
         >
             <div
@@ -107,7 +107,7 @@ const ChangeEmailModal = ({ salespersonId, onClose, onEmailChange }) => {
 
     return (
         <div
-            className="fixed inset-0 flex justify-center items-center z-[1000] p-5"
+            className="fixed inset-0 flex justify-center items-center z-[1000] p-5 bg-black bg-opacity-50"
             onClick={onClose}
         >
             <div
@@ -218,11 +218,13 @@ export default function SalespersonList() {
     const handleOpenChangePassword = (id) => {
         setSalespersonToChange(id);
         setIsModalOpen(true);
+        document.body.classList.add('modal-open');
     };
 
     const handleCloseChangePassword = () => {
         setIsModalOpen(false);
         setSalespersonToChange(null);
+        document.body.classList.remove('modal-open');
     };
 
     const handleChangePassword = async (id, newPassword) => {
@@ -244,11 +246,13 @@ export default function SalespersonList() {
     const handleOpenChangeEmail = (id) => {
         setSalespersonToChangeEmail(id);
         setIsEmailModalOpen(true);
+        document.body.classList.add('modal-open');
     };
 
     const handleCloseChangeEmail = () => {
         setIsEmailModalOpen(false);
         setSalespersonToChangeEmail(null);
+        document.body.classList.remove('modal-open');
     };
 
     const handleChangeEmail = async (id, newEmail) => {
@@ -276,7 +280,7 @@ export default function SalespersonList() {
     const displayList = searchQuery ? filteredSalespersons : salespersons;
 
     return (
-        <div className="bg-[#f9fafb] p-0 sm:p-5 min-h-[80vh] flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
+        <div className="bg-[#f9fafb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
             {isModalOpen && (
                 <NewPasswordModal
                     salespersonId={salespersonToChange}
@@ -293,7 +297,7 @@ export default function SalespersonList() {
                 />
             )}
 
-            <div className="bg-white w-full border border-[black] max-w-[1400px]">
+            <div className="bg-white w-full border border-[black] max-w-[1400px] h-full overflow-y-auto">
                 <div className="bg-white w-full px-4 sm:px-6 py-4">
                     <div className="flex sm:flex-row justify-between items-start sm:items-center gap-4">
                         <h2 className="text-xl sm:text-2xl font-normal text-gray-700">
@@ -325,7 +329,7 @@ export default function SalespersonList() {
                 </div>
 
                 {displayList.length > 0 ? (
-                    <div className="w-full px-2 sm:px-6 mt-[20px] grid grid-cols-1 gap-2.5">
+                    <div className="w-full px-2 sm:px-6 mt-[20px] grid grid-cols-1 gap-2.5 pb-6">
                         {displayList.map((sp, index) => (
                             <div
                                 key={sp.id || index}
