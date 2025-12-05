@@ -32,16 +32,21 @@ export default function FromEmailList() {
     };
 
     return (
-        <div className="w-full min-h-screen bg-[#e5e7eb] py-10">
-            <div className="max-w-[1480px] mx-auto mt-4 px-4">
-                <div className="bg-white rounded-lg shadow-md">
-                    <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-lg">
+        <div className="w-full h-screen bg-[#e5e7eb] py-10 overflow-hidden">
+            <div className="max-w-[1480px] mx-auto h-full px-4 flex flex-col">
+                
+                <div className="bg-white rounded-lg shadow-md flex flex-col h-full">
+                    
+                    {/* Header */}
+                    <div className="bg-white border-b border-gray-200 px-6 py-4 rounded-t-lg">
                         <h1 className="text-xl font-normal text-gray-600">
                             From Email <strong>List</strong>
                         </h1>
                     </div>
 
-                    <div className="bg-white px-6 py-6">
+                    {/* Scrollable Content */}
+                    <div className="bg-white px-6 py-6 overflow-y-auto flex-1">
+
                         <div className="flex justify-end gap-3 mb-6">
                             <input
                                 type="text"
@@ -81,8 +86,9 @@ export default function FromEmailList() {
                                         </th>
                                     </tr>
                                 </thead>
+
                                 <tbody className="bg-white">
-                                    {emailData.map((item, index) => (
+                                    {emailData.map((item) => (
                                         <tr key={item.id} className="hover:bg-gray-50">
                                             <td className="py-3 px-4 border-r border-b border-gray-300">
                                                 <input
@@ -117,6 +123,7 @@ export default function FromEmailList() {
                                 Delete
                             </button>
                         </div>
+
                     </div>
                 </div>
             </div>
