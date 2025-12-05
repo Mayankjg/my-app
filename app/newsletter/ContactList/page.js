@@ -1,16 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Trash2 } from "lucide-react";
-import * as XLSX from 'xlsx';
+import { useRouter } from 'next/navigation';
 
 export default function ContactList() {
-  const [currentPage, setCurrentPage] = useState("list");
+  const router = useRouter();
+  
   const [contacts, setContacts] = useState([]);
   const [selectedContacts, setSelectedContacts] = useState([]);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [fileData, setFileData] = useState([]);
-  const [columnHeaders, setColumnHeaders] = useState([]);
 
   useEffect(() => {
     const savedContacts = localStorage.getItem('contacts');
@@ -66,479 +63,152 @@ export default function ContactList() {
   };
 
   const handleAddContacts = () => {
-    setCurrentPage("import");
+    router.push('/newsletter/ImportContacts');
   };
 
-  const ContactListPage = () => (
-    <div className="w-full h-screen bg-[#e5e7eb] overflow-y-auto">
-      <div className="py-4 md:py-10">
-        <div className="max-w-[1480px] mx-auto px-2 sm:px-4">
-          <div className="bg-white rounded-lg shadow-md">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 bg-white border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4 rounded-t-lg">
-              <h1 className="text-lg sm:text-xl font-normal text-gray-600">
-                Contact <strong>List</strong>
-              </h1>
-              <button
-                onClick={handleAddContacts}
-                className="w-full sm:w-auto bg-[#2d3e50] text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded text-xs sm:text-sm hover:bg-[#1a252f] transition-colors"
-              >
-                Add Contacts
-              </button>
-            </div>
+  return (
+    <div className="w-full min-h-screen bg-gray-200 p-3 sm:p-4 md:p-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="bg-white rounded-lg shadow-sm">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 py-4 md:py-5 border-b border-gray-300">
+            <h1 className="text-xl sm:text-2xl font-normal text-gray-600">
+              Contact <span className="font-semibold text-gray-700">List</span>
+            </h1>
+            <button
+              onClick={handleAddContacts}
+              className="w-full sm:w-auto bg-[#2d3e50] text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded text-xs sm:text-sm hover:bg-[#1a252f] transition-colors"
+            >
+              Add Contacts
+            </button>
+          </div>
 
-            <div className="bg-white px-4 sm:px-6 py-4 sm:py-6">
-              <p className="text-xs sm:text-sm mb-6">
-                <span className="text-red-600 font-semibold">Note :</span>{" "}
-                <span className="text-red-600">Unsubscribe User(s) will not display in this List.</span>
-              </p>
+          <div className="px-4 sm:px-6 md:px-8 py-3 md:py-4 bg-white">
+            <p className="text-xs ml-2 sm:text-sm">
+              <span className="text-red-600 font-semibold">Note :</span>{" "}
+              <span className="text-red-600">Unsubscribe User(s) will not display in this List.</span>
+            </p>
+          </div>
 
-              <div className="hidden md:block border border-gray-200 overflow-x-auto rounded">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="bg-[#dee2e6]">
-                      <th className="py-3 px-4 text-left w-12 border-r border-b border-gray-300">
-                        <input
-                          type="checkbox"
-                          onChange={handleSelectAll}
-                          checked={selectedContacts.length === contacts.length && contacts.length > 0}
-                          className="w-4 h-4 cursor-pointer"
-                        />
-                      </th>
-                      <th className="py-3 px-4 text-left text-xs font-semibold text-[#6c757d] uppercase tracking-wider w-24 border-r border-b border-gray-300">
-                        SR. NO.
-                      </th>
-                      <th className="py-3 px-4 text-left text-xs font-semibold text-[#6c757d] uppercase tracking-wider border-r border-b border-gray-300">
-                        NAME
-                      </th>
-                      <th className="py-3 px-4 text-left text-xs font-semibold text-[#6c757d] uppercase tracking-wider border-r border-b border-gray-300">
-                        EMAIL
-                      </th>
-                      <th className="py-3 px-4 text-left text-xs font-semibold text-[#6c757d] uppercase tracking-wider border-r border-b border-gray-300">
-                        PRODUCT
-                      </th>
-                      <th className="py-3 px-4 text-right text-xs font-semibold text-[#6c757d] uppercase tracking-wider border-b border-gray-300">
-                        DELETE
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white">
-                    {contacts.map((contact, index) => (
-                      <tr key={contact.id} className="hover:bg-gray-50">
-                        <td className="py-3 px-4 border-r border-b border-gray-300">
-                          <input
-                            type="checkbox"
-                            checked={selectedContacts.includes(contact.id)}
-                            onChange={() => handleSelectContact(contact.id)}
-                            className="w-4 h-4 cursor-pointer"
-                          />
-                        </td>
-                        <td className="py-3 px-4 text-sm text-gray-700 border-r border-b border-gray-300">
-                          {index + 1}
-                        </td>
-                        <td className="py-3 px-4 text-sm text-gray-700 border-r border-b border-gray-300">
-                          {contact.name}
-                        </td>
-                        <td className="py-3 px-4 text-sm text-gray-700 border-r border-b border-gray-300">
-                          {contact.email}
-                        </td>
-                        <td className="py-3 px-4 text-sm text-gray-700 border-r border-b border-gray-300">
-                          {contact.product}
-                        </td>
-                        <td className="py-3 px-4 text-right border-b border-gray-300">
-                          <button
-                            onClick={() => handleDelete(contact.id)}
-                            className="text-gray-700 hover:text-red-600"
-                          >
-                            <Trash2 size={18} />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              <div className="md:hidden space-y-4">
-                <div className="bg-[#dee2e6] border border-gray-300 rounded-lg p-4">
-                  <label className="flex items-center gap-3 cursor-pointer">
+          <div className="hidden md:block overflow-x-auto">
+            <table className="w-300 ml-10 border-2">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="py-4 px-4 lg:px-6 text-left w-12 lg:w-16 border-r border-gray-300">
                     <input
                       type="checkbox"
-                      className="w-5 h-5 cursor-pointer"
-                      checked={selectedContacts.length === contacts.length && contacts.length > 0}
                       onChange={handleSelectAll}
+                      checked={selectedContacts.length === contacts.length && contacts.length > 0}
+                      className="w-4 h-4 cursor-pointer"
                     />
-                    <span className="text-sm font-semibold text-[#6c757d] uppercase tracking-wider">
-                      SELECT ALL
-                    </span>
-                  </label>
-                </div>
-
+                  </th>
+                  <th className="py-4 px-4 lg:px-6 text-left text-xs lg:text-sm font-bold text-gray-600 uppercase tracking-wide border-r border-gray-300">
+                    SR NO.
+                  </th>
+                  <th className="py-4 px-4 lg:px-6 text-left text-xs lg:text-sm font-bold text-gray-600 uppercase tracking-wide border-r border-gray-300">
+                    NAME
+                  </th>
+                  <th className="py-4 px-4 lg:px-6 text-left text-xs lg:text-sm font-bold text-gray-600 uppercase tracking-wide border-r border-gray-300">
+                    EMAIL
+                  </th>
+                  <th className="py-4 px-4 lg:px-6 text-left text-xs lg:text-sm font-bold text-gray-600 uppercase tracking-wide border-r border-gray-300">
+                    PRODUCT
+                  </th>
+                  <th className="py-4 px-4 lg:px-6 text-center text-xs lg:text-sm font-bold text-gray-600 uppercase tracking-wide">
+                    DELETE
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white">
                 {contacts.map((contact, index) => (
-                  <div 
-                    key={contact.id} 
-                    className="bg-white border border-gray-300 rounded-lg p-4 space-y-3"
-                  >
-                    <div className="flex items-start justify-between">
-                      <label className="flex items-center gap-3 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          className="w-5 h-5 cursor-pointer mt-1"
-                          checked={selectedContacts.includes(contact.id)}
-                          onChange={() => handleSelectContact(contact.id)}
-                        />
-                        <div>
-                          <div className="text-xs text-gray-500 uppercase font-semibold">SR NO:</div>
-                          <div className="text-sm text-gray-700 font-medium">{index + 1}</div>
-                        </div>
-                      </label>
-                      <button 
-                        className="text-gray-700 hover:text-red-600 p-2"
+                  <tr key={contact.id} className="border-b border-gray-300">
+                    <td className="py-4 px-4 lg:px-6 border-r border-gray-300">
+                      <input
+                        type="checkbox"
+                        checked={selectedContacts.includes(contact.id)}
+                        onChange={() => handleSelectContact(contact.id)}
+                        className="w-4 h-4 cursor-pointer"
+                      />
+                    </td>
+                    <td className="py-4 px-4 lg:px-6 text-xs lg:text-sm text-gray-600 border-r border-gray-200">{index + 1}</td>
+                    <td className="py-4 px-4 lg:px-6 text-xs lg:text-sm text-gray-600 border-r border-gray-300">{contact.name}</td>
+                    <td className="py-4 px-4 lg:px-6 text-xs lg:text-sm text-gray-600 border-r border-gray-300">{contact.email}</td>
+                    <td className="py-4 px-4 lg:px-6 text-xs lg:text-sm text-gray-600 border-r border-gray-300">{contact.product}</td>
+                    <td className="py-4 px-4 lg:px-6 text-center">
+                      <button
                         onClick={() => handleDelete(contact.id)}
+                        className="text-gray-500 hover:text-red-600 transition-colors"
                       >
-                        <Trash2 size={20} />
+                        <svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          className="inline-block lg:w-5 lg:h-5"
+                        >
+                          <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                        </svg>
                       </button>
-                    </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-                    <div className="pl-8 space-y-2">
-                      <div>
-                        <div className="text-xs text-gray-500 uppercase font-semibold">Name:</div>
-                        <div className="text-sm text-gray-700">{contact.name}</div>
-                      </div>
-                      <div>
-                        <div className="text-xs text-gray-500 uppercase font-semibold">Email:</div>
-                        <div className="text-sm text-gray-700 break-all">{contact.email}</div>
-                      </div>
-                      <div>
-                        <div className="text-xs text-gray-500 uppercase font-semibold">Product:</div>
-                        <div className="text-sm text-gray-700">{contact.product}</div>
-                      </div>
+          <div className="md:hidden px-4 py-3 space-y-3">
+            {contacts.map((contact, index) => (
+              <div key={contact.id} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      checked={selectedContacts.includes(contact.id)}
+                      onChange={() => handleSelectContact(contact.id)}
+                      className="w-4 h-4 cursor-pointer mt-1"
+                    />
+                    <div>
+                      <div className="text-xs text-gray-500 mb-1">#{index + 1}</div>
+                      <div className="font-semibold text-sm text-gray-700">{contact.name}</div>
                     </div>
                   </div>
-                ))}
+                  <button
+                    onClick={() => handleDelete(contact.id)}
+                    className="text-gray-500 hover:text-red-600 transition-colors p-1"
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                    </svg>
+                  </button>
+                </div>
+                <div className="space-y-2 text-xs">
+                  <div className="flex">
+                    <span className="text-gray-500 w-20">Email:</span>
+                    <span className="text-gray-700 break-all">{contact.email}</span>
+                  </div>
+                  <div className="flex">
+                    <span className="text-gray-500 w-20">Product:</span>
+                    <span className="text-gray-700">{contact.product}</span>
+                  </div>
+                </div>
               </div>
+            ))}
+          </div>
 
-              <div className="mt-4">
-                <button 
-                  className="bg-[#dc3545] text-white px-6 py-2 rounded text-sm hover:bg-[#c82333] w-full sm:w-auto"
-                  onClick={handleBulkDelete}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
+          <div className="px-4 sm:px-6 md:px-8 py-4 md:py-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+           <button
+              onClick={handleBulkDelete}
+              className="bg-red-500 text-white ml-7 px-12 py-2.5 rounded text-sm hover:bg-red-600 transition-colors"
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>
     </div>
   );
-
-  const ImportContactsPage = () => {
-    const handleFileChange = async (e) => {
-      if (e.target.files && e.target.files[0]) {
-        const file = e.target.files[0];
-        setSelectedFile(file);
-
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          try {
-            const data = new Uint8Array(event.target.result);
-            const workbook = XLSX.read(data, { type: 'array' });
-            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-            const jsonData = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
-
-            if (jsonData.length > 0) {
-              const headers = jsonData[0];
-              const rows = jsonData.slice(1).filter(row => row.some(cell => cell));
-              
-              setColumnHeaders(headers);
-              setFileData(rows);
-            }
-          } catch (error) {
-            alert('Error reading file. Please make sure it is a valid Excel or CSV file.');
-            console.error(error);
-          }
-        };
-        reader.readAsArrayBuffer(file);
-      }
-    };
-
-    const handleDownload = () => {
-      const csvContent = "Name,Email\nJohn Doe,john@gmail.com\nJane Smith,jane@gmail.com";
-      const blob = new Blob([csvContent], { type: 'text/csv' });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'contacts_template.csv';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    };
-
-    const handleNext = () => {
-      if (!selectedFile) {
-        alert('Please select a file first');
-        return;
-      }
-      if (fileData.length === 0) {
-        alert('The selected file is empty or could not be read');
-        return;
-      }
-      setCurrentPage("detail");
-    };
-
-    const handleCancel = () => {
-      setSelectedFile(null);
-      setFileData([]);
-      setColumnHeaders([]);
-      const fileInput = document.querySelector('input[type="file"]');
-      if (fileInput) fileInput.value = '';
-      setCurrentPage("list");
-    };
-
-    return (
-      <div className="w-full h-screen bg-[#e5e7eb] overflow-y-auto">
-        <div className="py-4 md:py-10">
-          <div className="max-w-[1480px] mx-auto px-2 sm:px-4">
-            <div className="bg-white rounded-lg shadow-md">
-              <div className="bg-white border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4 rounded-t-lg">
-                <h1 className="text-lg sm:text-xl font-normal text-gray-600">
-                  Import <strong>Contacts</strong>
-                </h1>
-              </div>
-
-              <div className="bg-white px-4 sm:px-6 py-4 sm:py-6">
-                <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-8 mb-6 md:mb-8">
-                  <div className="w-full sm:w-24 flex-shrink-0">
-                    <span className="text-sm sm:text-base font-semibold text-gray-600">STEP 01</span>
-                  </div>
-                  <div className="flex-1">
-                    <h2 className="text-sm sm:text-base font-semibold text-gray-700 mb-2 md:mb-3">
-                      Ensure Your File is Formatted Properly
-                    </h2>
-                    <p className="text-xs sm:text-sm text-gray-600 mb-3 md:mb-4 leading-relaxed">
-                      Please review the example file to be sure your file is formatted properly. You can also download the template directly.
-                      <br className="hidden sm:block" />
-                      <span className="block sm:inline mt-1 sm:mt-0">Name, Email field must be fill.</span>
-                    </p>
-                    <button
-                      onClick={handleDownload}
-                      className="w-full sm:w-auto bg-teal-500 text-white px-4 sm:px-6 py-2 rounded text-xs sm:text-sm font-medium hover:bg-teal-600 transition-colors cursor-pointer shadow-sm"
-                    >
-                      Download sample
-                    </button>
-                  </div>
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-8">
-                  <div className="w-full sm:w-24 flex-shrink-0">
-                    <span className="text-sm sm:text-base font-semibold text-gray-600">STEP 02</span>
-                  </div>
-                  <div className="flex-1">
-                    <div className="mb-4 md:mb-6">
-                      <label className="text-xs sm:text-sm font-medium text-gray-700 mb-2 block">
-                        Excel File <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="file"
-                        accept=".xlsx,.xls,.csv"
-                        onChange={handleFileChange}
-                        className="w-full text-xs sm:text-sm text-gray-600 file:mr-2 sm:file:mr-4 file:py-1.5 sm:file:py-2 file:px-3 sm:file:px-4 file:rounded file:border-0 file:text-xs sm:file:text-sm file:font-medium file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 file:cursor-pointer cursor-pointer"
-                      />
-                      {selectedFile && (
-                        <div className="mt-2 space-y-1">
-                          <p className="text-xs sm:text-sm text-green-600">
-                            Selected: {selectedFile.name}
-                          </p>
-                          <p className="text-xs sm:text-sm text-gray-500">
-                            {fileData.length} rows found
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                      <button
-                        onClick={handleNext}
-                        className="w-full sm:w-auto bg-cyan-500 text-white px-8 sm:px-12 py-2 rounded text-xs sm:text-sm font-medium hover:bg-cyan-600 transition-colors shadow-sm order-1"
-                      >
-                        Next
-                      </button>
-                      <button
-                        onClick={handleCancel}
-                        className="w-full sm:w-auto bg-white text-gray-700 px-8 sm:px-12 py-2 rounded text-xs sm:text-sm border border-gray-300 hover:bg-gray-50 transition-colors order-2"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const ImportContactDetail = () => {
-    const [selectedProduct, setSelectedProduct] = useState("");
-    const [nameColumnIndex, setNameColumnIndex] = useState("");
-    const [emailColumnIndex, setEmailColumnIndex] = useState("");
-
-    const handleSave = () => {
-      if (!selectedProduct) {
-        alert('Please select a product');
-        return;
-      }
-      if (!nameColumnIndex) {
-        alert('Please select First Name field');
-        return;
-      }
-      if (!emailColumnIndex) {
-        alert('Please select Email field');
-        return;
-      }
-
-      const newContacts = fileData.map((row, index) => {
-        const name = row[parseInt(nameColumnIndex)] || '';
-        const email = row[parseInt(emailColumnIndex)] || '';
-        
-        return {
-          id: Date.now() + index,
-          name: name.toString().trim(),
-          email: email.toString().trim(),
-          product: selectedProduct
-        };
-      }).filter(contact => contact.name && contact.email);
-
-      if (newContacts.length === 0) {
-        alert('No valid contacts found in the selected columns');
-        return;
-      }
-
-      const allContacts = [...contacts, ...newContacts];
-      setContacts(allContacts);
-      localStorage.setItem('contacts', JSON.stringify(allContacts));
-
-      alert(`${newContacts.length} contacts imported successfully!`);
-      setCurrentPage("list");
-    };
-
-    const handleCancel = () => {
-      setCurrentPage("list");
-    };
-
-    return (
-      <div className="w-full h-screen bg-[#e5e7eb] overflow-y-auto">
-        <div className="py-4 md:py-10">
-          <div className="max-w-[1480px] mx-auto px-2 sm:px-4">
-            <div className="bg-white rounded-lg shadow-md">
-              <div className="bg-white border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4 rounded-t-lg">
-                <h1 className="text-lg sm:text-xl font-normal text-gray-600">
-                  Import Contact <strong>Detail</strong>
-                </h1>
-              </div>
-
-              <div className="bg-white px-4 sm:px-6 py-4 sm:py-6">
-                <h2 className="text-base sm:text-lg font-normal text-gray-700 mb-4 md:mb-6">
-                  Contact <strong>Import</strong>
-                </h2>
-
-                <div className="mb-6">
-                  <p className="text-xs sm:text-sm text-gray-600 mb-2">
-                    Adjust field names with the appropriate column names of the source file that you import.
-                  </p>
-                  <p className="text-xs sm:text-sm text-gray-500 mb-4 md:mb-6">
-                    First Name, Email field must be fill.
-                  </p>
-
-                  <div className="mb-6">
-                    <span className="text-sm sm:text-base font-semibold text-gray-600 block mb-3 md:mb-4">
-                      STEP 01
-                    </span>
-
-                    <div className="space-y-4 md:space-y-6">
-                      <div>
-                        <label className="text-xs sm:text-sm text-gray-600 mb-2 block">
-                          Select Product <span className="text-red-500">*</span>
-                        </label>
-                        <select
-                          value={selectedProduct}
-                          onChange={(e) => setSelectedProduct(e.target.value)}
-                          className="w-full border border-gray-300 rounded px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-600 focus:outline-none focus:border-gray-400"
-                        >
-                          <option value="">Select Products</option>
-                          <option value="Bandhani">Bandhani</option>
-                          <option value="Galaxy S1">Galaxy S1</option>
-                          <option value="Galaxy S3">Galaxy S3</option>
-                          <option value="Realme Narzo 50">Realme Narzo 50</option>
-                          <option value="Realme Narzo 30">Realme Narzo 30</option>
-                          <option value="All">All</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="text-xs sm:text-sm text-gray-600 mb-2 block">
-                          First Name <span className="text-red-500">*</span>
-                        </label>
-                        <select
-                          value={nameColumnIndex}
-                          onChange={(e) => setNameColumnIndex(e.target.value)}
-                          className="w-full border border-gray-300 rounded px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-600 focus:outline-none focus:border-gray-400"
-                        >
-                          <option value="">None</option>
-                          {columnHeaders.map((header, index) => (
-                            <option key={index} value={index}>
-                              {header} (col: {String.fromCharCode(65 + index)})
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="text-xs sm:text-sm text-gray-600 mb-2 block">
-                          Email <span className="text-red-500">*</span>
-                        </label>
-                        <select
-                          value={emailColumnIndex}
-                          onChange={(e) => setEmailColumnIndex(e.target.value)}
-                          className="w-full border border-gray-300 rounded px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-600 focus:outline-none focus:border-gray-400"
-                        >
-                          <option value="">None</option>
-                          {columnHeaders.map((header, index) => (
-                            <option key={index} value={index}>
-                              {header} (col: {String.fromCharCode(65 + index)})
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div className="flex flex-col sm:flex-row gap-3">
-                        <button
-                          onClick={handleSave}
-                          className="w-full sm:w-auto bg-cyan-500 text-white px-8 sm:px-12 py-2 rounded text-xs sm:text-sm font-medium hover:bg-cyan-600 transition-colors order-1"
-                        >
-                          Save
-                        </button>
-                        <button
-                          onClick={handleCancel}
-                          className="w-full sm:w-auto bg-white text-gray-700 px-8 sm:px-12 py-2 rounded text-xs sm:text-sm border border-gray-300 hover:bg-gray-50 transition-colors order-2"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  if (currentPage === "list") return <ContactListPage />;
-  if (currentPage === "import") return <ImportContactsPage />;
-  if (currentPage === "detail") return <ImportContactDetail />;
 }
