@@ -28,11 +28,12 @@ const NewPasswordModal = ({ salespersonId, onClose, onPasswordChange }) => {
 
     return (
         <div
-            className="fixed inset-0 flex justify-center items-center z-[1000] p-5"
+            className="fixed inset-0 flex justify-center items-center z-[1000] p-5 bg-black bg-opacity-50"
             onClick={onClose}
         >
             <div
                 className="bg-[white] p-4 border border-[black] rounded-lg w-full max-w-md shadow-lg"
+                onClick={(e) => e.stopPropagation()}
             >
                 <h3 className="text-xl font-semibold bg-[#e5e9ec] mb-4 text-gray-900">Change Password</h3>
                 <div>
@@ -59,22 +60,22 @@ const NewPasswordModal = ({ salespersonId, onClose, onPasswordChange }) => {
                         required
                     />
 
-                    <div className="flex justify-end gap-3 mt-4">
+                    <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-4">
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2.5 rounded-md font-bold transition-colors"
+                        >
+                            Cancel
+                        </button>
                         <button
                             onClick={(e) => {
                                 e.preventDefault();
                                 handleSubmit(e);
                             }}
-                            className="bg-[#00a7cf] hover:bg-[#0094b8] text-white px-4 py-2.5 rounded-md font-bold ml-5 transition-colors"
+                            className="w-full sm:w-auto bg-[#00a7cf] hover:bg-[#0094b8] text-white px-4 py-2.5 rounded-md font-bold transition-colors"
                         >
                             Update Password
-                        </button>
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2.5 rounded-md font-bold ml-2.5 transition-colors"
-                        >
-                            Cancel
                         </button>
                     </div>
                 </div>
@@ -106,11 +107,12 @@ const ChangeEmailModal = ({ salespersonId, onClose, onEmailChange }) => {
 
     return (
         <div
-            className="fixed inset-0 flex justify-center items-center z-[1000] p-5"
+            className="fixed inset-0 flex justify-center items-center z-[1000] p-5 bg-black bg-opacity-50"
             onClick={onClose}
         >
             <div
                 className="bg-white p-8 border border-[black] rounded-lg w-full max-w-md shadow-lg"
+                onClick={(e) => e.stopPropagation()}
             >
                 <h3 className="text-xl font-semibold bg-[#e5e9ec] mb-4 text-gray-900">Change Email ID</h3>
                 <div>
@@ -126,22 +128,22 @@ const ChangeEmailModal = ({ salespersonId, onClose, onEmailChange }) => {
                         required
                     />
 
-                    <div className="flex justify-end gap-3 mt-4">
+                    <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-4">
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2.5 rounded-md font-bold transition-colors"
+                        >
+                            Cancel
+                        </button>
                         <button
                             onClick={(e) => {
                                 e.preventDefault();
                                 handleSubmit(e);
                             }}
-                            className="bg-[#133b74] hover:bg-[#0f2f5a] text-white px-4 py-2.5 rounded-md font-bold ml-5 transition-colors"
+                            className="w-full sm:w-auto bg-[#133b74] hover:bg-[#0f2f5a] text-white px-4 py-2.5 rounded-md font-bold transition-colors"
                         >
                             Update Email
-                        </button>
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2.5 rounded-md font-bold ml-2.5 transition-colors"
-                        >
-                            Cancel
                         </button>
                     </div>
                 </div>
@@ -216,11 +218,13 @@ export default function SalespersonList() {
     const handleOpenChangePassword = (id) => {
         setSalespersonToChange(id);
         setIsModalOpen(true);
+        document.body.classList.add('modal-open');
     };
 
     const handleCloseChangePassword = () => {
         setIsModalOpen(false);
         setSalespersonToChange(null);
+        document.body.classList.remove('modal-open');
     };
 
     const handleChangePassword = async (id, newPassword) => {
@@ -242,11 +246,13 @@ export default function SalespersonList() {
     const handleOpenChangeEmail = (id) => {
         setSalespersonToChangeEmail(id);
         setIsEmailModalOpen(true);
+        document.body.classList.add('modal-open');
     };
 
     const handleCloseChangeEmail = () => {
         setIsEmailModalOpen(false);
         setSalespersonToChangeEmail(null);
+        document.body.classList.remove('modal-open');
     };
 
     const handleChangeEmail = async (id, newEmail) => {
@@ -274,7 +280,7 @@ export default function SalespersonList() {
     const displayList = searchQuery ? filteredSalespersons : salespersons;
 
     return (
-        <div className="bg-[#f9fafb] p-0 sm:p-5 min-h-[80vh] flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
+        <div className="bg-[#f9fafb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
             {isModalOpen && (
                 <NewPasswordModal
                     salespersonId={salespersonToChange}
@@ -291,55 +297,57 @@ export default function SalespersonList() {
                 />
             )}
 
-            <div className="bg-white w-full max-w-[1400px]">
-                <div className="bg-white w-full px-6 py-4">
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div className="bg-white w-full border border-[black] max-w-[1400px] h-full overflow-y-auto">
+                <div className="bg-white w-full px-4 sm:px-6 py-4">
+                    <div className="flex sm:flex-row justify-between items-start sm:items-center gap-4">
                         <h2 className="text-xl sm:text-2xl font-normal text-gray-700">
                             Salesperson <strong>List</strong>
                         </h2>
+
                         <button
                             onClick={() => router.push("/managesalesperson/add")}
                             className="w-full sm:w-auto bg-[#374151] hover:bg-[#1f2937] text-white text-base px-5 py-2.5 rounded transition-colors"
                         >
                             Add Sales Person
                         </button>
+                        
                     </div>
-                    <hr className="-mx-6 border-t border-gray-300 mt-4 mb-0" />
+                    <hr className="-mx-4 sm:-mx-6 border-t border-gray-300 mt-4 mb-0" />
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center px-4 gap-2 mb-6 sm:justify-end">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center px-4 sm:px-6 gap-2 mb-6 sm:justify-end">
                     <input
                         type="text"
                         placeholder="Search"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full sm:w-[200px] text-[black] h-9 border border-gray-300 rounded-[5px] px-3 py-2 text-base sm:text-[18px] focus:outline-none focus:ring-2 focus:ring-[#00a7cf] pl-5"
+                        className="w-full sm:w-[200px] text-[black] h-10 sm:h-9 border border-gray-300 rounded-[5px] px-3 py-2 text-base sm:text-[18px] focus:outline-none focus:ring-2 focus:ring-[#00a7cf] pl-5"
                     />
-                    <button className="bg-[#0baad1] w-full sm:w-[70px] h-10 sm:h-9 text-white px-2 py-1 text-base sm:text-[18px] font-medium rounded-[5px] hover:bg-[#0094b8] transition-colors">
+                    <button className="bg-[#0baad1] w-full sm:w-[70px] h-10 text-white px-2 py-1 text-base sm:text-[18px] font-medium rounded-[5px] hover:bg-[#0094b8] transition-colors">
                         Search
                     </button>
                 </div>
 
                 {displayList.length > 0 ? (
-                    <div className="w-full px-2 sm:px-6 mt-[20px] grid grid-cols-1 gap-2.5">
+                    <div className="w-full px-2 sm:px-6 mt-[20px] grid grid-cols-1 gap-2.5 pb-6">
                         {displayList.map((sp, index) => (
                             <div
                                 key={sp.id || index}
-                                className="flex flex-col sm:flex-row items-start min-h-[200px] bg-[#ffffff] hover:bg-[#f6f6f6] mb-2 border border-gray-200 rounded-[10px] p-4 shadow-sm hover:shadow-md transition-all duration-200"
+                                className="flex flex-col lg:flex-row items-start min-h-[200px] bg-[#ffffff] hover:bg-[#f6f6f6] mb-2 border border-gray-200 rounded-[10px] p-4 shadow-sm hover:shadow-md transition-all duration-200"
                             >
-                                <div className="flex flex-col sm:flex-row items-start gap-4 flex-1 w-full">
+                                <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 flex-1 w-full">
                                     <img
                                         src={sp.profileImage || "/default-avatar.png"}
                                         alt="Profile"
-                                        className="w-[70px] h-[100px] rounded-[10px] border border-gray-300 object-cover self-center sm:self-start sm:mt-5"
+                                        className="w-[70px] h-[100px] rounded-[10px] border border-gray-300 object-cover lg:mt-5"
                                     />
                                     <div className="flex-1 w-full">
-                                        <h3 className="text-lg sm:text-xl font-bold text-gray-800 leading-tight mt-2 sm:mt-5">
+                                        <h3 className="text-lg sm:text-xl font-bold text-gray-800 leading-tight mt-0 lg:mt-5 text-center lg:text-left">
                                             {sp.username}
                                         </h3>
 
-                                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-2.5 gap-3">
-                                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-10 w-[400px] sm:w-auto">
+                                        <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between mt-2.5 gap-3">
+                                            <div className="flex flex-col lg:flex-row items-start lg:items-center gap-2 lg:gap-10 w-full lg:w-auto">
                                                 <p className="text-gray-600 text-sm sm:text-base capitalize">
                                                     {sp.firstname} {sp.lastname}
                                                 </p>
@@ -351,7 +359,7 @@ export default function SalespersonList() {
                                                 </div>
                                             </div>
 
-                                            <div className="flex items-center gap-3 w-full sm:w-auto">
+                                            <div className="flex items-center gap-3 w-full lg:w-auto justify-center">
                                                 <div
                                                     className="relative group flex items-center cursor-pointer"
                                                     onClick={() => handleDelete(sp.id)}
@@ -365,14 +373,14 @@ export default function SalespersonList() {
                                                     </span>
                                                 </div>
 
-                                                <button className="bg-[#dc3545] flex-1 sm:flex-none h-9 sm:w-[140px] rounded-md text-white hover:bg-[#0f2f5a] text-sm font-medium transition-colors">
+                                                <button className="bg-[#dc3545] flex-1 lg:flex-none h-9 lg:w-[140px] rounded-md text-white hover:bg-[#c82333] text-sm font-medium transition-colors">
                                                     View Leads
                                                 </button>
                                             </div>
                                         </div>
 
-                                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4 mb-5 gap-3">
-                                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-10 w-full sm:w-auto">
+                                        <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between mt-4 mb-5 gap-3">
+                                            <div className="flex flex-col lg:flex-row items-start lg:items-center gap-2 lg:gap-10 w-full lg:w-auto">
                                                 <div className="flex items-center gap-2.5">
                                                     <Mail className="w-[18px] h-[18px] text-gray-500" />
                                                     <a
@@ -393,7 +401,7 @@ export default function SalespersonList() {
                                                 </div>
                                             </div>
 
-                                            <div className="flex items-center gap-3 w-full sm:w-auto">
+                                            <div className="flex items-center gap-3 w-full lg:w-auto justify-center">
                                                 <div
                                                     className="relative group flex items-center cursor-pointer"
                                                     onClick={() => handleOpenChangePassword(sp.id)}
@@ -408,7 +416,7 @@ export default function SalespersonList() {
                                                 </div>
 
                                                 <button
-                                                    className="bg-[#2b3342] flex-1 sm:flex-none h-9 sm:w-[140px] rounded-md text-white hover:bg-[#0f2f5a] text-sm font-medium transition-colors"
+                                                    className="bg-[#2b3342] flex-1 lg:flex-none h-9 lg:w-[140px] rounded-md text-white hover:bg-[#0f2f5a] text-sm font-medium transition-colors"
                                                     onClick={() => handleOpenChangeEmail(sp.id)}
                                                 >
                                                     Change Email ID
