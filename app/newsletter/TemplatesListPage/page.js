@@ -13,7 +13,7 @@ export default function TemplatesListPage() {
         <div className="bg-white rounded-lg shadow-md">
           <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-lg">
             <h1 className="text-xl font-normal text-gray-800">Templates</h1>
-            <div className="flex gap-3">
+            <div className="flex gap-3"> 
               <button
                 onClick={() => router.push("/newsletter/TemplatesListPage/AddCustomTemplate")}
                 className="bg-[#2d4456] text-white px-6 py-2 rounded text-sm hover:bg-[#1f2f3d]"
