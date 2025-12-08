@@ -78,7 +78,6 @@ export default function ImportContacts() {
     return (
       <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
         <div className="bg-white w-full border border-[black] max-w-[1400px] h-full overflow-y-auto">
-          {/* Header Section */}
           <div className="bg-white w-full px-4 sm:px-6 py-4">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <h1 className="text-xl sm:text-2xl font-normal text-gray-700">
@@ -88,10 +87,8 @@ export default function ImportContacts() {
             <hr className="-mx-4 sm:-mx-6 border-t border-gray-300 mt-4 mb-0" />
           </div>
 
-          {/* Content Section */}
           <div className="w-full px-4 sm:px-6 py-6 pb-8">
             <div className="max-w-4xl">
-              {/* STEP 01 */}
               <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-8">
                 <div className="w-full sm:w-24 flex-shrink-0">
                   <span className="text-sm sm:text-base font-semibold text-gray-600">STEP 01</span>
@@ -114,7 +111,6 @@ export default function ImportContacts() {
                 </div>
               </div>
 
-              {/* STEP 02 */}
               <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                 <div className="w-full sm:w-24 flex-shrink-0">
                   <span className="text-sm sm:text-base font-semibold text-gray-600">STEP 02</span>
@@ -215,7 +211,6 @@ export default function ImportContacts() {
     return (
       <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
         <div className="bg-white w-full border border-[black] max-w-[1400px] h-full overflow-y-auto">
-          {/* Header Section */}
           <div className="bg-white w-full px-4 sm:px-6 py-4">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <h1 className="text-xl sm:text-2xl font-normal text-gray-700">
@@ -225,7 +220,6 @@ export default function ImportContacts() {
             <hr className="-mx-4 sm:-mx-6 border-t border-gray-300 mt-4 mb-0" />
           </div>
 
-          {/* Content Section */}
           <div className="w-full px-4 sm:px-6 py-6 pb-8">
             <div className="max-w-4xl">
               <h2 className="text-lg sm:text-xl font-normal text-gray-700 mb-6">
