@@ -251,10 +251,9 @@
 
 
 
-
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Editor } from '@tinymce/tinymce-react';
 
 export default function EmailSection() {
@@ -275,6 +274,19 @@ export default function EmailSection() {
   const [selectedTemplate, setSelectedTemplate] = useState("");
   const [subject, setSubject] = useState("");
   const [toEmail, setToEmail] = useState("mpl1@gmail.com");
+
+  /* LOAD TEMPLATES FROM LOCALSTORAGE */
+  useEffect(() => {
+    const savedTemplates = JSON.parse(localStorage.getItem('emailTemplates') || '[]');
+    if (savedTemplates.length > 0) {
+      setTemplates(prev => [...prev, ...savedTemplates]);
+    }
+
+    const savedLogs = JSON.parse(localStorage.getItem('emailLogs') || '[]');
+    if (savedLogs.length > 0) {
+      setEmailLogs(savedLogs);
+    }
+  }, []);
 
   /* RESET EMAIL FORM */
   const resetEmailForm = () => {
@@ -304,10 +316,17 @@ export default function EmailSection() {
       id: Date.now(),
       name,
       content: html,
+      isCustom: false
     };
 
     const updated = [newTemplate, ...templates];
     setTemplates(updated);
+
+    // Save to localStorage (only custom ones)
+    const customTemplates = updated.filter(t => t.isCustom !== false && t.id !== 1);
+    localStorage.setItem('emailTemplates', JSON.stringify(customTemplates));
+    
+    alert("Template saved successfully!");
   };
 
   /* APPLY TEMPLATE */
@@ -326,6 +345,11 @@ export default function EmailSection() {
 
     const message = editorRef.current.getContent();
 
+    if (!message || message === "<p></p>" || message.trim() === "") {
+      alert("Please write a message!");
+      return;
+    }
+
     const newEmail = {
       id: Date.now(),
       to: toEmail,
@@ -336,8 +360,10 @@ export default function EmailSection() {
     };
 
     const updated = [newEmail, ...emailLogs];
-
     setEmailLogs(updated);
+    
+    // Save to localStorage
+    localStorage.setItem('emailLogs', JSON.stringify(updated));
 
     resetEmailForm();
     alert("Email Sent Successfully!");
@@ -346,7 +372,9 @@ export default function EmailSection() {
   /* DELETE EMAIL LOG */
   const deleteEmailLog = (id) => {
     if (confirm("Are you sure you want to delete this email?")) {
-      setEmailLogs(emailLogs.filter(log => log.id !== id));
+      const updated = emailLogs.filter(log => log.id !== id);
+      setEmailLogs(updated);
+      localStorage.setItem('emailLogs', JSON.stringify(updated));
     }
   };
 
@@ -413,7 +441,7 @@ export default function EmailSection() {
 
                 {templates.map((t) => (
                   <option key={t.id} value={t.id}>
-                    {t.name}
+                    {t.name} {t.isCustom ? '⭐' : ''}
                   </option>
                 ))}
               </select>
