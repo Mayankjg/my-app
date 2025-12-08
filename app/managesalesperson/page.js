@@ -28,23 +28,24 @@ const NewPasswordModal = ({ salespersonId, onClose, onPasswordChange }) => {
 
     return (
         <div
-            className="fixed inset-0 flex justify-center items-center z-[1000] p-5 bg-black bg-opacity-50"
+            className="fixed inset-0 flex justify-center items-center z-[1000] p-5 bg-black/30"
             onClick={onClose}
         >
             <div
-                className="bg-[white] p-4 border border-[black] rounded-lg w-full max-w-md shadow-lg"
+                className="bg-white p-6 border border-gray-300 rounded-lg w-full max-w-md shadow-xl"
                 onClick={(e) => e.stopPropagation()}
             >
-                <h3 className="text-xl font-semibold bg-[#e5e9ec] mb-4 text-gray-900">Change Password</h3>
+                <h3 className="text-xl font-semibold mb-4 text-gray-900">Change Password</h3>
+                <hr className="-mx-6 border-t border-gray-300 mb-5" />
                 <div>
                     {error && <p className="text-red-500 mb-3 text-sm">{error}</p>}
-                    <hr className="-mx-4 border-t mb-5 border-gray-300 mt-4 mb-0" />
+                    
                     <label className="block mb-2 text-sm font-medium text-gray-700">New Password</label>
                     <input
                         type="password"
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
-                        className="w-full p-2.5 mb-4 text-[black] border border-gray-300 rounded-md pl-5"
+                        className="w-full p-2.5 mb-4 text-black border border-gray-300 rounded-md"
                         placeholder="Enter new password"
                         required
                         minLength="6"
@@ -55,16 +56,16 @@ const NewPasswordModal = ({ salespersonId, onClose, onPasswordChange }) => {
                         type="password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        className="w-full p-2.5 mb-4 text-[black] border border-gray-300 rounded-md pl-5"
+                        className="w-full p-2.5 mb-4 text-black border border-gray-300 rounded-md"
                         placeholder="Confirm password"
                         required
                     />
 
-                    <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-4">
+                    <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-6">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2.5 rounded-md font-bold transition-colors"
+                            className="w-full sm:w-auto bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded-md font-medium transition-colors"
                         >
                             Cancel
                         </button>
@@ -73,9 +74,9 @@ const NewPasswordModal = ({ salespersonId, onClose, onPasswordChange }) => {
                                 e.preventDefault();
                                 handleSubmit(e);
                             }}
-                            className="w-full sm:w-auto bg-[#00a7cf] hover:bg-[#0094b8] text-white px-4 py-2.5 rounded-md font-bold transition-colors"
+                            className="w-full sm:w-auto bg-[#00a7cf] hover:bg-[#0094b8] text-white px-6 py-2 rounded-md font-medium transition-colors"
                         >
-                            Update Password
+                            Save
                         </button>
                     </div>
                 </div>
@@ -107,32 +108,33 @@ const ChangeEmailModal = ({ salespersonId, onClose, onEmailChange }) => {
 
     return (
         <div
-            className="fixed inset-0 flex justify-center items-center z-[1000] p-5 bg-black bg-opacity-50"
+            className="fixed inset-0 flex justify-center items-center z-[1000] p-5 bg-black/30"
             onClick={onClose}
         >
             <div
-                className="bg-white p-8 border border-[black] rounded-lg w-full max-w-md shadow-lg"
+                className="bg-white p-6 border border-gray-300 rounded-lg w-full max-w-md shadow-xl"
                 onClick={(e) => e.stopPropagation()}
             >
-                <h3 className="text-xl font-semibold bg-[#e5e9ec] mb-4 text-gray-900">Change Email ID</h3>
+                <h3 className="text-xl font-semibold mb-4 text-gray-900">Change Email ID</h3>
+                <hr className="-mx-6 border-t border-gray-300 mb-5" />
                 <div>
                     {error && <p className="text-red-500 mb-3 text-sm">{error}</p>}
-                     <hr className="-mx-8 border-t mb-5 border-gray-300 mt-4 mb-0" />
+                    
                     <label className="block mb-2 text-sm font-medium text-gray-700">New Email ID</label>
                     <input
                         type="email"
                         value={newEmail}
                         onChange={(e) => setNewEmail(e.target.value)}
-                        className="w-full p-2.5 mb-4 text-[black] border border-gray-300 rounded-md pl-5"
+                        className="w-full p-2.5 mb-4 text-black border border-gray-300 rounded-md"
                         placeholder="Enter new email address"
                         required
                     />
 
-                    <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-4">
+                    <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-6">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2.5 rounded-md font-bold transition-colors"
+                            className="w-full sm:w-auto bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded-md font-medium transition-colors"
                         >
                             Cancel
                         </button>
@@ -141,9 +143,9 @@ const ChangeEmailModal = ({ salespersonId, onClose, onEmailChange }) => {
                                 e.preventDefault();
                                 handleSubmit(e);
                             }}
-                            className="w-full sm:w-auto bg-[#133b74] hover:bg-[#0f2f5a] text-white px-4 py-2.5 rounded-md font-bold transition-colors"
+                            className="w-full sm:w-auto bg-[#133b74] hover:bg-[#0f2f5a] text-white px-6 py-2 rounded-md font-medium transition-colors"
                         >
-                            Update Email
+                            Save
                         </button>
                     </div>
                 </div>
@@ -178,7 +180,6 @@ export default function SalespersonList() {
 
         document.addEventListener('visibilitychange', handleVisibilityChange);
         window.addEventListener('focus', handleFocus);
-
 
         return () => {
             document.removeEventListener('visibilitychange', handleVisibilityChange);
@@ -218,13 +219,11 @@ export default function SalespersonList() {
     const handleOpenChangePassword = (id) => {
         setSalespersonToChange(id);
         setIsModalOpen(true);
-        document.body.classList.add('modal-open');
     };
 
     const handleCloseChangePassword = () => {
         setIsModalOpen(false);
         setSalespersonToChange(null);
-        document.body.classList.remove('modal-open');
     };
 
     const handleChangePassword = async (id, newPassword) => {
@@ -246,13 +245,11 @@ export default function SalespersonList() {
     const handleOpenChangeEmail = (id) => {
         setSalespersonToChangeEmail(id);
         setIsEmailModalOpen(true);
-        document.body.classList.add('modal-open');
     };
 
     const handleCloseChangeEmail = () => {
         setIsEmailModalOpen(false);
         setSalespersonToChangeEmail(null);
-        document.body.classList.remove('modal-open');
     };
 
     const handleChangeEmail = async (id, newEmail) => {
@@ -310,7 +307,6 @@ export default function SalespersonList() {
                         >
                             Add Sales Person
                         </button>
-                        
                     </div>
                     <hr className="-mx-4 sm:-mx-6 border-t border-gray-300 mt-4 mb-0" />
                 </div>

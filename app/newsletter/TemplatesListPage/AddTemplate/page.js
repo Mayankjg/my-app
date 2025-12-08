@@ -9,64 +9,90 @@ export default function AddTemplatePage() {
   const [selectedProduct, setSelectedProduct] = useState("");
 
   return (
-    <div className="w-full min-h-screen bg-[#e5e7eb] py-8">
-      <div className="bg-white max-w-7xl mx-auto mt-7">
-        <div className="border-b border-gray-200 px-8 py-5">
-          <h1 className="text-xl font-normal text-gray-800">Templates</h1>
+    <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
+      <div className="bg-white w-full border border-[black] max-w-[1400px] h-full overflow-y-auto">
+        <div className="bg-white w-full px-4 sm:px-6 py-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <h1 className="text-xl sm:text-2xl font-normal text-gray-700">
+              Add <strong>Template</strong>
+            </h1>
+          </div>
+          <hr className="-mx-4 sm:-mx-6 border-t border-gray-300 mt-4 mb-0" />
         </div>
 
-        <div className="px-8 py-8">
-          <div className="mb-6">
-            <label className="block text-sm text-gray-700 mb-2">Template Name</label>
-            <input
-              type="text"
-              placeholder="Template Name"
-              className="w-full max-w-2xl border border-gray-300 rounded px-4 py-2 text-sm text-gray-500 focus:outline-none focus:border-gray-400"
-              value={productName}
-              onChange={(e) => setProductName(e.target.value)}
-            />
-          </div>
+        <div className="w-full px-4 sm:px-6 py-6 pb-8">
+          <div className="max-w-3xl">
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Template Name
+              </label>
+              <input
+                type="text"
+                placeholder="Template Name"
+                className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00a7cf] focus:border-transparent"
+                value={productName}
+                onChange={(e) => setProductName(e.target.value)}
+              />
+            </div>
 
-          <div className="mb-6">
-            <label className="block text-sm text-gray-700 mb-2">Product</label>
-            <select
-              className="w-full max-w-2xl border border-gray-300 rounded px-4 py-2 text-sm text-gray-500 focus:outline-none focus:border-gray-400"
-              value={selectedProduct}
-              onChange={(e) => setSelectedProduct(e.target.value)}
-            >
-              <option value="">Select Products</option>
-              <option value="product1">Product 1</option>
-              <option value="product2">Product 2</option>
-            </select>
-          </div>
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Product
+              </label>
+              <select
+                className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00a7cf] focus:border-transparent"
+                value={selectedProduct}
+                onChange={(e) => setSelectedProduct(e.target.value)}
+              >
+                <option value="">Select Products</option>
+                <option value="product1">Product 1</option>
+                <option value="product2">Product 2</option>
+              </select>
+            </div>
 
-          <div className="mb-6">
-            <label className="block text-sm text-gray-700 mb-3">Template File</label>
-            <input type="file" className="text-sm text-gray-500" />
-            <p className="text-red-500 text-sm mt-2">Only .HTML Format Allow</p>
-          </div>
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                Template File
+              </label>
+              <input 
+                type="file" 
+                className="w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-[#0ea5e9] file:text-white hover:file:bg-[#0284c7] file:cursor-pointer cursor-pointer"
+                accept=".html"
+              />
+              <p className="text-red-500 text-sm mt-2">
+                Only .HTML Format Allow
+              </p>
+            </div>
 
-          <div className="mb-6">
-            <label className="block text-sm text-gray-700 mb-3">Preview Images</label>
-            <input type="file" className="text-sm text-gray-500" />
-          </div>
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                Preview Images
+              </label>
+              <input 
+                type="file" 
+                className="w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-[#0ea5e9] file:text-white hover:file:bg-[#0284c7] file:cursor-pointer cursor-pointer"
+                accept="image/*"
+              />
+            </div>
 
-          <div className="bg-red-50 w-168 border border-red-200 rounded px-4 py-3 mb-8">
-            <p className="text-sm text-red-500">
-              Note: Please Do not Include <span className="font-semibold">Background-image</span> Tag in Template.
-            </p>
-          </div>
+            <div className="bg-red-50 border border-red-200 rounded-md px-4 py-3 mb-8">
+              <p className="text-sm text-red-600">
+                <span className="font-semibold">Note:</span> Please Do not Include{" "}
+                <span className="font-semibold">Background-image</span> Tag in Template.
+              </p>
+            </div>
 
-          <div className="flex gap-3">
-            <button className="bg-[#0ea5e9] text-white px-8 py-2 rounded hover:bg-[#0284c7]">
-              Next
-            </button>
-            <button
-              onClick={() => router.push("/newsletter/TemplatesListPage")}
-              className="bg-gray-300 text-gray-700 px-8 py-2 rounded hover:bg-gray-400"
-            >
-              Cancel
-            </button>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button className="w-full sm:w-auto bg-[#0ea5e9] hover:bg-[#0284c7] text-white px-8 py-2.5 rounded-md text-base font-medium transition-colors">
+                Next
+              </button>
+              <button
+                onClick={() => router.push("/newsletter/TemplatesListPage")}
+                className="w-full sm:w-auto bg-gray-300 hover:bg-gray-400 text-gray-700 px-8 py-2.5 rounded-md text-base font-medium transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       </div>

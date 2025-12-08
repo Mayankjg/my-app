@@ -8,7 +8,7 @@ export default function SendMail() {
   const [selectedEmail, setSelectedEmail] = useState('');
   const [subject, setSubject] = useState('');
 
-  return (
+  return ( 
     <div className="bg-gray-200 min-h-screen overflow-y-auto p-4 sm:p-6 md:p-8 flex flex-col items-center">
       <div className="w-full max-w-7xl bg-white shadow-sm rounded-t-lg border-b border-gray-300 px-4 sm:px-6 md:px-8 py-3 flex justify-between items-center sticky top-0 z-10">
         <h1 className="text-xl sm:text-2xl font-normal text-gray-700">Send Mail</h1>
