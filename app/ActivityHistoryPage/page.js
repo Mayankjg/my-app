@@ -13,7 +13,7 @@ export default function ActivityHistory() {
         Activity <span className="text-gray-500">history</span>
       </h2>
 
-      <div className="border-[1px] border-gray-600 bg-white pb-[100px]">
+      <div className="border-[1px] border-gray-600 bg-white">
         {/* TABS */}
         <div className="flex bg-[#d7dee3] border-b border-t border-gray-300 flex-wrap h-11">
           <button
@@ -45,7 +45,7 @@ export default function ActivityHistory() {
           </button>
         </div>
 
-        <div className="p-4 sm:p-5">
+        <div className="p-4 sm:p-5 max-h-[600px] overflow-y-auto">
           {activeTab === "comments" ? <CommentsSection /> : <EmailSection />}
         </div>
       </div>
