@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import CommentsSection from "./comments/CommentsSection";
-import EmailSection from "./email/EmailSection";
+import CommentsSection from "./comments/page";
+import EmailSection from "./email/page";
 
 export default function ActivityHistory() {
   const [activeTab, setActiveTab] = useState("comments");
