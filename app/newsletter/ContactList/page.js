@@ -67,30 +67,33 @@ export default function ContactList() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-gray-200 p-3 sm:p-4 md:p-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="bg-white rounded-lg shadow-sm">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 py-4 md:py-5 border-b border-gray-300">
-            <h1 className="text-xl sm:text-2xl font-normal text-gray-600">
-              Contact <span className="font-semibold text-gray-700">List</span>
+    <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
+      <div className="bg-white w-full border border-[black] max-w-[1400px] h-full overflow-y-auto">
+        <div className="bg-white w-full px-4 sm:px-6 py-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <h1 className="text-xl sm:text-2xl font-normal text-gray-700">
+              Contact <strong>List</strong>
             </h1>
             <button
               onClick={handleAddContacts}
-              className="w-full sm:w-auto bg-[#2d3e50] text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded text-xs sm:text-sm hover:bg-[#1a252f] transition-colors"
+              className="w-full sm:w-auto bg-[#2d3e50] hover:bg-[#1a252f] text-white text-base px-5 py-2.5 rounded transition-colors"
             >
               Add Contacts
             </button>
           </div>
+          <hr className="-mx-4 sm:-mx-6 border-t border-gray-300 mt-4 mb-0" />
+        </div>
 
-          <div className="px-4 sm:px-6 md:px-8 py-3 md:py-4 bg-white">
-            <p className="text-xs ml-2 sm:text-sm">
-              <span className="text-red-600 font-semibold">Note :</span>{" "}
-              <span className="text-red-600">Unsubscribe User(s) will not display in this List.</span>
-            </p>
-          </div>
+        <div className="px-4 sm:px-6 py-4 bg-white">
+          <p className="text-sm">
+            <span className="text-red-600 font-semibold">Note :</span>{" "}
+            <span className="text-red-600">Unsubscribe User(s) will not display in this List.</span>
+          </p>
+        </div>
 
-          <div className="hidden md:block overflow-x-auto">
-            <table className="w-300 ml-10 border-2">
+        <div className="hidden md:block w-full px-4 sm:px-6 pb-6">
+          <div className="border border-gray-300 overflow-x-auto">
+            <table className="w-full">
               <thead>
                 <tr className="bg-gray-200">
                   <th className="py-4 px-4 lg:px-6 text-left w-12 lg:w-16 border-r border-gray-300">
@@ -120,7 +123,7 @@ export default function ContactList() {
               </thead>
               <tbody className="bg-white">
                 {contacts.map((contact, index) => (
-                  <tr key={contact.id} className="border-b border-gray-300">
+                  <tr key={contact.id} className="border-b border-gray-300 hover:bg-gray-50 transition-colors">
                     <td className="py-4 px-4 lg:px-6 border-r border-gray-300">
                       <input
                         type="checkbox"
@@ -129,7 +132,7 @@ export default function ContactList() {
                         className="w-4 h-4 cursor-pointer"
                       />
                     </td>
-                    <td className="py-4 px-4 lg:px-6 text-xs lg:text-sm text-gray-600 border-r border-gray-200">{index + 1}</td>
+                    <td className="py-4 px-4 lg:px-6 text-xs lg:text-sm text-gray-600 border-r border-gray-300">{index + 1}</td>
                     <td className="py-4 px-4 lg:px-6 text-xs lg:text-sm text-gray-600 border-r border-gray-300">{contact.name}</td>
                     <td className="py-4 px-4 lg:px-6 text-xs lg:text-sm text-gray-600 border-r border-gray-300">{contact.email}</td>
                     <td className="py-4 px-4 lg:px-6 text-xs lg:text-sm text-gray-600 border-r border-gray-300">{contact.product}</td>
@@ -154,59 +157,59 @@ export default function ContactList() {
               </tbody>
             </table>
           </div>
+        </div>
 
-          <div className="md:hidden px-4 py-3 space-y-3">
-            {contacts.map((contact, index) => (
-              <div key={contact.id} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex items-center gap-3">
-                    <input
-                      type="checkbox"
-                      checked={selectedContacts.includes(contact.id)}
-                      onChange={() => handleSelectContact(contact.id)}
-                      className="w-4 h-4 cursor-pointer mt-1"
-                    />
-                    <div>
-                      <div className="text-xs text-gray-500 mb-1">#{index + 1}</div>
-                      <div className="font-semibold text-sm text-gray-700">{contact.name}</div>
-                    </div>
+        <div className="md:hidden px-4 py-3 space-y-3">
+          {contacts.map((contact, index) => (
+            <div key={contact.id} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    checked={selectedContacts.includes(contact.id)}
+                    onChange={() => handleSelectContact(contact.id)}
+                    className="w-4 h-4 cursor-pointer mt-1"
+                  />
+                  <div>
+                    <div className="text-xs text-gray-500 mb-1">#{index + 1}</div>
+                    <div className="font-semibold text-sm text-gray-700">{contact.name}</div>
                   </div>
-                  <button
-                    onClick={() => handleDelete(contact.id)}
-                    className="text-gray-500 hover:text-red-600 transition-colors p-1"
-                  >
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                    </svg>
-                  </button>
                 </div>
-                <div className="space-y-2 text-xs">
-                  <div className="flex">
-                    <span className="text-gray-500 w-20">Email:</span>
-                    <span className="text-gray-700 break-all">{contact.email}</span>
-                  </div>
-                  <div className="flex">
-                    <span className="text-gray-500 w-20">Product:</span>
-                    <span className="text-gray-700">{contact.product}</span>
-                  </div>
+                <button
+                  onClick={() => handleDelete(contact.id)}
+                  className="text-gray-500 hover:text-red-600 transition-colors p-1"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                  </svg>
+                </button>
+              </div>
+              <div className="space-y-2 text-xs">
+                <div className="flex">
+                  <span className="text-gray-500 w-20">Email:</span>
+                  <span className="text-gray-700 break-all">{contact.email}</span>
+                </div>
+                <div className="flex">
+                  <span className="text-gray-500 w-20">Product:</span>
+                  <span className="text-gray-700">{contact.product}</span>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
 
-          <div className="px-4 sm:px-6 md:px-8 py-4 md:py-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-           <button
-              onClick={handleBulkDelete}
-              className="bg-red-500 text-white ml-7 px-12 py-2.5 rounded text-sm hover:bg-red-600 transition-colors"
-            >
-              Delete
-            </button>
-          </div>
+        <div className="px-4 sm:px-6 py-4 md:py-6">
+          <button
+            onClick={handleBulkDelete}
+            className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white px-12 py-2.5 rounded text-sm font-medium transition-colors"
+          >
+            Delete
+          </button>
         </div>
       </div>
     </div>

@@ -76,76 +76,85 @@ export default function ImportContacts() {
     };
 
     return (
-      <div className="w-full min-h-screen bg-gray-200 p-3 sm:p-4 md:p-6">
-        <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-md">
-          <div className="border-b border-gray-300 px-4 sm:px-6 md:px-8 py-4 md:py-5">
-            <h1 className="text-lg sm:text-xl font-normal text-gray-700">
-              Import <span className="font-semibold text-gray-800">Contacts</span>
-            </h1>
+      <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
+        <div className="bg-white w-full border border-[black] max-w-[1400px] h-full overflow-y-auto">
+          {/* Header Section */}
+          <div className="bg-white w-full px-4 sm:px-6 py-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <h1 className="text-xl sm:text-2xl font-normal text-gray-700">
+                Import <strong>Contacts</strong>
+              </h1>
+            </div>
+            <hr className="-mx-4 sm:-mx-6 border-t border-gray-300 mt-4 mb-0" />
           </div>
 
-          <div className="px-4 sm:px-6 md:px-8 py-6 md:py-8">
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-8 mb-6 md:mb-8">
-              <div className="w-full sm:w-24 flex-shrink-0">
-                <span className="text-sm sm:text-base font-semibold text-gray-600">STEP 01</span>
-              </div>
-              <div className="flex-1">
-                <h2 className="text-sm sm:text-base font-semibold text-gray-700 mb-2 md:mb-3">
-                  Ensure Your File is Formatted Properly
-                </h2>
-                <p className="text-xs sm:text-sm text-gray-600 mb-3 md:mb-4 leading-relaxed">
-                  Please review the example file to be sure your file is formatted properly. You can also download the template directly.
-                  <br className="hidden sm:block" />
-                  <span className="block sm:inline mt-1 sm:mt-0">Name, Email field must be fill.</span>
-                </p>
-                <button
-                  onClick={handleDownload}
-                  className="w-full sm:w-auto bg-teal-500 text-white px-4 sm:px-6 py-2 rounded text-xs sm:text-sm font-medium hover:bg-teal-600 transition-colors cursor-pointer shadow-sm"
-                >
-                  Download sample
-                </button>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-8">
-              <div className="w-full sm:w-24 flex-shrink-0">
-                <span className="text-sm sm:text-base font-semibold text-gray-600">STEP 02</span>
-              </div>
-              <div className="flex-1">
-                <div className="mb-4 md:mb-6">
-                  <label className="text-xs sm:text-sm font-medium text-gray-700 mb-2 block">
-                    Excel File <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="file"
-                    accept=".xlsx,.xls,.csv"
-                    onChange={handleFileChange}
-                    className="w-full text-xs sm:text-sm text-gray-600 file:mr-2 sm:file:mr-4 file:py-1.5 sm:file:py-2 file:px-3 sm:file:px-4 file:rounded file:border-0 file:text-xs sm:file:text-sm file:font-medium file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 file:cursor-pointer cursor-pointer"
-                  />
-                  {selectedFile && (
-                    <div className="mt-2 space-y-1">
-                      <p className="text-xs sm:text-sm text-green-600">
-                        Selected: {selectedFile.name}
-                      </p>
-                      <p className="text-xs sm:text-sm text-gray-500">
-                        {fileData.length} rows found
-                      </p>
-                    </div>
-                  )}
+          {/* Content Section */}
+          <div className="w-full px-4 sm:px-6 py-6 pb-8">
+            <div className="max-w-4xl">
+              {/* STEP 01 */}
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-8">
+                <div className="w-full sm:w-24 flex-shrink-0">
+                  <span className="text-sm sm:text-base font-semibold text-gray-600">STEP 01</span>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <div className="flex-1">
+                  <h2 className="text-sm sm:text-base font-semibold text-gray-700 mb-3">
+                    Ensure Your File is Formatted Properly
+                  </h2>
+                  <p className="text-sm text-gray-600 mb-4 leading-relaxed">
+                    Please review the example file to be sure your file is formatted properly. You can also download the template directly.
+                    <br className="hidden sm:block" />
+                    <span className="block sm:inline mt-1 sm:mt-0">Name, Email field must be fill.</span>
+                  </p>
                   <button
-                    onClick={handleNext}
-                    className="w-full sm:w-auto bg-cyan-500 text-white px-8 sm:px-12 py-2 rounded text-xs sm:text-sm font-medium hover:bg-cyan-600 transition-colors shadow-sm order-1"
+                    onClick={handleDownload}
+                    className="w-full sm:w-auto bg-teal-500 hover:bg-teal-600 text-white px-6 py-2.5 rounded text-sm font-medium transition-colors"
                   >
-                    Next
+                    Download sample
                   </button>
-                  <button
-                    onClick={handleCancel}
-                    className="w-full sm:w-auto bg-white text-gray-700 px-8 sm:px-12 py-2 rounded text-xs sm:text-sm border border-gray-300 hover:bg-gray-50 transition-colors order-2"
-                  >
-                    Cancel
-                  </button>
+                </div>
+              </div>
+
+              {/* STEP 02 */}
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+                <div className="w-full sm:w-24 flex-shrink-0">
+                  <span className="text-sm sm:text-base font-semibold text-gray-600">STEP 02</span>
+                </div>
+                <div className="flex-1">
+                  <div className="mb-6">
+                    <label className="text-sm font-medium text-gray-700 mb-2 block">
+                      Excel File <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="file"
+                      accept=".xlsx,.xls,.csv"
+                      onChange={handleFileChange}
+                      className="w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 file:cursor-pointer cursor-pointer"
+                    />
+                    {selectedFile && (
+                      <div className="mt-3 space-y-1">
+                        <p className="text-sm text-green-600 font-medium">
+                          Selected: {selectedFile.name}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          {fileData.length} rows found
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <button
+                      onClick={handleNext}
+                      className="w-full sm:w-auto bg-[#0ea5e9] hover:bg-[#0284c7] text-white px-12 py-2.5 rounded-md text-sm font-medium transition-colors"
+                    >
+                      Next
+                    </button>
+                    <button
+                      onClick={handleCancel}
+                      className="w-full sm:w-auto bg-gray-300 hover:bg-gray-400 text-gray-700 px-12 py-2.5 rounded-md text-sm font-medium transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -204,99 +213,108 @@ export default function ImportContacts() {
     };
 
     return (
-      <div className="w-full min-h-screen bg-gray-200 p-3 sm:p-4 md:p-6">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-xl sm:text-2xl font-normal text-gray-700 mb-4 md:mb-6 px-2">
-            Import Contact Detail
-          </h1>
-          
-          <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 md:p-8">
-            <h2 className="text-base sm:text-lg font-normal text-gray-700 mb-4 md:mb-6">
-              Contact <span className="font-semibold">Import</span>
-            </h2>
+      <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
+        <div className="bg-white w-full border border-[black] max-w-[1400px] h-full overflow-y-auto">
+          {/* Header Section */}
+          <div className="bg-white w-full px-4 sm:px-6 py-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <h1 className="text-xl sm:text-2xl font-normal text-gray-700">
+                Import Contact <strong>Detail</strong>
+              </h1>
+            </div>
+            <hr className="-mx-4 sm:-mx-6 border-t border-gray-300 mt-4 mb-0" />
+          </div>
 
-            <div className="mb-6">
-              <p className="text-xs sm:text-sm text-gray-600 mb-2">
-                Adjust field names with the appropriate column names of the source file that you import.
-              </p>
-              <p className="text-xs sm:text-sm text-gray-500 mb-4 md:mb-6">
-                First Name, Email field must be fill.
-              </p>
+          {/* Content Section */}
+          <div className="w-full px-4 sm:px-6 py-6 pb-8">
+            <div className="max-w-4xl">
+              <h2 className="text-lg sm:text-xl font-normal text-gray-700 mb-6">
+                Contact <strong>Import</strong>
+              </h2>
 
               <div className="mb-6">
-                <span className="text-sm sm:text-base font-semibold text-gray-600 block mb-3 md:mb-4">
-                  STEP 01
-                </span>
+                <p className="text-sm text-gray-600 mb-2">
+                  Adjust field names with the appropriate column names of the source file that you import.
+                </p>
+                <p className="text-sm text-gray-500 mb-6">
+                  First Name, Email field must be fill.
+                </p>
 
-                <div className="space-y-4 md:space-y-6">
-                  <div>
-                    <label className="text-xs sm:text-sm text-gray-600 mb-2 block">
-                      Select Product <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                      value={selectedProduct}
-                      onChange={(e) => setSelectedProduct(e.target.value)}
-                      className="w-full border border-gray-300 rounded px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-600 focus:outline-none focus:border-gray-400"
-                    >
-                      <option value="">Select Products</option>
-                      <option value="Bandhani">Bandhani</option>
-                      <option value="Galaxy S1">Galaxy S1</option>
-                      <option value="Galaxy S3">Galaxy S3</option>
-                      <option value="Realme Narzo 50">Realme Narzo 50</option>
-                      <option value="Realme Narzo 30">Realme Narzo 30</option>
-                      <option value="All">All</option>
-                    </select>
-                  </div>
+                <div className="mb-6">
+                  <span className="text-sm sm:text-base font-semibold text-gray-600 block mb-4">
+                    STEP 01
+                  </span>
 
-                  <div>
-                    <label className="text-xs sm:text-sm text-gray-600 mb-2 block">
-                      First Name <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                      value={nameColumnIndex}
-                      onChange={(e) => setNameColumnIndex(e.target.value)}
-                      className="w-full border border-gray-300 rounded px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-600 focus:outline-none focus:border-gray-400"
-                    >
-                      <option value="">None</option>
-                      {columnHeaders.map((header, index) => (
-                        <option key={index} value={index}>
-                          {header} (col: {String.fromCharCode(65 + index)})
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  <div className="space-y-6">
+                    <div>
+                      <label className="text-sm font-medium text-gray-700 mb-2 block">
+                        Select Product <span className="text-red-500">*</span>
+                      </label>
+                      <select
+                        value={selectedProduct}
+                        onChange={(e) => setSelectedProduct(e.target.value)}
+                        className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00a7cf] focus:border-transparent"
+                      >
+                        <option value="">Select Products</option>
+                        <option value="Bandhani">Bandhani</option>
+                        <option value="Galaxy S1">Galaxy S1</option>
+                        <option value="Galaxy S3">Galaxy S3</option>
+                        <option value="Realme Narzo 50">Realme Narzo 50</option>
+                        <option value="Realme Narzo 30">Realme Narzo 30</option>
+                        <option value="All">All</option>
+                      </select>
+                    </div>
 
-                  <div>
-                    <label className="text-xs sm:text-sm text-gray-600 mb-2 block">
-                      Email <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                      value={emailColumnIndex}
-                      onChange={(e) => setEmailColumnIndex(e.target.value)}
-                      className="w-full border border-gray-300 rounded px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-600 focus:outline-none focus:border-gray-400"
-                    >
-                      <option value="">None</option>
-                      {columnHeaders.map((header, index) => (
-                        <option key={index} value={index}>
-                          {header} (col: {String.fromCharCode(65 + index)})
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                    <div>
+                      <label className="text-sm font-medium text-gray-700 mb-2 block">
+                        First Name <span className="text-red-500">*</span>
+                      </label>
+                      <select
+                        value={nameColumnIndex}
+                        onChange={(e) => setNameColumnIndex(e.target.value)}
+                        className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00a7cf] focus:border-transparent"
+                      >
+                        <option value="">None</option>
+                        {columnHeaders.map((header, index) => (
+                          <option key={index} value={index}>
+                            {header} (col: {String.fromCharCode(65 + index)})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
 
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <button
-                      onClick={handleSave}
-                      className="w-full sm:w-auto bg-cyan-500 text-white px-8 sm:px-12 py-2 rounded text-xs sm:text-sm font-medium hover:bg-cyan-600 transition-colors order-1"
-                    >
-                      Save
-                    </button>
-                    <button
-                      onClick={handleCancel}
-                      className="w-full sm:w-auto bg-white text-gray-700 px-8 sm:px-12 py-2 rounded text-xs sm:text-sm border border-gray-300 hover:bg-gray-50 transition-colors order-2"
-                    >
-                      Cancel
-                    </button>
+                    <div>
+                      <label className="text-sm font-medium text-gray-700 mb-2 block">
+                        Email <span className="text-red-500">*</span>
+                      </label>
+                      <select
+                        value={emailColumnIndex}
+                        onChange={(e) => setEmailColumnIndex(e.target.value)}
+                        className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00a7cf] focus:border-transparent"
+                      >
+                        <option value="">None</option>
+                        {columnHeaders.map((header, index) => (
+                          <option key={index} value={index}>
+                            {header} (col: {String.fromCharCode(65 + index)})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                      <button
+                        onClick={handleSave}
+                        className="w-full sm:w-auto bg-[#0ea5e9] hover:bg-[#0284c7] text-white px-12 py-2.5 rounded-md text-sm font-medium transition-colors"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={handleCancel}
+                        className="w-full sm:w-auto bg-gray-300 hover:bg-gray-400 text-gray-700 px-12 py-2.5 rounded-md text-sm font-medium transition-colors"
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
