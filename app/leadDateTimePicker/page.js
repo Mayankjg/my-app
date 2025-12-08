@@ -158,9 +158,9 @@ export default function LeadDateTimePicker() {
                                     type="text"
                                     value={startDate}
                                     readOnly
-                                    className="w-48 px-4 py-2.5 pr-12 border border-gray-300 rounded bg-gray-100 text-gray-700"
+                                    className="w-48 px-4 py-2.5 pr-12 border border-gray-300 rounded bg-gray-100 cursor-not-allowed text-gray-700"
                                 />
-                                <button className="absolute right-0 top-0 h-full px-3 bg-blue-500 text-white rounded-r flex items-center justify-center">
+                                <button className="absolute right-0 top-0 h-full px-3 bg-blue-500 text-white rounded-r flex items-center cursor-pointer justify-center">
                                     <Calendar className="w-5 h-5" />
                                 </button>
                             </div>
@@ -168,9 +168,9 @@ export default function LeadDateTimePicker() {
                                 type="text"
                                 value={startTime}
                                 readOnly
-                                className="w-32 px-4 py-2.5 border border-gray-300 rounded bg-gray-200 text-gray-700 text-center"
+                                className="w-32 px-4 py-2.5 border border-gray-300 rounded bg-gray-200 text-gray-700 cursor-not-allowed text-center"
                             />
-                        </div>
+                        </div>  
                     </div>
 
                     <div>

@@ -83,6 +83,7 @@ export default function AddCustomTemplatePage() {
               </label>
               <div className="border-2 border-gray-300 rounded overflow-hidden">
                 <Editor
+                
                   apiKey="y1s9k2719cryc4c4lhyef3rypkcz2oy6t9fno5q4ngbqts9o"
                   onInit={(evt, editor) => editorRef.current = editor}
                   initialValue="<p>Hello...</p>"
