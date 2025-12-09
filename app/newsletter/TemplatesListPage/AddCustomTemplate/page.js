@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Editor } from '@tinymce/tinymce-react';
 import { useRouter } from "next/navigation";
 
@@ -11,6 +11,11 @@ export default function AddCustomTemplatePage() {
   const [savedTemplates, setSavedTemplates] = useState([]);
   const editorRef = useRef(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const existingTemplates = JSON.parse(localStorage.getItem("emailTemplates") || "[]");
+    setSavedTemplates(existingTemplates);
+  }, []);
 
   const handleSaveCustomTemplate = () => {
     if (!templateName.trim()) {
@@ -26,7 +31,7 @@ export default function AddCustomTemplatePage() {
     }
 
     const template = {
-      id: Date.now(),
+      id: crypto.randomUUID(),
       name: templateName.trim(),
       content: editorContent,
       visibility: visibility,
@@ -34,9 +39,15 @@ export default function AddCustomTemplatePage() {
       isCustom: true
     };
 
-    setSavedTemplates(prev => [...prev, template]);
+    const existingTemplates = JSON.parse(localStorage.getItem("emailTemplates") || "[]");
+    
+    const updatedTemplates = [template, ...existingTemplates];
+    
+    localStorage.setItem("emailTemplates", JSON.stringify(updatedTemplates));
+    
+    setSavedTemplates(updatedTemplates);
 
-    alert('Template saved successfully!');
+    alert('Template saved successfully! It will now appear in Email Manager.');
     
     setTemplateName('');
     setVisibility('admin');
@@ -181,7 +192,7 @@ export default function AddCustomTemplatePage() {
           {savedTemplates.length > 0 && (
             <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
               <p className="text-sm sm:text-base text-green-800">
-                ✓ <span className="font-semibold">{savedTemplates.length}</span> template{savedTemplates.length !== 1 ? 's' : ''} saved successfully in this session
+                ✓ <span className="font-semibold">{savedTemplates.length}</span> template{savedTemplates.length !== 1 ? 's' : ''} saved in total
               </p>
             </div>
           )}

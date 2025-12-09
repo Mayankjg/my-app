@@ -5,9 +5,7 @@ import { Editor } from "@tinymce/tinymce-react";
 
 export default function EmailSection() {
   const editorRef = useRef(null);
-
   const [emailLogs, setEmailLogs] = useState([]);
-
   const [templates, setTemplates] = useState([
     {
       id: "default-1",
@@ -25,13 +23,15 @@ export default function EmailSection() {
     const savedTemplates = JSON.parse(localStorage.getItem("emailTemplates") || "[]");
 
     if (Array.isArray(savedTemplates) && savedTemplates.length > 0) {
-      const merged = [...templates];
-
-      savedTemplates.forEach((t) => {
-        if (!merged.some((x) => x.id === t.id)) {
-          merged.push(t);
-        }
-      });
+      const merged = [
+        {
+          id: "default-1",
+          name: "Follow-up Template",
+          content: "<p>Hello, this is a follow-up email.</p>",
+          isCustom: false,
+        },
+        ...savedTemplates
+      ];
 
       setTemplates(merged);
     }
@@ -69,13 +69,25 @@ export default function EmailSection() {
       name,
       content: html,
       isCustom: true,
+      createdAt: new Date().toISOString(),
+      visibility: "admin"
     };
 
-    const updated = [newTemplate, ...templates];
-    setTemplates(updated);
+    const existingTemplates = JSON.parse(localStorage.getItem("emailTemplates") || "[]");
+    const updatedCustomTemplates = [newTemplate, ...existingTemplates];
+    
+    localStorage.setItem("emailTemplates", JSON.stringify(updatedCustomTemplates));
 
-    const customTemplates = updated.filter((t) => t.isCustom === true);
-    localStorage.setItem("emailTemplates", JSON.stringify(customTemplates));
+    const updatedAllTemplates = [
+      {
+        id: "default-1",
+        name: "Follow-up Template",
+        content: "<p>Hello, this is a follow-up email.</p>",
+        isCustom: false,
+      },
+      ...updatedCustomTemplates
+    ];
+    setTemplates(updatedAllTemplates);
 
     alert("Template saved successfully!");
   };
