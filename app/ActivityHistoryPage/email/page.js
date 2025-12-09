@@ -17,7 +17,10 @@ export default function EmailSection() {
 
   const [selectedTemplate, setSelectedTemplate] = useState("");
   const [subject, setSubject] = useState("");
+  const [from, setFrom] = useState("");
   const [toEmail, setToEmail] = useState("mpl1@gmail.com");
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newEmailField, setNewEmailField] = useState("");
 
   useEffect(() => {
     const savedTemplates = JSON.parse(localStorage.getItem("emailTemplates") || "[]");
@@ -43,6 +46,7 @@ export default function EmailSection() {
   }, []);
 
   const resetEmailForm = () => {
+    setFrom("");
     setSubject("");
     setToEmail("mpl1@gmail.com");
     setSelectedTemplate("");
@@ -50,6 +54,28 @@ export default function EmailSection() {
     if (editorRef.current) {
       editorRef.current.setContent("");
     }
+  };
+
+  const handleAddNew = () => {
+    setShowAddForm(true);
+    setNewEmailField("");
+  };
+
+  const handleSaveNew = () => {
+    if (!newEmailField.trim()) {
+      alert("Please enter email details!");
+      return;
+    }
+    
+    // You can customize what happens when Save is clicked
+    alert("Email details saved: " + newEmailField);
+    setShowAddForm(false);
+    setNewEmailField("");
+  };
+
+  const handleCancelNew = () => {
+    setShowAddForm(false);
+    setNewEmailField("");
   };
 
   const saveTemplate = () => {
@@ -75,7 +101,7 @@ export default function EmailSection() {
 
     const existingTemplates = JSON.parse(localStorage.getItem("emailTemplates") || "[]");
     const updatedCustomTemplates = [newTemplate, ...existingTemplates];
-    
+
     localStorage.setItem("emailTemplates", JSON.stringify(updatedCustomTemplates));
 
     const updatedAllTemplates = [
@@ -113,6 +139,7 @@ export default function EmailSection() {
 
     const newEmail = {
       id: crypto.randomUUID(),
+      from: from,
       to: toEmail,
       subject: subject || "(no subject)",
       message,
@@ -142,13 +169,78 @@ export default function EmailSection() {
       <div className="w-full max-w-7xl mx-auto p-2 sm:p-4 md:p-6 lg:p-8">
 
         <div className="bg-white rounded-t-lg shadow-sm border-b border-gray-300 px-6 py-5">
-          <h1 className="text-2xl font-semibold text-gray-700">
-            Email Manager
-          </h1>
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl font-semibold text-gray-600">
+              Activity <strong>history</strong>
+            </h1>
+          </div>
         </div>
+
+        {/* Add New Email Popup */}
+        {showAddForm && (
+          <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
+            <div className="bg-white w-[90%] md:w-[430px] rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.3)] p-6">
+              
+              <h3 className="text-lg font-semibold mb-4 text-gray-800 border-b pb-2">
+                Add New Email
+              </h3>
+
+              <label className="block mb-2 text-sm text-gray-700">
+                Email New Email
+              </label>
+
+              <input
+                type="text"
+                value={newEmailField}
+                onChange={(e) => setNewEmailField(e.target.value)}
+                className="w-full border border-gray-300 px-3 py-2 rounded text-black mb-4"
+                placeholder="Enter the email"
+              />
+
+              <div className="flex justify-end gap-3">
+                <button
+                  className="bg-gray-300 hover:bg-gray-400 px-5 py-2 rounded"
+                  onClick={handleCancelNew}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  className="bg-sky-500 hover:bg-sky-600 text-white px-5 py-2 rounded"
+                  onClick={handleSaveNew}
+                >
+                  Save
+                </button>
+              </div>
+
+            </div>
+          </div>
+        )}
 
         <div className="bg-white shadow-sm px-6 py-6">
           <div className="space-y-6 text-sm">
+
+            <div>
+              <div className="flex justify-between items-end gap-4">
+                <div className="flex-1">
+                  <label className="block mb-2 text-gray-700 font-medium">From</label>
+                  <input
+                    type="text"
+                    className="border border-gray-300 w-full p-2.5 rounded-sm focus:ring-2 focus:ring-blue-500"
+                    value={from}
+                    placeholder="Enter From"
+                    onChange={(e) => setFrom(e.target.value)}
+                  />
+                </div>
+                <button
+                  onClick={handleAddNew}
+                  className="bg-gray-500 text-white px-5 py-2.5 rounded hover:bg-gray-700 font-medium flex items-center gap-2"
+                >
+                  <span className="text-lg">+</span>
+                  Add New
+                </button>
+              </div>
+            </div>
 
             <div>
               <label className="block mb-2 text-gray-700 font-medium">To</label>
@@ -200,9 +292,9 @@ export default function EmailSection() {
                   init={{
                     height: 300,
                     menubar: true,
-                    plugins: ["advlist","autolink","lists","link","image","charmap","preview","anchor","searchreplace",
-                              "visualblocks","code","fullscreen","insertdatetime","media","table","help","wordcount",
-                            ],
+                    plugins: ["advlist", "autolink", "lists", "link", "image", "charmap", "preview", "anchor", "searchreplace",
+                      "visualblocks", "code", "fullscreen", "insertdatetime", "media", "table", "help", "wordcount",
+                    ],
                     toolbar:
                       "undo redo | blocks fontsize | bold italic forecolor backcolor | " +
                       "alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | " +
