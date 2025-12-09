@@ -275,7 +275,7 @@ export default function EmailSection() {
 
                 {templates.map((t) => (
                   <option key={t.id} value={t.id}>
-                    {t.name} {t.isCustom ? "⭐" : ""}
+                    {t.name} {t.isCustom ? "" : ""}
                   </option>
                 ))}
               </select>

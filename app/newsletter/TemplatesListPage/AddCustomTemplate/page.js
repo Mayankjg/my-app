@@ -47,7 +47,7 @@ export default function AddCustomTemplatePage() {
     
     setSavedTemplates(updatedTemplates);
 
-    alert('Template saved successfully! It will now appear in Email Manager.');
+    alert('Template saved successfully !');
     
     setTemplateName('');
     setVisibility('admin');
@@ -189,14 +189,14 @@ export default function AddCustomTemplatePage() {
             </button>
           </div>
 
-          {savedTemplates.length > 0 && (
+          {/* {savedTemplates.length > 0 && (
             <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
               <p className="text-sm sm:text-base text-green-800">
                 ✓ <span className="font-semibold">{savedTemplates.length}</span> template{savedTemplates.length !== 1 ? 's' : ''} saved in total
               </p>
             </div>
           )}
-        </div>
+        </div> */}
 
         {showPreview && (
           <div className="px-4 sm:px-6 md:px-8 pb-6">
@@ -229,6 +229,7 @@ export default function AddCustomTemplatePage() {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 }
