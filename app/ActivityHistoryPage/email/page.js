@@ -322,7 +322,7 @@ export default function EmailSection() {
     if (!name) return;
 
     const newTemplate = {
-      id: crypto.randomUUID(), // UNIQUE ID
+      id: crypto.randomUUID(),
       name,
       content: html,
       isCustom: true,
