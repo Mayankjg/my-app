@@ -23,7 +23,6 @@ export default function EmailSection() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [isSending, setIsSending] = useState(false);
   
-  // EmailJS Configuration
   const [serviceId, setServiceId] = useState("");
   const [templateId, setTemplateId] = useState("");
   const [publicKey, setPublicKey] = useState("");
@@ -70,7 +69,6 @@ export default function EmailSection() {
       localStorage.setItem("emailLogs", JSON.stringify(validLogs));
       setEmailLogs(validLogs);
 
-      // Load EmailJS config
       const savedService = localStorage.getItem("emailjs_service");
       const savedTemplate = localStorage.getItem("emailjs_template");
       const savedPublicKey = localStorage.getItem("emailjs_publickey");
@@ -164,7 +162,6 @@ export default function EmailSection() {
     if (!editorRef.current) return;
     const message = editorRef.current.getContent();
     
-    // Validation
     if (!message || message === "<p></p>" || message.trim() === "") {
       alert("Please write a message!");
       return;
@@ -211,7 +208,6 @@ export default function EmailSection() {
       });
 
       if (response.ok) {
-        // Log successful email
         const newEmail = {
           id: crypto.randomUUID(),
           from: `${fromName} <${from}>`,
@@ -235,7 +231,6 @@ export default function EmailSection() {
     } catch (error) {
       console.error("Error sending email:", error);
       
-      // Log failed email
       const failedEmail = {
         id: crypto.randomUUID(),
         from: `${fromName} <${from}>`,
@@ -312,7 +307,6 @@ export default function EmailSection() {
           </button>
         </div>
 
-        {/* EmailJS Settings Modal */}
         {showSettings && (
           <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 pt-10 overflow-y-auto">
             <div className="bg-white w-[95%] md:w-[700px] rounded-lg shadow-xl p-6 relative animate-slideDown my-10">
@@ -393,7 +387,6 @@ export default function EmailSection() {
           </div>
         )}
 
-        {/* Add Sender Form */}
         {showAddForm && (
           <div className="fixed inset-0 bg-black/30 flex items-start justify-center z-50 pt-20 overflow-y-auto">
             <div className="bg-white w-[90%] md:w-[500px] rounded-lg shadow-xl p-6 relative animate-slideDown">
@@ -655,7 +648,6 @@ export default function EmailSection() {
               )}
             </div>
           </div>
-
         </div>
       </div>
     </div>
