@@ -8,7 +8,6 @@ export default function AddCustomTemplatePage() {
   const [templateName, setTemplateName] = useState("");
   const [visibility, setVisibility] = useState("admin");
   const [showPreview, setShowPreview] = useState(false);
-  const [savedTemplates, setSavedTemplates] = useState([]);
   const editorRef = useRef(null);
   const router = useRouter();
 
@@ -24,7 +23,7 @@ export default function AddCustomTemplatePage() {
     }
 
     const editorContent = editorRef.current ? editorRef.current.getContent() : '';
-    
+
     if (!editorContent.trim()) {
       alert('Please create template content');
       return;
@@ -40,15 +39,15 @@ export default function AddCustomTemplatePage() {
     };
 
     const existingTemplates = JSON.parse(localStorage.getItem("emailTemplates") || "[]");
-    
+
     const updatedTemplates = [template, ...existingTemplates];
-    
+
     localStorage.setItem("emailTemplates", JSON.stringify(updatedTemplates));
-    
+
     setSavedTemplates(updatedTemplates);
 
     alert('Template saved successfully !');
-    
+
     setTemplateName('');
     setVisibility('admin');
     setShowPreview(false);
@@ -108,9 +107,9 @@ export default function AddCustomTemplatePage() {
                   toolbar: window.innerWidth < 640
                     ? 'undo redo | bold italic | alignleft aligncenter | bullist numlist | link'
                     : 'undo redo | blocks fontsize | ' +
-                      'bold italic forecolor backcolor | alignleft aligncenter ' +
-                      'alignright alignjustify | bullist numlist outdent indent | ' +
-                      'table image media link | removeformat code | preview fullscreen | help',
+                    'bold italic forecolor backcolor | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'table image media link | removeformat code | preview fullscreen | help',
                   content_style: `
                     body { 
                       font-family: Arial, Helvetica, sans-serif; 
@@ -198,38 +197,38 @@ export default function AddCustomTemplatePage() {
           )}
         </div> */}
 
-        {showPreview && (
-          <div className="px-4 sm:px-6 md:px-8 pb-6">
-            <div className="border-2 border-gray-300 rounded-lg bg-white overflow-hidden shadow-sm">
-              <div className="bg-gray-100 border-b border-gray-300 px-4 sm:px-6 py-3 sm:py-4">
-                <h2 className="text-base sm:text-lg font-semibold text-gray-700">
-                  Template Preview
-                </h2>
-              </div>
-              <div className="p-4 sm:p-6">
-                <div className="border border-gray-300 rounded-lg bg-white overflow-hidden">
-                  <div className="bg-gray-50 border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4">
-                    <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-800 break-words">
-                      {templateName || 'Untitled Template'}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-gray-500 mt-1">
-                      Visibility: <span className="font-medium">{visibility === 'admin' ? 'Admin Only' : 'All Users'}</span>
-                    </p>
+          {showPreview && (
+            <div className="px-4 sm:px-6 md:px-8 pb-6">
+              <div className="border-2 border-gray-300 rounded-lg bg-white overflow-hidden shadow-sm">
+                <div className="bg-gray-100 border-b border-gray-300 px-4 sm:px-6 py-3 sm:py-4">
+                  <h2 className="text-base sm:text-lg font-semibold text-gray-700">
+                    Template Preview
+                  </h2>
+                </div>
+                <div className="p-4 sm:p-6">
+                  <div className="border border-gray-300 rounded-lg bg-white overflow-hidden">
+                    <div className="bg-gray-50 border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4">
+                      <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-800 break-words">
+                        {templateName || 'Untitled Template'}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                        Visibility: <span className="font-medium">{visibility === 'admin' ? 'Admin Only' : 'All Users'}</span>
+                      </p>
+                    </div>
+                    <div
+                      className="p-4 sm:p-6 text-sm sm:text-base overflow-auto"
+                      style={{ maxHeight: '400px' }}
+                      dangerouslySetInnerHTML={{
+                        __html: editorRef.current?.getContent() || '<p class="text-gray-400 italic">No content yet...</p>'
+                      }}
+                    />
                   </div>
-                  <div 
-                    className="p-4 sm:p-6 text-sm sm:text-base overflow-auto"
-                    style={{ maxHeight: '400px' }}
-                    dangerouslySetInnerHTML={{ 
-                      __html: editorRef.current?.getContent() || '<p class="text-gray-400 italic">No content yet...</p>' 
-                    }}
-                  />
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
     </div>
   );
 }
