@@ -8,6 +8,7 @@ export default function AddCustomTemplatePage() {
   const [templateName, setTemplateName] = useState("");
   const [visibility, setVisibility] = useState("admin");
   const [showPreview, setShowPreview] = useState(false);
+  const [savedTemplates, setSavedTemplates] = useState("");
   const editorRef = useRef(null);
   const router = useRouter();
 
