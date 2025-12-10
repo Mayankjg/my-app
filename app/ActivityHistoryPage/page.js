@@ -14,7 +14,6 @@ export default function ActivityHistory() {
       </h2>
 
       <div className="border-[1px] border-gray-600 bg-white">
-        {/* TABS */}
         <div className="flex bg-[#d7dee3] border-b border-t border-gray-300 flex-wrap h-11">
           <button
             onClick={() => setActiveTab("comments")}
