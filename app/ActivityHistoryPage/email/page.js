@@ -181,7 +181,7 @@ export default function EmailSection() {
                 value={selectedTemplate} onChange={(e) => applyTemplate(e.target.value)}>
                 <option value="">Choose Template</option>
                 {templates.map((t) => (
-                  <option key={t?.id || Math.random()} value={t?.id}>
+                  <option key={t.id || Math.random()} value={t?.id}>
                     {t?.name || 'Untitled Template'}
                   </option>
                 ))}
