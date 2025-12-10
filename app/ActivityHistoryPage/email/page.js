@@ -159,7 +159,7 @@ export default function EmailSection() {
               </div>
               <button onClick={() => setShowAddForm(true)}
                 className="bg-gray-500 text-white px-5 py-2.5 rounded hover:bg-gray-700 font-medium flex items-center gap-2">
-                <span className="text-lg">+</span> Add New
+                Add More
               </button>
             </div>
 
