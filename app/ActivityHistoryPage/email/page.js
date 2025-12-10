@@ -3,12 +3,17 @@
 import { useState, useRef, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
+const defaultTemplate = { 
+  id: "default-1", 
+  name: "Follow-up Template", 
+  content: "<p>Hello, this is a follow-up email.</p>", 
+  isCustom: false 
+};
+
 export default function EmailSection() {
   const editorRef = useRef(null);
   const [emailLogs, setEmailLogs] = useState([]);
-  const [templates, setTemplates] = useState([
-    { id: "default-1", name: "Follow-up Template", content: "<p>Hello, this is a follow-up email.</p>", isCustom: false }
-  ]);
+  const [templates, setTemplates] = useState([defaultTemplate]);
   const [selectedTemplate, setSelectedTemplate] = useState("");
   const [subject, setSubject] = useState("");
   const [from, setFrom] = useState("");
@@ -17,11 +22,55 @@ export default function EmailSection() {
   const [newEmailField, setNewEmailField] = useState("");
 
   useEffect(() => {
-    const savedTemplates = JSON.parse(localStorage.getItem("emailTemplates") || "[]");
-    if (savedTemplates.length > 0) setTemplates([templates[0], ...savedTemplates]);
-    
-    const savedLogs = JSON.parse(localStorage.getItem("emailLogs") || "[]");
-    if (savedLogs.length > 0) setEmailLogs(savedLogs);
+    try {
+      const savedTemplatesRaw = localStorage.getItem("emailTemplates");
+      let validTemplates = [];
+      
+      if (savedTemplatesRaw) {
+        const parsed = JSON.parse(savedTemplatesRaw);
+        if (Array.isArray(parsed)) {
+          // Remove duplicates based on ID
+          const seenIds = new Set();
+          validTemplates = parsed.filter(t => {
+            if (!t || typeof t !== 'object' || !t.id || !t.name) return false;
+            if (seenIds.has(t.id)) return false;
+            seenIds.add(t.id);
+            return true;
+          });
+        }
+      }
+      
+      // Save cleaned data back
+      localStorage.setItem("emailTemplates", JSON.stringify(validTemplates));
+      setTemplates([defaultTemplate, ...validTemplates]);
+      
+      const savedLogsRaw = localStorage.getItem("emailLogs");
+      let validLogs = [];
+      
+      if (savedLogsRaw) {
+        const parsed = JSON.parse(savedLogsRaw);
+        if (Array.isArray(parsed)) {
+          // Remove duplicates based on ID
+          const seenIds = new Set();
+          validLogs = parsed.filter(log => {
+            if (!log || typeof log !== 'object' || !log.id) return false;
+            if (seenIds.has(log.id)) return false;
+            seenIds.add(log.id);
+            return true;
+          });
+        }
+      }
+      
+      localStorage.setItem("emailLogs", JSON.stringify(validLogs));
+      setEmailLogs(validLogs);
+    } catch (error) {
+      console.error("Error loading data from localStorage:", error);
+      // Clear corrupted data
+      localStorage.removeItem("emailTemplates");
+      localStorage.removeItem("emailLogs");
+      setTemplates([defaultTemplate]);
+      setEmailLogs([]);
+    }
   }, []);
 
   const resetEmailForm = () => {
@@ -29,40 +78,77 @@ export default function EmailSection() {
     setSubject("");
     setToEmail("mpl1@gmail.com");
     setSelectedTemplate("");
-    if (editorRef.current) editorRef.current.setContent("");
+    if (editorRef.current) {
+      editorRef.current.setContent("");
+    }
   };
 
   const saveTemplate = () => {
     if (!editorRef.current) return;
     const html = editorRef.current.getContent().trim();
-    if (!html || html === "<p></p>") return alert("Message is empty!");
+    if (!html || html === "<p></p>") {
+      alert("Message is empty!");
+      return;
+    }
     
     const name = prompt("Enter Template Name:");
-    if (!name) return;
+    if (!name || !name.trim()) return;
 
-    const newTemplate = { id: crypto.randomUUID(), name, content: html, isCustom: true };
-    const existingTemplates = JSON.parse(localStorage.getItem("emailTemplates") || "[]");
-    const updatedTemplates = [newTemplate, ...existingTemplates];
+    const newTemplate = { 
+      id: crypto.randomUUID(), 
+      name: name.trim(), 
+      content: html, 
+      isCustom: true,
+      createdAt: new Date().toISOString()
+    };
     
-    localStorage.setItem("emailTemplates", JSON.stringify(updatedTemplates));
-    loadTemplates();
-    alert("Template saved successfully!");
+    try {
+      const existingTemplates = JSON.parse(localStorage.getItem("emailTemplates") || "[]");
+      
+      // Remove duplicates
+      const seenIds = new Set();
+      const validTemplates = existingTemplates.filter(t => {
+        if (!t || !t.id) return false;
+        if (seenIds.has(t.id)) return false;
+        seenIds.add(t.id);
+        return true;
+      });
+      
+      const updatedTemplates = [newTemplate, ...validTemplates];
+      
+      localStorage.setItem("emailTemplates", JSON.stringify(updatedTemplates));
+      setTemplates([defaultTemplate, ...updatedTemplates]);
+      alert("Template saved successfully!");
+    } catch (error) {
+      console.error("Error saving template:", error);
+      alert("Error saving template. Please try again.");
+    }
   };
 
   const applyTemplate = (id) => {
+    if (!id) {
+      setSelectedTemplate("");
+      return;
+    }
+    
     setSelectedTemplate(id);
-    const temp = templates.find((t) => t.id == id);
-    if (temp && editorRef.current) editorRef.current.setContent(temp.content);
+    const temp = templates.find((t) => t.id === id);
+    if (temp && editorRef.current) {
+      editorRef.current.setContent(temp.content);
+    }
   };
 
   const sendEmail = () => {
     if (!editorRef.current) return;
     const message = editorRef.current.getContent();
-    if (!message || message === "<p></p>" || message.trim() === "") return alert("Please write a message!");
+    if (!message || message === "<p></p>" || message.trim() === "") {
+      alert("Please write a message!");
+      return;
+    }
 
     const newEmail = {
       id: crypto.randomUUID(),
-      from: from,
+      from: from || "(no sender)",
       to: toEmail,
       subject: subject || "(no subject)",
       message,
@@ -70,18 +156,28 @@ export default function EmailSection() {
       date: new Date().toLocaleString("en-GB"),
     };
 
-    const updated = [newEmail, ...emailLogs];
-    setEmailLogs(updated);
-    localStorage.setItem("emailLogs", JSON.stringify(updated));
-    resetEmailForm();
-    alert("Email Sent Successfully!");
+    try {
+      const updated = [newEmail, ...emailLogs];
+      setEmailLogs(updated);
+      localStorage.setItem("emailLogs", JSON.stringify(updated));
+      resetEmailForm();
+      alert("Email Sent Successfully!");
+    } catch (error) {
+      console.error("Error sending email:", error);
+      alert("Error sending email. Please try again.");
+    }
   };
 
   const deleteEmailLog = (id) => {
-    if (confirm("Are you sure you want to delete this email?")) {
-      const updated = emailLogs.filter((log) => log.id !== id);
-      setEmailLogs(updated);
-      localStorage.setItem("emailLogs", JSON.stringify(updated));
+    if (window.confirm("Are you sure you want to delete this email?")) {
+      try {
+        const updated = emailLogs.filter((log) => log.id !== id);
+        setEmailLogs(updated);
+        localStorage.setItem("emailLogs", JSON.stringify(updated));
+      } catch (error) {
+        console.error("Error deleting email:", error);
+        alert("Error deleting email. Please try again.");
+      }
     }
   };
 
@@ -136,7 +232,15 @@ export default function EmailSection() {
 
               <div className="flex gap-3">
                 <button className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded font-medium" 
-                  onClick={() => { if (newEmailField.trim()) alert("Verification email sent to: " + newEmailField); setShowAddForm(false); setNewEmailField(""); }}>
+                  onClick={() => { 
+                    if (newEmailField.trim()) {
+                      alert("Verification email sent to: " + newEmailField); 
+                      setShowAddForm(false); 
+                      setNewEmailField(""); 
+                    } else {
+                      alert("Please enter an email address");
+                    }
+                  }}>
                   verify
                 </button>
                 <button className="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 px-6 py-2 rounded font-medium" 
@@ -180,11 +284,14 @@ export default function EmailSection() {
               <select className="border border-gray-300 w-full p-2.5 rounded-sm bg-white focus:ring-2 focus:ring-blue-500"
                 value={selectedTemplate} onChange={(e) => applyTemplate(e.target.value)}>
                 <option value="">Choose Template</option>
-                {templates.map((t) => (
-                  <option key={t.id || Math.random()} value={t?.id}>
-                    {t?.name || 'Untitled Template'}
-                  </option>
-                ))}
+                {templates && templates.length > 0 && templates.map((t) => {
+                  if (!t || !t.id) return null;
+                  return (
+                    <option key={t.id} value={t.id}>
+                      {t.name || 'Untitled Template'}
+                    </option>
+                  );
+                })}
               </select>
             </div>
 
