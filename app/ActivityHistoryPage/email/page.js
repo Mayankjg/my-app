@@ -198,7 +198,6 @@ export default function EmailSection() {
         <div className="bg-white rounded-t-lg shadow-sm border-b border-gray-400 px-6 py-3">
           <h1 className="text-xl font-semibold text-gray-600">Activity <strong>history</strong></h1>
         </div>
-
         {showAddForm && (
           <div className="fixed inset-0 bg-black/30 flex items-start justify-center z-50 pt-20 overflow-y-auto">
             <div className="bg-white w-[90%] md:w-[500px] rounded-lg shadow-xl p-6 relative animate-slideDown">
