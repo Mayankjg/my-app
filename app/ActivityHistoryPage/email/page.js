@@ -21,7 +21,6 @@ export default function EmailSection() {
   const [toEmail, setToEmail] = useState("");
   const [showAddForm, setShowAddForm] = useState(false);
   const [isSending, setIsSending] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   
   const [serviceId, setServiceId] = useState("");
   const [templateId, setTemplateId] = useState("");
@@ -30,62 +29,64 @@ export default function EmailSection() {
   const [isConfigured, setIsConfigured] = useState(false);
 
   useEffect(() => {
-    loadData();
-  }, []);
-
-  const loadData = async () => {
     try {
-      setIsLoading(true);
+      const savedTemplatesRaw = localStorage.getItem("emailTemplates");
+      let validTemplates = [];
       
-      // Load templates
-      try {
-        const templatesResult = await window.storage.get("email_templates");
-        if (templatesResult?.value) {
-          const parsed = JSON.parse(templatesResult.value);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            setTemplates([defaultTemplate, ...parsed]);
-          }
+      if (savedTemplatesRaw) {
+        const parsed = JSON.parse(savedTemplatesRaw);
+        if (Array.isArray(parsed)) {
+          const seenIds = new Set();
+          validTemplates = parsed.filter(t => {
+            if (!t || typeof t !== 'object' || !t.id || !t.name) return false;
+            if (seenIds.has(t.id)) return false;
+            seenIds.add(t.id);
+            return true;
+          });
         }
-      } catch (e) {
-        console.log("No templates found");
-      }
-
-      // Load email logs
-      try {
-        const logsResult = await window.storage.get("email_logs");
-        if (logsResult?.value) {
-          const parsed = JSON.parse(logsResult.value);
-          if (Array.isArray(parsed)) {
-            setEmailLogs(parsed);
-          }
-        }
-      } catch (e) {
-        console.log("No logs found");
-      }
-
-      // Load EmailJS config
-      try {
-        const configResult = await window.storage.get("emailjs_config");
-        if (configResult?.value) {
-          const config = JSON.parse(configResult.value);
-          if (config.serviceId) setServiceId(config.serviceId);
-          if (config.templateId) setTemplateId(config.templateId);
-          if (config.publicKey) setPublicKey(config.publicKey);
-          
-          if (config.serviceId && config.templateId && config.publicKey) {
-            setIsConfigured(true);
-          }
-        }
-      } catch (e) {
-        console.log("No config found");
       }
       
+      localStorage.setItem("emailTemplates", JSON.stringify(validTemplates));
+      setTemplates([defaultTemplate, ...validTemplates]);
+      
+      const savedLogsRaw = localStorage.getItem("emailLogs");
+      let validLogs = [];
+      
+      if (savedLogsRaw) {
+        const parsed = JSON.parse(savedLogsRaw);
+        if (Array.isArray(parsed)) {
+          const seenIds = new Set();
+          validLogs = parsed.filter(log => {
+            if (!log || typeof log !== 'object' || !log.id) return false;
+            if (seenIds.has(log.id)) return false;
+            seenIds.add(log.id);
+            return true;
+          });
+        }
+      }
+      
+      localStorage.setItem("emailLogs", JSON.stringify(validLogs));
+      setEmailLogs(validLogs);
+
+      const savedService = localStorage.getItem("emailjs_service");
+      const savedTemplate = localStorage.getItem("emailjs_template");
+      const savedPublicKey = localStorage.getItem("emailjs_publickey");
+      
+      if (savedService) setServiceId(savedService);
+      if (savedTemplate) setTemplateId(savedTemplate);
+      if (savedPublicKey) setPublicKey(savedPublicKey);
+      
+      if (savedService && savedTemplate && savedPublicKey) {
+        setIsConfigured(true);
+      }
     } catch (error) {
       console.error("Error loading data:", error);
-    } finally {
-      setIsLoading(false);
+      localStorage.removeItem("emailTemplates");
+      localStorage.removeItem("emailLogs");
+      setTemplates([defaultTemplate]);
+      setEmailLogs([]);
     }
-  };
+  }, []);
 
   const resetEmailForm = () => {
     setFrom("");
@@ -98,7 +99,7 @@ export default function EmailSection() {
     }
   };
 
-  const saveTemplate = async () => {
+  const saveTemplate = () => {
     if (!editorRef.current) return;
     const html = editorRef.current.getContent().trim();
     if (!html || html === "<p></p>") {
@@ -118,15 +119,22 @@ export default function EmailSection() {
     };
     
     try {
-      const customTemplates = templates.filter(t => t.isCustom);
-      const updatedTemplates = [newTemplate, ...customTemplates];
+      const existingTemplates = JSON.parse(localStorage.getItem("emailTemplates") || "[]");
+      const seenIds = new Set();
+      const validTemplates = existingTemplates.filter(t => {
+        if (!t || !t.id) return false;
+        if (seenIds.has(t.id)) return false;
+        seenIds.add(t.id);
+        return true;
+      });
       
-      await window.storage.set("email_templates", JSON.stringify(updatedTemplates));
+      const updatedTemplates = [newTemplate, ...validTemplates];
+      localStorage.setItem("emailTemplates", JSON.stringify(updatedTemplates));
       setTemplates([defaultTemplate, ...updatedTemplates]);
-      alert("✅ Template saved successfully!");
+      alert("Template saved successfully!");
     } catch (error) {
       console.error("Error saving template:", error);
-      alert("❌ Error saving template. Please try again.");
+      alert("Error saving template. Please try again.");
     }
   };
 
@@ -177,6 +185,7 @@ export default function EmailSection() {
     setIsSending(true);
 
     try {
+      // EmailJS API call
       const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
         method: 'POST',
         headers: {
@@ -197,9 +206,7 @@ export default function EmailSection() {
         })
       });
 
-      const responseText = await response.text();
-      
-      if (response.ok || response.status === 200) {
+      if (response.ok) {
         const newEmail = {
           id: crypto.randomUUID(),
           from: `${fromName} <${from}>`,
@@ -212,24 +219,12 @@ export default function EmailSection() {
 
         const updated = [newEmail, ...emailLogs];
         setEmailLogs(updated);
-        
-        try {
-          await window.storage.set("email_logs", JSON.stringify(updated));
-        } catch (e) {
-          console.error("Error saving log:", e);
-        }
+        localStorage.setItem("emailLogs", JSON.stringify(updated));
         
         resetEmailForm();
         alert("✅ Email sent successfully!");
       } else {
-        let errorMsg = "Failed to send email";
-        try {
-          const errorData = JSON.parse(responseText);
-          errorMsg = errorData.message || errorData.error || errorMsg;
-        } catch (e) {
-          errorMsg = responseText || errorMsg;
-        }
-        throw new Error(errorMsg);
+        throw new Error("Failed to send email");
       }
       
     } catch (error) {
@@ -248,25 +243,20 @@ export default function EmailSection() {
 
       const updated = [failedEmail, ...emailLogs];
       setEmailLogs(updated);
+      localStorage.setItem("emailLogs", JSON.stringify(updated));
       
-      try {
-        await window.storage.set("email_logs", JSON.stringify(updated));
-      } catch (e) {
-        console.error("Error saving failed log:", e);
-      }
-      
-      alert(`❌ Failed to send email: ${error.message}\n\nCommon issues:\n1. Check Service ID, Template ID, Public Key\n2. Verify email service is connected\n3. Ensure template has {{message}} variable\n4. Check EmailJS account is active`);
+      alert(`❌ Failed to send email: ${error.message}\n\nPlease check your EmailJS configuration.`);
     } finally {
       setIsSending(false);
     }
   };
 
-  const deleteEmailLog = async (id) => {
+  const deleteEmailLog = (id) => {
     if (window.confirm("Are you sure you want to delete this email?")) {
       try {
         const updated = emailLogs.filter((log) => log.id !== id);
         setEmailLogs(updated);
-        await window.storage.set("email_logs", JSON.stringify(updated));
+        localStorage.setItem("emailLogs", JSON.stringify(updated));
       } catch (error) {
         console.error("Error deleting email:", error);
         alert("Error deleting email. Please try again.");
@@ -274,39 +264,19 @@ export default function EmailSection() {
     }
   };
 
-  const saveEmailJSConfig = async () => {
+  const saveEmailJSConfig = () => {
     if (!serviceId.trim() || !templateId.trim() || !publicKey.trim()) {
       alert("Please fill all EmailJS configuration fields!");
       return;
     }
     
-    try {
-      const config = {
-        serviceId: serviceId.trim(),
-        templateId: templateId.trim(),
-        publicKey: publicKey.trim()
-      };
-      
-      await window.storage.set("emailjs_config", JSON.stringify(config));
-      setIsConfigured(true);
-      setShowSettings(false);
-      alert("✅ EmailJS configuration saved!");
-    } catch (error) {
-      console.error("Error saving config:", error);
-      alert("❌ Error saving configuration. Please try again.");
-    }
+    localStorage.setItem("emailjs_service", serviceId);
+    localStorage.setItem("emailjs_template", templateId);
+    localStorage.setItem("emailjs_publickey", publicKey);
+    setIsConfigured(true);
+    setShowSettings(false);
+    alert("✅ EmailJS configuration saved!");
   };
-
-  if (isLoading) {
-    return (
-      <div className="w-full min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="w-full min-h-screen bg-gray-50 overflow-y-auto pb-20">
@@ -338,12 +308,27 @@ export default function EmailSection() {
 
         {showSettings && (
           <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 pt-10 overflow-y-auto">
-            <div className="bg-white w-[95%] md:w-[500px] rounded-lg shadow-xl p-6 relative animate-slideDown my-10">
+            <div className="bg-white w-[95%] md:w-[700px] rounded-lg shadow-xl p-6 relative animate-slideDown my-10">
               <button onClick={() => setShowSettings(false)} className="absolute top-4 right-4 text-2xl text-gray-500 hover:text-gray-700">×</button>
               
-              <h3 className="text-xl font-bold mb-6 text-gray-800 border-b pb-3">
-                📧 EmailJS Configuration
+              <h3 className="text-xl font-bold mb-4 text-gray-800 border-b pb-3">
+                📧 EmailJS Configuration (100% Frontend)
               </h3>
+
+              <div className="bg-blue-50 border border-blue-300 text-blue-800 text-sm p-4 rounded mb-4">
+                <strong>Setup Steps:</strong>
+                <ol className="list-decimal ml-5 mt-2 space-y-2">
+                  <li>Go to <a href="https://www.emailjs.com" target="_blank" className="underline font-semibold">emailjs.com</a> and create FREE account</li>
+                  <li>Add Email Service (Gmail/Outlook/etc)</li>
+                  <li>Create Email Template with these variables:
+                    <div className="bg-white p-2 mt-1 rounded border text-xs font-mono">
+                      {`{{from_name}}, {{from_email}}, {{to_email}}, {{subject}}, {{message}}`}
+                    </div>
+                  </li>
+                  <li>Copy Service ID, Template ID, and Public Key</li>
+                  <li>Paste them below and click Save</li>
+                </ol>
+              </div>
 
               <div className="space-y-4">
                 <div>
@@ -522,11 +507,14 @@ export default function EmailSection() {
                 onChange={(e) => applyTemplate(e.target.value)}
               >
                 <option value="">Choose Template</option>
-                {templates.map((t) => (
-                  <option key={t.id} value={t.id}>
-                    {t.name}
-                  </option>
-                ))}
+                {templates && templates.length > 0 && templates.map((t) => {
+                  if (!t || !t.id) return null;
+                  return (
+                    <option key={t.id} value={t.id}>
+                      {t.name || 'Untitled Template'}
+                    </option>
+                  );
+                })}
               </select>
             </div>
 
@@ -549,7 +537,7 @@ export default function EmailSection() {
               </div>
               <button 
                 onClick={saveTemplate} 
-                className="mt-3 px-4 py-2 bg-blue-100 border border-blue-400 text-blue-700 rounded hover:bg-blue-200 font-medium"
+                className="mt-3 px-4 py-2 bg-blue-100 border border-blue-400 text-blue-700 rounded hover:bg-blue-200"
               >
                 📄 Save as Template
               </button>
@@ -567,7 +555,7 @@ export default function EmailSection() {
               <button 
                 onClick={resetEmailForm} 
                 disabled={isSending} 
-                className="border border-gray-400 px-6 py-2 rounded hover:bg-gray-100 disabled:opacity-50 font-medium"
+                className="border border-gray-400 px-6 py-2 rounded hover:bg-gray-100 disabled:opacity-50"
               >
                 Cancel
               </button>
