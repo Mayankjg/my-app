@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Editor } from '@tinymce/tinymce-react';
 import { useRouter } from "next/navigation";
 
 export default function AddCustomTemplatePage() {
@@ -9,8 +8,46 @@ export default function AddCustomTemplatePage() {
   const [visibility, setVisibility] = useState("admin");
   const [showPreview, setShowPreview] = useState(false);
   const [savedTemplates, setSavedTemplates] = useState("");
-  const editorRef = useRef(null);
+  const quillRef = useRef(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const link = document.createElement('link');
+    link.href = 'https://cdn.quilljs.com/1.3.6/quill.snow.css';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+
+    const script = document.createElement('script');
+    script.src = 'https://cdn.quilljs.com/1.3.6/quill.js';
+    script.onload = () => {
+      if (window.Quill && !quillRef.current) {
+        quillRef.current = new window.Quill('#editor', {
+          theme: 'snow',
+          placeholder: 'Write your template content here...',
+          modules: {
+            toolbar: [
+              [{ 'font': [] }, { 'size': ['small', false, 'large', 'huge'] }],
+              [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+              ['bold', 'italic', 'underline', 'strike'],
+              [{ 'color': [] }, { 'background': [] }],
+              [{ 'script': 'sub'}, { 'script': 'super' }],
+              [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'indent': '-1'}, { 'indent': '+1' }],
+              [{ 'direction': 'rtl' }, { 'align': [] }],
+              ['blockquote', 'code-block'],
+              ['link', 'image', 'video', 'formula'],
+              ['clean']
+            ]
+          }
+        });
+      }
+    };
+    document.body.appendChild(script);
+
+    return () => {
+      if (document.head.contains(link)) document.head.removeChild(link);
+      if (document.body.contains(script)) document.body.removeChild(script);
+    };
+  }, []);
 
   useEffect(() => {
     const existingTemplates = JSON.parse(localStorage.getItem("emailTemplates") || "[]");
@@ -23,9 +60,10 @@ export default function AddCustomTemplatePage() {
       return;
     }
 
-    const editorContent = editorRef.current ? editorRef.current.getContent() : '';
+    const editorContent = quillRef.current ? quillRef.current.root.innerHTML : '';
+    const text = quillRef.current ? quillRef.current.getText().trim() : '';
 
-    if (!editorContent.trim()) {
+    if (!text) {
       alert('Please create template content');
       return;
     }
@@ -52,13 +90,30 @@ export default function AddCustomTemplatePage() {
     setTemplateName('');
     setVisibility('admin');
     setShowPreview(false);
-    if (editorRef.current) {
-      editorRef.current.setContent('<p>Hello...</p>');
+    if (quillRef.current) {
+      quillRef.current.setContents([]);
     }
   };
 
   return (
     <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
+       <style>{`
+        .ql-container {
+          font-family: inherit;
+        }
+        .ql-editor {
+          color: black !important;
+        }
+        .ql-editor p, .ql-editor h1, .ql-editor h2, .ql-editor h3, 
+        .ql-editor h4, .ql-editor h5, .ql-editor h6, .ql-editor span,
+        .ql-editor div, .ql-editor li, .ql-editor ol, .ql-editor ul {
+          color: black !important;
+        }
+        .ql-editor strong, .ql-editor em, .ql-editor u {
+          color: black !important;
+        }
+      `}</style>
+      
       <div className="bg-white w-full border border-[black] max-w-[1400px] h-full overflow-y-auto">
         <div className="bg-white w-full px-4 sm:px-6 py-4 border-b border-gray-300">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -93,49 +148,7 @@ export default function AddCustomTemplatePage() {
               Message <strong className="text-red-500">(Note: Please Enter Plain Text Only For Better Result)</strong>
             </label>
             <div className="border-2 border-gray-300 rounded-lg overflow-hidden">
-              <Editor
-                apiKey="y1s9k2719cryc4c4lhyef3rypkcz2oy6t9fno5q4ngbqts9o"
-                onInit={(evt, editor) => editorRef.current = editor}
-                initialValue="<p>Hello...</p>"
-                init={{
-                  height: window.innerWidth < 640 ? 250 : 300,
-                  menubar: window.innerWidth >= 640,
-                  plugins: [
-                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                    'insertdatetime', 'media', 'table', 'help', 'wordcount'
-                  ],
-                  toolbar: window.innerWidth < 640
-                    ? 'undo redo | bold italic | alignleft aligncenter | bullist numlist | link'
-                    : 'undo redo | blocks fontsize | ' +
-                    'bold italic forecolor backcolor | alignleft aligncenter ' +
-                    'alignright alignjustify | bullist numlist outdent indent | ' +
-                    'table image media link | removeformat code | preview fullscreen | help',
-                  content_style: `
-                    body { 
-                      font-family: Arial, Helvetica, sans-serif; 
-                      font-size: 14px;
-                      max-width: 100%;
-                      margin: 0;
-                      padding: 12px;
-                    }
-                    @media (min-width: 640px) {
-                      body {
-                        max-width: 800px;
-                        margin: 0 auto;
-                        padding: 20px;
-                      }
-                    }
-                  `,
-                  branding: false,
-                  promotion: false,
-                  mobile: {
-                    menubar: false,
-                    toolbar_mode: 'scrolling'
-                  },
-                  resize: false
-                }}
-              />
+              <div id="editor" style={{ minHeight: window.innerWidth < 640 ? '250px' : '300px', backgroundColor: 'white' }}></div>
             </div>
           </div>
 
@@ -189,17 +202,8 @@ export default function AddCustomTemplatePage() {
             </button>
           </div>
 
-          {/* {savedTemplates.length > 0 && (
-            <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-              <p className="text-sm sm:text-base text-green-800">
-                ✓ <span className="font-semibold">{savedTemplates.length}</span> template{savedTemplates.length !== 1 ? 's' : ''} saved in total
-              </p>
-            </div>
-          )}
-        </div> */}
-
           {showPreview && (
-            <div className="px-4 sm:px-6 md:px-8 pb-6">
+            <div className="mt-6">
               <div className="border-2 border-gray-300 rounded-lg bg-white overflow-hidden shadow-sm">
                 <div className="bg-gray-100 border-b border-gray-300 px-4 sm:px-6 py-3 sm:py-4">
                   <h2 className="text-base sm:text-lg font-semibold text-gray-700">
@@ -220,7 +224,7 @@ export default function AddCustomTemplatePage() {
                       className="p-4 sm:p-6 text-sm sm:text-base overflow-auto"
                       style={{ maxHeight: '400px' }}
                       dangerouslySetInnerHTML={{
-                        __html: editorRef.current?.getContent() || '<p class="text-gray-400 italic">No content yet...</p>'
+                        __html: quillRef.current?.root.innerHTML || '<p class="text-gray-400 italic">No content yet...</p>'
                       }}
                     />
                   </div>

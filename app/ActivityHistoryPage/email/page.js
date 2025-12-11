@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Editor } from "@tinymce/tinymce-react";
 
 const defaultTemplate = { 
   id: "default-1", 
@@ -12,6 +11,7 @@ const defaultTemplate = {
 
 export default function EmailSection() {
   const editorRef = useRef(null);
+  const quillRef = useRef(null);
   const [emailLogs, setEmailLogs] = useState([]);
   const [templates, setTemplates] = useState([defaultTemplate]);
   const [selectedTemplate, setSelectedTemplate] = useState("");
@@ -22,6 +22,68 @@ export default function EmailSection() {
   const [newEmailField, setNewEmailField] = useState("");
 
   useEffect(() => {
+    // Load Quill CSS
+    const link = document.createElement('link');
+    link.href = 'https://cdn.quilljs.com/1.3.6/quill.snow.css';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+
+    // Load Quill JS
+    const script = document.createElement('script');
+    script.src = 'https://cdn.quilljs.com/1.3.6/quill.js';
+    script.onload = () => {
+      if (window.Quill && !quillRef.current) {
+        quillRef.current = new window.Quill('#editor', {
+          theme: 'snow',
+          placeholder: 'Write your message here...',
+          modules: {
+            toolbar: [
+              [{ 'font': [] }, { 'size': ['small', false, 'large', 'huge'] }],
+              [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+              ['bold', 'italic', 'underline', 'strike'],
+              [{ 'color': [] }, { 'background': [] }],
+              [{ 'script': 'sub'}, { 'script': 'super' }],
+              [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'indent': '-1'}, { 'indent': '+1' }],
+              [{ 'direction': 'rtl' }, { 'align': [] }],
+              ['blockquote', 'code-block'],
+              ['link', 'image', 'video', 'formula'],
+              ['clean']
+            ]
+          }
+        });
+      }
+    };
+    document.body.appendChild(script);
+
+    return () => {
+      if (document.head.contains(link)) document.head.removeChild(link);
+      if (document.body.contains(script)) document.body.removeChild(script);
+    };
+  }, []);
+
+  // Load templates and email logs from localStorage
+  useEffect(() => {
+    loadTemplatesAndLogs();
+    
+    // Listen for storage changes (when template is added from other page)
+    const handleStorageChange = (e) => {
+      if (e.key === 'emailTemplates') {
+        loadTemplatesAndLogs();
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Also check for updates periodically
+    const interval = setInterval(loadTemplatesAndLogs, 1000);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
+    };
+  }, []);
+
+  const loadTemplatesAndLogs = () => {
     try {
       const savedTemplatesRaw = localStorage.getItem("emailTemplates");
       let validTemplates = [];
@@ -39,7 +101,6 @@ export default function EmailSection() {
         }
       }
       
-      localStorage.setItem("emailTemplates", JSON.stringify(validTemplates));
       setTemplates([defaultTemplate, ...validTemplates]);
       
       const savedLogsRaw = localStorage.getItem("emailLogs");
@@ -58,31 +119,28 @@ export default function EmailSection() {
         }
       }
       
-      localStorage.setItem("emailLogs", JSON.stringify(validLogs));
       setEmailLogs(validLogs);
     } catch (error) {
       console.error("Error loading data from localStorage:", error);
-      localStorage.removeItem("emailTemplates");
-      localStorage.removeItem("emailLogs");
       setTemplates([defaultTemplate]);
       setEmailLogs([]);
     }
-  }, []);
+  };
 
   const resetEmailForm = () => {
     setFrom("");
     setSubject("");
     setToEmail("mpl1@gmail.com");
     setSelectedTemplate("");
-    if (editorRef.current) {
-      editorRef.current.setContent("");
+    if (quillRef.current) {
+      quillRef.current.setContents([]);
     }
   };
 
   const saveTemplate = () => {
-    if (!editorRef.current) return;
-    const html = editorRef.current.getContent().trim();
-    if (!html || html === "<p></p>") {
+    if (!quillRef.current) return;
+    const html = quillRef.current.root.innerHTML.trim();
+    if (!html || html === "<p><br></p>") {
       alert("Message is empty!");
       return;
     }
@@ -128,15 +186,17 @@ export default function EmailSection() {
     
     setSelectedTemplate(id);
     const temp = templates.find((t) => t.id === id);
-    if (temp && editorRef.current) {
-      editorRef.current.setContent(temp.content);
+    if (temp && quillRef.current) {
+      quillRef.current.root.innerHTML = temp.content;
     }
   };
 
   const sendEmail = () => {
-    if (!editorRef.current) return;
-    const message = editorRef.current.getContent();
-    if (!message || message === "<p></p>" || message.trim() === "") {
+    if (!quillRef.current) return;
+    const message = quillRef.current.root.innerHTML;
+    const text = quillRef.current.getText().trim();
+    
+    if (!text || text === "") {
       alert("Please write a message!");
       return;
     }
@@ -191,6 +251,9 @@ export default function EmailSection() {
         }
         .animate-slideDown {
           animation: slideDown 0.3s ease-out;
+        }
+        .ql-container {
+          font-family: inherit;
         }
       `}</style>
       
@@ -274,7 +337,12 @@ export default function EmailSection() {
             </div>
 
             <div>
-              <label className="block mb-2 text-gray-700 font-medium">Reply with Template</label>
+              <label className="block mb-2 text-gray-700 font-medium">
+                Reply with Template 
+                <span className="text-xs text-gray-500 ml-2">
+                  ({templates.length - 1} custom template{templates.length - 1 !== 1 ? 's' : ''} available)
+                </span>
+              </label>
               <select className="border border-gray-300 w-full p-2.5 rounded-sm bg-white focus:ring-2 focus:ring-blue-500"
                 value={selectedTemplate} onChange={(e) => applyTemplate(e.target.value)}>
                 <option value="">Choose Template</option>
@@ -282,7 +350,7 @@ export default function EmailSection() {
                   if (!t || !t.id) return null;
                   return (
                     <option key={t.id} value={t.id}>
-                      {t.name || 'Untitled Template'}
+                      {t.isCustom ? '📝 ' : '📄 '}{t.name || 'Untitled Template'}
                     </option>
                   );
                 })}
@@ -292,16 +360,7 @@ export default function EmailSection() {
             <div>
               <label className="block mb-2 text-gray-700 font-medium">Message</label>
               <div className="border-2 border-gray-300 rounded overflow-hidden">
-                <Editor apiKey="y1s9k2719cryc4c4lhyef3rypkcz2oy6t9fno5q4ngbqts9o"
-                  onInit={(evt, editor) => (editorRef.current = editor)} initialValue="<p>Hello...</p>"
-                  init={{
-                    height: 250, menubar: true,
-                    plugins: ["advlist", "autolink", "lists", "link", "image", "charmap", "preview", "anchor", "searchreplace",
-                      "visualblocks", "code", "fullscreen", "insertdatetime", "media", "table", "help", "wordcount"],
-                    toolbar: "undo redo | blocks fontsize | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table image media link | removeformat code preview fullscreen | help",
-                    branding: false,
-                  }}
-                />
+                <div id="editor" style={{ minHeight: '250px', backgroundColor: 'white' }}></div>
               </div>
               <button onClick={saveTemplate} className="mt-3 px-4 py-2 bg-blue-100 border border-blue-400 text-blue-700 rounded hover:bg-blue-200">
                 📄 Save as Template
