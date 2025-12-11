@@ -28,7 +28,7 @@ export default function ImportContacts() {
             if (jsonData.length > 0) {
               const headers = jsonData[0];
               const rows = jsonData.slice(1).filter(row => row.some(cell => cell));
-              
+
               setColumnHeaders(headers);
               setFileData(rows);
             }
@@ -77,7 +77,7 @@ export default function ImportContacts() {
 
     return (
       <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
-        <div className="bg-white w-full border border-[black] max-w-[1400px] h-full overflow-y-auto">
+        <div className="bg-white w-full max-w-[1400px] h-100 overflow-y-auto">
           <div className="bg-white w-full px-4 sm:px-6 py-4">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <h1 className="text-xl sm:text-2xl font-normal text-gray-700">
@@ -104,7 +104,7 @@ export default function ImportContacts() {
                   </p>
                   <button
                     onClick={handleDownload}
-                    className="w-full sm:w-auto bg-teal-500 hover:bg-teal-600 text-white px-6 py-2.5 rounded text-sm font-medium transition-colors"
+                    className="w-full sm:w-auto bg-teal-500 hover:bg-teal-600 text-white px-4 py-1.5 cursor-pointer rounded text-sm font-medium transition-colors"
                   >
                     Download sample
                   </button>
@@ -115,41 +115,49 @@ export default function ImportContacts() {
                 <div className="w-full sm:w-24 flex-shrink-0">
                   <span className="text-sm sm:text-base font-semibold text-gray-600">STEP 02</span>
                 </div>
-                <div className="flex-1">
-                  <div className="mb-6">
-                    <label className="text-sm font-medium text-gray-700 mb-2 block">
+                <div className="mb-6">
+                  <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6 md:gap-10 lg:gap-16 xl:gap-20">
+                    <label className="text-sm font-medium text-gray-700 whitespace-nowrap sm:pt-2">
                       Excel File <span className="text-red-500">*</span>
                     </label>
-                    <input
-                      type="file"
-                      accept=".xlsx,.xls,.csv"
-                      onChange={handleFileChange}
-                      className="w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 file:cursor-pointer cursor-pointer"
-                    />
-                    {selectedFile && (
-                      <div className="mt-3 space-y-1">
-                        <p className="text-sm text-green-600 font-medium">
-                          Selected: {selectedFile.name}
-                        </p>
+
+                    <div className="flex flex-col gap-3 flex-1">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                        <label className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-1.5 rounded border border-gray-400 text-sm font-medium cursor-pointer transition-colors whitespace-nowrap">
+                          Choose File
+                          <input
+                            type="file"
+                            accept=".xlsx,.xls,.csv"
+                            onChange={handleFileChange}
+                            className="hidden"
+                          />
+                        </label>
+                        <span className="text-sm text-gray-600 break-words">
+                          {selectedFile ? selectedFile.name : 'No file chosen'}
+                        </span>
+                      </div>
+
+                      {selectedFile && fileData.length > 0 && (
                         <p className="text-sm text-gray-500">
                           {fileData.length} rows found
                         </p>
+                      )}
+
+                      <div className="flex flex-col sm:flex-row gap-3">
+                        <button
+                          onClick={handleNext}
+                          className="w-full sm:w-auto bg-[#0ea5e9] hover:bg-[#0284c7] text-white px-12 py-1.5 cursor-pointer rounded-md text-sm font-medium transition-colors"
+                        >
+                          Next
+                        </button>
+                        <button
+                          onClick={handleCancel}
+                          className="w-full sm:w-auto bg-gray-300 hover:bg-gray-400 text-gray-700 px-12 py-1.5 cursor-pointer rounded-md text-sm font-medium transition-colors"
+                        >
+                          Cancel
+                        </button>
                       </div>
-                    )}
-                  </div>
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <button
-                      onClick={handleNext}
-                      className="w-full sm:w-auto bg-[#0ea5e9] hover:bg-[#0284c7] text-white px-12 py-2.5 rounded-md text-sm font-medium transition-colors"
-                    >
-                      Next
-                    </button>
-                    <button
-                      onClick={handleCancel}
-                      className="w-full sm:w-auto bg-gray-300 hover:bg-gray-400 text-gray-700 px-12 py-2.5 rounded-md text-sm font-medium transition-colors"
-                    >
-                      Cancel
-                    </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -182,7 +190,7 @@ export default function ImportContacts() {
       const newContacts = fileData.map((row, index) => {
         const name = row[parseInt(nameColumnIndex)] || '';
         const email = row[parseInt(emailColumnIndex)] || '';
-        
+
         return {
           id: Date.now() + index,
           name: name.toString().trim(),
