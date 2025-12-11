@@ -38,3 +38,12 @@ html, body {
 body.modal-open {
   overflow: hidden !important;
 }
+
+
+/* .tox-promotion,
+.tox-promotion-link,
+.tox-statusbar__branding,
+div[aria-label*="Upgrade"] {
+  display: none !important;
+  visibility: hidden !important;
+} */
