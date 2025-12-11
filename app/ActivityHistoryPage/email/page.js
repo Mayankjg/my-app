@@ -29,7 +29,6 @@ export default function EmailSection() {
       if (savedTemplatesRaw) {
         const parsed = JSON.parse(savedTemplatesRaw);
         if (Array.isArray(parsed)) {
-          // Remove duplicates based on ID
           const seenIds = new Set();
           validTemplates = parsed.filter(t => {
             if (!t || typeof t !== 'object' || !t.id || !t.name) return false;
@@ -40,7 +39,6 @@ export default function EmailSection() {
         }
       }
       
-      // Save cleaned data back
       localStorage.setItem("emailTemplates", JSON.stringify(validTemplates));
       setTemplates([defaultTemplate, ...validTemplates]);
       
@@ -50,7 +48,6 @@ export default function EmailSection() {
       if (savedLogsRaw) {
         const parsed = JSON.parse(savedLogsRaw);
         if (Array.isArray(parsed)) {
-          // Remove duplicates based on ID
           const seenIds = new Set();
           validLogs = parsed.filter(log => {
             if (!log || typeof log !== 'object' || !log.id) return false;
@@ -65,7 +62,6 @@ export default function EmailSection() {
       setEmailLogs(validLogs);
     } catch (error) {
       console.error("Error loading data from localStorage:", error);
-      // Clear corrupted data
       localStorage.removeItem("emailTemplates");
       localStorage.removeItem("emailLogs");
       setTemplates([defaultTemplate]);
@@ -105,7 +101,6 @@ export default function EmailSection() {
     try {
       const existingTemplates = JSON.parse(localStorage.getItem("emailTemplates") || "[]");
       
-      // Remove duplicates
       const seenIds = new Set();
       const validTemplates = existingTemplates.filter(t => {
         if (!t || !t.id) return false;
@@ -198,9 +193,9 @@ export default function EmailSection() {
           animation: slideDown 0.3s ease-out;
         }
       `}</style>
+      
       <div className="w-full max-w-7xl mx-auto p-2 sm:p-4 md:p-6 lg:p-8 pb-20">
-
-        <div className="bg-white rounded-t-lg shadow-sm border-b border-gray-300 px-6 py-3">
+        <div className="bg-white rounded-t-lg shadow-sm border-b border-gray-400 px-6 py-3">
           <h1 className="text-xl font-semibold text-gray-600">Activity <strong>history</strong></h1>
         </div>
 
