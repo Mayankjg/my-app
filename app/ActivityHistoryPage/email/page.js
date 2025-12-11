@@ -22,13 +22,11 @@ export default function EmailSection() {
   const [newEmailField, setNewEmailField] = useState("");
 
   useEffect(() => {
-    // Load Quill CSS
     const link = document.createElement('link');
     link.href = 'https://cdn.quilljs.com/1.3.6/quill.snow.css';
     link.rel = 'stylesheet';
     document.head.appendChild(link);
 
-    // Load Quill JS
     const script = document.createElement('script');
     script.src = 'https://cdn.quilljs.com/1.3.6/quill.js';
     script.onload = () => {
@@ -61,11 +59,9 @@ export default function EmailSection() {
     };
   }, []);
 
-  // Load templates and email logs from localStorage
   useEffect(() => {
     loadTemplatesAndLogs();
     
-    // Listen for storage changes (when template is added from other page)
     const handleStorageChange = (e) => {
       if (e.key === 'emailTemplates') {
         loadTemplatesAndLogs();
@@ -73,8 +69,7 @@ export default function EmailSection() {
     };
     
     window.addEventListener('storage', handleStorageChange);
-    
-    // Also check for updates periodically
+
     const interval = setInterval(loadTemplatesAndLogs, 1000);
     
     return () => {
