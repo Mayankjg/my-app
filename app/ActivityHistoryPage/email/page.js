@@ -376,7 +376,6 @@ export default function EmailSection() {
               )}
             </div>
           </div>
-
         </div>
       </div>
     </div>
