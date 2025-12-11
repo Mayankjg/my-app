@@ -218,7 +218,7 @@ export default function ImportContacts() {
 
     return (
       <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
-        <div className="bg-white w-full border border-[black] max-w-[1400px] h-full overflow-y-auto">
+        <div className="bg-white w-full max-w-[1400px] h-full overflow-y-auto">
           <div className="bg-white w-full px-4 sm:px-6 py-4">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <h1 className="text-xl sm:text-2xl font-normal text-gray-700">
@@ -228,7 +228,7 @@ export default function ImportContacts() {
             <hr className="-mx-4 sm:-mx-6 border-t border-gray-300 mt-4 mb-0" />
           </div>
 
-          <div className="w-full px-4 sm:px-6 py-6 pb-8">
+          <div className="w-full px-4 sm:px-6 pb-8">
             <div className="max-w-4xl">
               <h2 className="text-lg sm:text-xl font-normal text-gray-700 mb-6">
                 Contact <strong>Import</strong>
@@ -248,14 +248,15 @@ export default function ImportContacts() {
                   </span>
 
                   <div className="space-y-6">
-                    <div>
-                      <label className="text-sm font-medium text-gray-700 mb-2 block">
+                    {/* Select Product */}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
+                      <label className="text-sm font-medium text-gray-700 whitespace-nowrap sm:w-32">
                         Select Product <span className="text-red-500">*</span>
                       </label>
                       <select
                         value={selectedProduct}
                         onChange={(e) => setSelectedProduct(e.target.value)}
-                        className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00a7cf] focus:border-transparent"
+                        className="w-full sm:flex-1 border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00a7cf] focus:border-transparent"
                       >
                         <option value="">Select Products</option>
                         <option value="Bandhani">Bandhani</option>
@@ -267,14 +268,15 @@ export default function ImportContacts() {
                       </select>
                     </div>
 
-                    <div>
-                      <label className="text-sm font-medium text-gray-700 mb-2 block">
+                    {/* First Name */}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
+                      <label className="text-sm font-medium text-gray-700 whitespace-nowrap sm:w-32">
                         First Name <span className="text-red-500">*</span>
                       </label>
                       <select
                         value={nameColumnIndex}
                         onChange={(e) => setNameColumnIndex(e.target.value)}
-                        className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00a7cf] focus:border-transparent"
+                        className="w-full sm:flex-1 border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00a7cf] focus:border-transparent"
                       >
                         <option value="">None</option>
                         {columnHeaders.map((header, index) => (
@@ -285,14 +287,15 @@ export default function ImportContacts() {
                       </select>
                     </div>
 
-                    <div>
-                      <label className="text-sm font-medium text-gray-700 mb-2 block">
+                    {/* Email */}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
+                      <label className="text-sm font-medium text-gray-700 whitespace-nowrap sm:w-32">
                         Email <span className="text-red-500">*</span>
                       </label>
                       <select
                         value={emailColumnIndex}
                         onChange={(e) => setEmailColumnIndex(e.target.value)}
-                        className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00a7cf] focus:border-transparent"
+                        className="w-full sm:flex-1 border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00a7cf] focus:border-transparent"
                       >
                         <option value="">None</option>
                         {columnHeaders.map((header, index) => (
@@ -303,7 +306,8 @@ export default function ImportContacts() {
                       </select>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                    {/* Buttons */}
+                    <div className="flex flex-col sm:flex-row gap-3 pt-2 sm:ml-[152px]">
                       <button
                         onClick={handleSave}
                         className="w-full sm:w-auto bg-[#0ea5e9] hover:bg-[#0284c7] text-white px-12 py-2.5 rounded-md text-sm font-medium transition-colors"
