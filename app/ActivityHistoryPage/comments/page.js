@@ -38,7 +38,7 @@ export default function CommentsSection() {
 
   return (
     <div className="w-full min-h-screen bg-gray-50 overflow-y-auto pb-20">
-      <div className="w-full max-w-7xl mx-auto p-4 sm:p-6 md:p-8 pb-20">
+      <div className="w-full bg-gray max-w-7xl mx-auto p-4 sm:p-6 md:p-8 pb-20">
         <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 mb-20">
           <div className="text-sm">
             <textarea
