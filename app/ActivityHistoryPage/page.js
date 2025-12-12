@@ -44,7 +44,7 @@ export default function ActivityHistory() {
           </button>
         </div>
 
-        <div className="p-4 sm:p-5 md:max-h-[600px] md:overflow-y-auto">
+        <div className="p-4 sm:p-5 md:max-h-[450px] md:overflow-y-auto">
           {activeTab === "comments" ? <CommentsSection /> : <EmailSection />}
         </div>
       </div>

@@ -49,6 +49,7 @@ export default function EmailSection() {
             ]
           }
         });
+        
       }
     };
     document.body.appendChild(script);
@@ -354,7 +355,7 @@ export default function EmailSection() {
           <div className="mb-4">
             <label className="block mb-2 text-gray-700 font-medium">Message</label>
             <div className="border-2 border-gray-300 rounded overflow-auto resize">
-              <div id="editor" style={{ minHeight: '250px', backgroundColor: 'white' }}></div>
+              <div id="editor" style={{ minHeight: '150px', backgroundColor: 'white' }}></div>
             </div>
           </div>
           <button onClick={saveTemplate} className="mt-3 px-4 py-2 bg-blue-100 border border-blue-400 text-blue-700 rounded hover:bg-blue-200">

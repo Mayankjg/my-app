@@ -41,8 +41,8 @@ export default function CommentsSection() {
     <div className="w-full bg-white">
       <div className="w-full">
         <div className="text-sm">
-           <textarea
-            className="w-full border border-gray-300 rounded p-3 h-32 outline-none text-sm resize"
+          <textarea
+            className="w-full border border-gray-300 rounded p-3 h-32 outline-none text-sm"
             placeholder="Comment"
             value={inputComment}
             onChange={(e) => setInputComment(e.target.value)}
