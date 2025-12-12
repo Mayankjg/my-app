@@ -8,7 +8,7 @@ export default function ActivityHistory() {
   const [activeTab, setActiveTab] = useState("comments");
 
   return (
-    <div className="bg-white w-full text-black p-4 sm:p-6 md:p-8 lg:p-10 xl:p-6 md:h-auto h-screen md:overflow-visible overflow-y-auto">
+    <div className="bg-white w-full text-black p-4 sm:p-6 md:p-8 lg:p-10 xl:p-6 h-screen overflow-y-auto">
       <h2 className="text-[18px] md:text-[20px] font-semibold mb-3">
         Activity <span className="text-gray-500">history</span>
       </h2>
@@ -44,7 +44,7 @@ export default function ActivityHistory() {
           </button>
         </div>
 
-        <div className="p-4 sm:p-5 md:max-h-[450px] md:overflow-y-auto">
+        <div className="p-4 sm:p-5">
           {activeTab === "comments" ? <CommentsSection /> : <EmailSection />}
         </div>
       </div>

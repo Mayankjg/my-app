@@ -96,7 +96,7 @@ export default function AddCustomTemplatePage() {
   };
 
   return (
-    <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
+    <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-y-auto flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
        <style>{`
         .ql-container {
           font-family: inherit;
@@ -112,9 +112,14 @@ export default function AddCustomTemplatePage() {
         .ql-editor strong, .ql-editor em, .ql-editor u {
           color: black !important;
         }
+          .ql-tooltip {
+          left: auto !important;
+          right: 0 !important;
+          transform: none !important;
+  }
       `}</style>
       
-      <div className="bg-white w-full border border-[black] max-w-[1400px] h-full overflow-y-auto">
+      <div className="bg-white w-full border border-[black] max-w-[1400px]">
         <div className="bg-white w-full px-4 sm:px-6 py-4 border-b border-gray-300">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <h1 className="text-xl sm:text-2xl font-normal text-gray-700">
@@ -147,9 +152,9 @@ export default function AddCustomTemplatePage() {
             <label className="block text-sm sm:text-base font-medium text-gray-700 mb-2">
               Message <strong className="text-red-500">(Note: Please Enter Plain Text Only For Better Result)</strong>
             </label>
-            <div className="border-2 border-gray-300 rounded-lg overflow-hidden">
-              <div id="editor" style={{ minHeight: window.innerWidth < 640 ? '250px' : '300px', backgroundColor: 'white' }}></div>
-            </div>
+           <div className="border-2 border-gray-300 rounded-lg overflow-auto resize">
+  <div id="editor" style={{ minHeight: '150px', backgroundColor: 'white' }}></div>
+</div>
           </div>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 mb-4 sm:mb-6">
@@ -221,8 +226,7 @@ export default function AddCustomTemplatePage() {
                       </p>
                     </div>
                     <div
-                      className="p-4 sm:p-6 text-sm sm:text-base overflow-auto"
-                      style={{ maxHeight: '400px' }}
+                      className="p-4 sm:p-6 text-sm sm:text-base"
                       dangerouslySetInnerHTML={{
                         __html: quillRef.current?.root.innerHTML || '<p class="text-gray-400 italic">No content yet...</p>'
                       }}

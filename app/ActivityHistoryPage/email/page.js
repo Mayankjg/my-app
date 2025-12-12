@@ -49,7 +49,7 @@ export default function EmailSection() {
             ]
           }
         });
-        
+
       }
     };
     document.body.appendChild(script);
@@ -251,29 +251,35 @@ export default function EmailSection() {
         .ql-container {
           font-family: inherit;
         }
-      `}</style>
+
+        .ql-tooltip {
+          left: auto !important;
+          right: 0 !important;
+          transform: none !important;
+  }
+   `}</style>
 
       <div className="w-full">
         {showAddForm && (
-          <div className="fixed inset-0 bg-black/30 flex items-start justify-center z-50 pt-20">
-            <div className="bg-white w-[90%] md:w-[500px] rounded-lg shadow-xl p-6 relative animate-slideDown">
+          <div className="fixed inset-0 bg-black/60 flex items-start justify-center z-50 pt-10">
+            <div className="bg-white w-[90%] md:w-[700px] rounded-lg shadow-xl p-6 relative animate-slideDown">
               <button onClick={() => setShowAddForm(false)} className="absolute top-4 right-4 text-2xl text-gray-500 hover:text-gray-700">×</button>
 
-              <h3 className="text-lg font-semibold mb-4 text-gray-800 border-b pb-3">
+              <h3 className="text-lg font-semibold mb-2 text-gray-800 pb-1">
                 Add and verify email address to send mail.
               </h3>
 
-              <div className="bg-red-50 border border-red-200 text-red-600 text-sm p-3 rounded mb-4">
+              <div className="bg-red-50 border border-red-200 text-red-600 text-sm p-3 rounded mb-3">
                 Please check your mail After Click on verify button.
               </div>
 
-              <div className="mb-4">
+              <div className="mb-3">
                 <label className="block mb-2 text-sm text-gray-700 font-medium">Display Name</label>
                 <input type="text" className="w-full border border-gray-300 px-3 py-2 rounded text-black focus:ring-2 focus:ring-blue-500"
                   placeholder="Enter display name" />
               </div>
 
-              <div className="mb-6">
+              <div className="mb-3">
                 <label className="block mb-2 text-sm text-gray-700 font-medium">Email</label>
                 <input type="email" value={newEmailField} onChange={(e) => setNewEmailField(e.target.value)}
                   className="w-full border border-gray-300 px-3 py-2 rounded text-black focus:ring-2 focus:ring-blue-500"
@@ -306,7 +312,7 @@ export default function EmailSection() {
           <div className="flex justify-between items-end gap-4 mb-4">
             <div className="flex-1">
               <label className="block mb-2 text-gray-700 font-medium">From</label>
-              <input type="text" className="border border-gray-300 w-full p-2.5 rounded-sm focus:ring-2 focus:ring-blue-500"
+              <input type="text" className="border border-gray-300 w-full p-2.5 rounded-sm hover:bg-gray-100"
                 value={from} placeholder="Enter From" onChange={(e) => setFrom(e.target.value)} />
             </div>
             <button onClick={() => setShowAddForm(true)}
@@ -318,7 +324,7 @@ export default function EmailSection() {
           <div className="mb-4">
             <label className="block mb-2 text-gray-700 font-medium">To</label>
             <textarea
-              className="border border-gray-300 w-full p-2.5 rounded-sm focus:ring-2 focus:ring-blue-500 resize"
+              className="border border-gray-300 w-full p-2.5 rounded-sm hover:bg-gray-100 resize"
               value={toEmail}
               onChange={(e) => setToEmail(e.target.value)}
               rows={2}
@@ -327,7 +333,7 @@ export default function EmailSection() {
 
           <div className="mb-4">
             <label className="block mb-2 text-gray-700 font-medium">Subject</label>
-            <input type="text" className="border border-gray-300 w-full p-2.5 rounded-sm focus:ring-2 focus:ring-blue-500"
+            <input type="text" className="border border-gray-300 w-full p-2.5 rounded-sm hover:bg-gray-100"
               value={subject} placeholder="Enter subject" onChange={(e) => setSubject(e.target.value)} />
           </div>
 
@@ -338,7 +344,7 @@ export default function EmailSection() {
                 ({templates.length - 1} custom template{templates.length - 1 !== 1 ? 's' : ''} available)
               </span>
             </label>
-            <select className="border border-gray-300 w-full p-2.5 rounded-sm bg-white focus:ring-2 focus:ring-blue-500"
+            <select className="border border-gray-300 w-full p-2.5 rounded-sm bg-white hover:bg-gray-100"
               value={selectedTemplate} onChange={(e) => applyTemplate(e.target.value)}>
               <option value="">Choose Template</option>
               {templates && templates.length > 0 && templates.map((t) => {
@@ -370,66 +376,91 @@ export default function EmailSection() {
 
         <div className="border-t border-dashed border-gray-300 my-6"></div>
 
-        <h2 className="text-lg font-semibold text-gray-700 mb-4">Email Logs</h2>
+<h2 className="text-lg font-semibold text-gray-700 mb-4">Email Logs</h2>
 
-        <div className="hidden md:block">
-          <table className="w-full text-sm border border-gray-300">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="p-3 border-b text-left">TO</th>
-                <th className="p-3 border-b text-right">STATUS</th>
-                <th className="p-3 border-b text-right">DATE</th>
-                <th className="p-3 border-b text-right">ACTION</th>
-              </tr>
-            </thead>
-            <tbody>
-              {emailLogs.length === 0 ? (
-                <tr><td colSpan="4" className="py-8 text-center text-red-500 font-medium">No Records</td></tr>
-              ) : (
-                emailLogs.map((log) => (
-                  <tr key={log.id} className="hover:bg-gray-50">
-                    <td className="p-3 border-t">{log.to}</td>
-                    <td className="p-3 border-t text-right">
-                      <span className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">{log.status}</span>
-                    </td>
-                    <td className="p-3 border-t text-right">{log.date}</td>
-                    <td className="p-3 border-t text-right">
-                      <button onClick={() => deleteEmailLog(log.id)} className="text-red-500 hover:text-red-700 font-medium">Delete</button>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+<div className="hidden md:block">
+  <table className="w-full text-sm border-collapse border border-gray-300">
+    <thead>
+      <tr className="bg-[#e5e7eb]">
+        <th className="p-3 text-left font-semibold text-gray-700 uppercase text-xs tracking-wider border border-gray-300">TO</th>
+        <th className="p-3 text-left font-semibold text-gray-700 uppercase text-xs tracking-wider border border-gray-300">STATUS</th>
+        <th className="p-3 text-left font-semibold text-gray-700 uppercase text-xs tracking-wider border border-gray-300">DATE</th>
+        <th className="p-3 text-left font-semibold text-gray-700 uppercase text-xs tracking-wider border border-gray-300">ACTION</th>
+      </tr>
+    </thead>
+    <tbody className="bg-white">
+      {emailLogs.length === 0 ? (
+        <tr>
+          <td colSpan="4" className="py-8 text-center text-red-500 font-medium border border-gray-300">
+            No Records
+          </td>
+        </tr>
+      ) : (
+        emailLogs.map((log) => (
+          <tr key={log.id} className="hover:bg-gray-50">
+            <td className="p-3 text-gray-600 border border-gray-300">
+              {log.to}
+            </td>
+            <td className="p-3 border border-gray-300">
+              <span className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">
+                {log.status}
+              </span>
+            </td>
+            <td className="p-3 text-[#00a7cf] font-medium border border-gray-300">
+              {log.date}
+            </td>
+            <td className="p-3 border border-gray-300">
+              <button 
+                onClick={() => deleteEmailLog(log.id)} 
+                className="text-gray-500 hover:text-red-500 transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </td>
+          </tr>
+        ))
+      )}
+    </tbody>
+  </table>
+</div>
 
-        <div className="md:hidden space-y-3">
-          {emailLogs.length === 0 ? (
-            <div className="py-8 text-center text-red-500 font-medium border border-gray-300 rounded">No Records</div>
-          ) : (
-            emailLogs.map((log) => (
-              <div key={log.id} className="border border-gray-300 rounded-lg p-4 bg-white shadow-sm">
-                <div className="space-y-3">
-                  <div className="flex justify-between items-start gap-3">
-                    <div className="flex-1 min-w-0">
-                      <div className="text-xs font-medium text-gray-500 mb-1">To:</div>
-                      <div className="font-medium text-gray-800 break-all text-sm">{log.to}</div>
-                    </div>
-                    <span className="px-3 py-1 bg-green-100 text-green-700 rounded text-xs font-medium whitespace-nowrap">{log.status}</span>
-                  </div>
-                  <div>
-                    <div className="text-xs font-medium text-gray-500 mb-1">Date:</div>
-                    <div className="text-sm text-gray-700">{log.date}</div>
-                  </div>
-                  <button onClick={() => deleteEmailLog(log.id)}
-                    className="w-full bg-red-50 text-red-600 hover:bg-red-100 py-2.5 rounded-md font-medium text-sm border border-red-200">
-                    Delete
-                  </button>
-                </div>
-              </div>
-            ))
-          )}
+<div className="md:hidden space-y-3">
+  {emailLogs.length === 0 ? (
+    <div className="py-8 text-center text-red-500 font-medium border border-gray-300 rounded">No Records</div>
+  ) : (
+    emailLogs.map((log) => (
+      <div key={log.id} className="border border-gray-300 rounded-lg p-4 bg-white shadow-sm">
+        <div className="space-y-3">
+          <div>
+            <div className="text-xs font-medium text-gray-500 mb-1 uppercase">To:</div>
+            <div className="text-gray-600 text-sm break-all">{log.to}</div>
+          </div>
+          <div>
+            <div className="text-xs font-medium text-gray-500 mb-1 uppercase">Status:</div>
+            <span className="px-3 py-1 bg-green-100 text-green-700 rounded text-xs font-medium whitespace-nowrap">
+              {log.status}
+            </span>
+          </div>
+          <div>
+            <div className="text-xs font-medium text-gray-500 mb-1 uppercase">Date:</div>
+            <div className="text-[#00a7cf] text-sm font-medium">{log.date}</div>
+          </div>
+          <button 
+            onClick={() => deleteEmailLog(log.id)}
+            className="w-full bg-red-50 text-red-600 hover:bg-red-100 py-2.5 rounded-md font-medium text-sm border border-red-200 flex items-center justify-center gap-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+            </svg>
+            Delete
+          </button>
         </div>
+      </div>
+    ))
+  )}
+</div>
       </div>
     </div>
   );
