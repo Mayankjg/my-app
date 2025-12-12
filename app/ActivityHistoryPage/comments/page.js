@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Trash2 } from "lucide-react";
 
 export default function CommentsSection() {
   const [comments, setComments] = useState([
@@ -37,82 +38,94 @@ export default function CommentsSection() {
   };
 
   return (
-    <div className="w-full md:min-h-0 md:overflow-visible overflow-y-auto md:pb-0 pb-20">
-      <div className="w-full bg-white max-w-8xl mx-auto p-2 pb-20">
-        <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 mb-20">
-          <div className="text-sm">
-            <textarea
-              className="w-full border rounded p-3 h-40 outline-none text-sm md:text-base"
-              placeholder="Comment"
-              value={inputComment}
-              onChange={(e) => setInputComment(e.target.value)}
-            ></textarea>
+    <div className="w-full bg-white">
+      <div className="w-full">
+        <div className="text-sm">
+           <textarea
+            className="w-full border border-gray-300 rounded p-3 h-32 outline-none text-sm resize"
+            placeholder="Comment"
+            value={inputComment}
+            onChange={(e) => setInputComment(e.target.value)}
+          ></textarea>
 
-            <div className="flex flex-col sm:flex-row gap-3 mt-3">
-              <button
-                onClick={addComment}
-                className="bg-blue-500 text-white px-6 py-2 rounded w-full sm:w-28"
-              >
-                Add
-              </button>
+          <div className="flex gap-3 mt-4">
+            <button
+              onClick={addComment}
+              className="bg-[#00bcd4] hover:bg-[#00acc1] text-white px-8 py-2.5 rounded font-medium text-sm"
+            >
+              Add
+            </button>
 
-              <button
-                onClick={() => setInputComment("")}
-                className="px-6 py-2 border rounded text-gray-600 w-full sm:w-28"
-              >
-                Cancel
-              </button>
-            </div>
+            <button
+              onClick={() => setInputComment("")}
+              className="bg-white hover:bg-gray-50 border border-gray-300 text-gray-700 px-8 py-2.5 rounded font-medium text-sm"
+            >
+              Cancel
+            </button>
+          </div>
 
-            <div className="border-t border-dashed mt-6 mb-6"></div>
+          <div className="border-t border-dashed border-gray-300 my-6"></div>
 
-            {/* DESKTOP TABLE */}
-            <div className="overflow-x-auto hidden md:block">
-              <table className="w-full border text-sm">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="p-2 border">Comment</th>
-                    <th className="p-2 border">Date</th>
-                    <th className="p-2 border">Action</th>
-                  </tr>
-                </thead>
+          {/* DESKTOP TABLE */}
+          <div className="overflow-x-auto hidden md:block">
+            <table className="w-full text-sm border-collapse border border-gray-300">
+              <thead>
+                <tr className="bg-[#e8eef2]">
+                  <th className="px-4 py-3 text-left font-semibold text-gray-700 uppercase text-xs tracking-wider border border-gray-300">
+                    COMMENT
+                  </th>
+                  <th className="px-4 py-3 text-left font-semibold text-gray-700 uppercase text-xs tracking-wider border border-gray-300">
+                    DATE
+                  </th>
+                  <th className="px-4 py-3 text-left font-semibold text-gray-700 uppercase text-xs tracking-wider border border-gray-300">
+                    ACTION
+                  </th>
+                </tr>
+              </thead>
 
-                <tbody>
-                  {comments.map((c) => (
-                    <tr key={c.id}>
-                      <td className="p-2 border text-center">{c.text}</td>
-                      <td className="p-2 border text-center">{c.date}</td>
-                      <td
-                        className="p-2 border text-red-500 cursor-pointer text-center"
+              <tbody>
+                {comments.map((c) => (
+                  <tr key={c.id} className="bg-white">
+                    <td className="px-4 py-4 text-gray-600 border border-gray-300">
+                      {c.text}
+                    </td>
+                    <td className="px-4 py-4 text-[#00bcd4] font-medium border border-gray-300">
+                      {c.date}
+                    </td>
+                    <td className="px-4 py-4 border border-gray-300">
+                      <button
                         onClick={() => deleteComment(c.id)}
+                        className="text-gray-500 hover:text-gray-700 transition"
                       >
-                        Delete
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                        <Trash2 className="w-5 h-5" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-            {/* MOBILE CARDS */}
-            <div className="md:hidden space-y-4 pb-10">
-              {comments.map((c) => (
-                <div key={c.id} className="border border-gray-300 bg-white rounded">
-                  <div className="border-b p-3 text-sm text-gray-700">{c.text}</div>
-                  <div className="border-b p-3 text-sm font-semibold text-teal-700">
-                    {c.date}
-                  </div>
-                  <div className="p-3 text-sm">
-                    <button
-                      className="text-red-600 text-[18px]"
-                      onClick={() => deleteComment(c.id)}
-                    >
-                      🗑️
-                    </button>
-                  </div>
+          {/* MOBILE CARDS */}
+          <div className="md:hidden space-y-3">
+            {comments.map((c) => (
+              <div key={c.id} className="border border-gray-300 bg-white rounded-lg overflow-hidden">
+                <div className="border-b border-gray-200 p-4 text-sm text-gray-600">
+                  {c.text}
                 </div>
-              ))}
-            </div>
+                <div className="border-b border-gray-200 p-4 text-sm font-semibold text-[#00bcd4]">
+                  {c.date}
+                </div>
+                <div className="p-4 flex justify-start">
+                  <button
+                    className="text-gray-500 hover:text-gray-700"
+                    onClick={() => deleteComment(c.id)}
+                  >
+                    <Trash2 className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
