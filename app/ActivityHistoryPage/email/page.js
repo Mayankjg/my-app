@@ -161,8 +161,7 @@ export default function EmailSection() {
         .ql-container { font-family: inherit; }
         .ql-tooltip { left: auto !important; right: 0 !important; transform: none !important; }
       `}</style>
-
-      {/* Add Email Modal */}
+      
       {showAddForm && (
         <div className="fixed inset-0 bg-black/60 flex items-start justify-center z-50 pt-10">
           <div className="bg-white w-[90%] md:w-[700px] rounded-lg shadow-xl p-6 relative animate-slideDown">
@@ -192,7 +191,6 @@ export default function EmailSection() {
         </div>
       )}
 
-      {/* Email Form */}
       <div className="text-sm">
         <div className="flex justify-between items-end gap-4 mb-4">
           <div className="flex-1">
