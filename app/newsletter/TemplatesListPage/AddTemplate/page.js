@@ -117,9 +117,44 @@ export default function AddTemplatePage() {
       alert('Please create template content');
       return;
     }
-    console.log({ templateName, selectedProduct, templateFile, previewImage, content: editorContent, visibility });
-    alert('Template saved successfully!');
-    router.push("/newsletter/TemplatesListPage");
+    
+    try {
+      // Save template to emailTemplates for Choose Template dropdown
+      const newTemplate = {
+        id: crypto.randomUUID(),
+        name: templateName,
+        content: editorContent,
+        product: selectedProduct,
+        visibility: visibility,
+        isCustom: false, // Set to false as it's from uploaded HTML file
+        createdAt: new Date().toISOString()
+      };
+
+      const existingTemplates = JSON.parse(localStorage.getItem("emailTemplates") || "[]");
+      const updatedTemplates = [newTemplate, ...existingTemplates];
+      localStorage.setItem("emailTemplates", JSON.stringify(updatedTemplates));
+
+      // Add activity log
+      const activityLog = {
+        id: crypto.randomUUID(),
+        from: "System",
+        to: templateName,
+        subject: `Template: ${templateName}`,
+        message: editorContent,
+        status: "Created",
+        date: new Date().toLocaleString("en-GB"),
+      };
+
+      const existingLogs = JSON.parse(localStorage.getItem("emailLogs") || "[]");
+      const updatedLogs = [activityLog, ...existingLogs];
+      localStorage.setItem("emailLogs", JSON.stringify(updatedLogs));
+
+      alert('Template saved successfully!');
+      router.push("/newsletter/TemplatesListPage");
+    } catch (error) {
+      console.error("Error saving template:", error);
+      alert('Error saving template');
+    }
   };
 
   const handleCancel = () => {
@@ -213,7 +248,6 @@ export default function AddTemplatePage() {
     </div>
   );
 }
-
 
 
 

@@ -47,7 +47,7 @@ export default function AddCustomTemplatePage() {
       if (document.head.contains(link)) document.head.removeChild(link);
       if (document.body.contains(script)) document.body.removeChild(script);
     };
-  }, []);
+  }, []); 
 
   useEffect(() => {
     const existingTemplates = JSON.parse(localStorage.getItem("emailTemplates") || "[]");
