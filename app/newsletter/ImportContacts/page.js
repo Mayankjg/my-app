@@ -76,7 +76,7 @@ export default function ImportContacts() {
     };
 
     return (
-      <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
+      <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start">
         <div className="bg-white w-full max-w-[1400px] h-110 overflow-y-auto">
           <div className="bg-white w-full px-4 sm:px-6 py-4">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -222,7 +222,7 @@ export default function ImportContacts() {
          <div className="bg-gray-200 w-full px-4 sm:px-0 py-4">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <h1 className="text-xl sm:text-2xl font-normal text-gray-700">
-                Import Contact <strong>Detail</strong>
+                <strong> Import Contact Detail</strong>
               </h1>
             </div>
           </div>
