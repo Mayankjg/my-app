@@ -56,7 +56,7 @@ export default function AddTemplatePage() {
               </label>
               <input 
                 type="file" 
-                className="w-full text-sm text-gray-700 file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:text-sm file:font-medium file:bg-gray-400 file:text-white hover:file:bg-gray-500 file:cursor-pointer cursor-pointer"
+                className="w-full text-sm text-gray-700 file:mr-4 file:py-0.5 file:px-4 file:rounded file:border border-gray-400 file:text-sm file:font-medium file:bg-gray-200 file:text-black hover:file:hover:bg-gray-300 file:cursor-pointer"
                 accept=".html"
               />
               <p className="text-red-500 text-sm mt-2">
@@ -70,7 +70,7 @@ export default function AddTemplatePage() {
               </label>
               <input 
                 type="file" 
-                className="w-full text-sm text-gray-700 file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:text-sm file:font-medium file:bg-gray-400 file:text-white hover:file:bg-gray-500 file:cursor-pointer cursor-pointer"
+                className="w-full text-sm text-gray-700 file:mr-4 file:py-0.5 file:px-4 file:rounded file:border border-gray-400 file:text-sm file:font-medium file:bg-gray-200 file:text-black hover:file:hover:bg-gray-300 file:cursor-pointer"
                 accept="image/*"
               />
             </div>
