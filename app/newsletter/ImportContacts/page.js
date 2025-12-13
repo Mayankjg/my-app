@@ -229,10 +229,10 @@ export default function ImportContacts() {
 
           <div className="w-full px-4 py-4 sm:px-3 pb-8">
             <div className="max-w-3xl">
-              <h2 className="text-lg sm:text-xl font-normal text-gray-700 mb-3">
+             <h2 className="text-lg sm:text-xl font-normal text-gray-700 mb-3">
                 Contact <strong>Import</strong>
               </h2>
-              <hr className="-mx-4 sm:-mx-113 border-t border-gray-300 mt-4 mb-3" />
+              {/* <hr className="-mx-4 sm:-mx-6 border-t border-gray-300 mt-4 mb-3" /> */}
               <div className="mb-6">
                 <p className="text-sm text-gray-600 mb-2">
                   Adjust field names with the appropriate column names of the source file that you import.
