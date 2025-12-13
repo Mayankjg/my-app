@@ -144,7 +144,7 @@ export default function AddCustomTemplatePage() {
               value={templateName}
               onChange={(e) => setTemplateName(e.target.value)}
               placeholder="Enter template name"
-              className="w-full border border-gray-300 text-black rounded-md px-3 sm:px-4 py-2.5 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full border border-gray-300 text-black rounded-md px-3 sm:px-4 py-2.5 text-sm sm:text-base focus:outline-none focus:ring-2 hover:bg-gray-100 focus:border-transparent"
             />
           </div>
 

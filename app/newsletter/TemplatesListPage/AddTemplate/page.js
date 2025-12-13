@@ -29,7 +29,7 @@ export default function AddTemplatePage() {
               <input
                 type="text"
                 placeholder="Template Name"
-                className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00a7cf] focus:border-transparent"
+                className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 hover:bg-gray-100 focus:border-transparent"
                 value={productName}
                 onChange={(e) => setProductName(e.target.value)}
               />
@@ -40,7 +40,7 @@ export default function AddTemplatePage() {
                 Product
               </label>
               <select
-                className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00a7cf] focus:border-transparent"
+                className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 hover:bg-gray-100 focus:border-transparent"
                 value={selectedProduct}
                 onChange={(e) => setSelectedProduct(e.target.value)}
               >
@@ -56,7 +56,7 @@ export default function AddTemplatePage() {
               </label>
               <input 
                 type="file" 
-                className="w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-[#0ea5e9] file:text-white hover:file:bg-[#0284c7] file:cursor-pointer cursor-pointer"
+                className="w-full text-sm text-gray-700 file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:text-sm file:font-medium file:bg-gray-400 file:text-white hover:file:bg-gray-500 file:cursor-pointer cursor-pointer"
                 accept=".html"
               />
               <p className="text-red-500 text-sm mt-2">
@@ -70,7 +70,7 @@ export default function AddTemplatePage() {
               </label>
               <input 
                 type="file" 
-                className="w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-[#0ea5e9] file:text-white hover:file:bg-[#0284c7] file:cursor-pointer cursor-pointer"
+                className="w-full text-sm text-gray-700 file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:text-sm file:font-medium file:bg-gray-400 file:text-white hover:file:bg-gray-500 file:cursor-pointer cursor-pointer"
                 accept="image/*"
               />
             </div>
@@ -83,12 +83,12 @@ export default function AddTemplatePage() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <button className="w-full sm:w-auto bg-[#0ea5e9] hover:bg-[#0284c7] text-white px-8 py-2 rounded-md text-base font-medium transition-colors">
+              <button className="w-full sm:w-auto bg-[#0ea5e9] hover:bg-[#0284c7] text-white px-8 py-1.5 rounded-md text-base font-medium transition-colors">
                 Next
               </button>
               <button
                 onClick={() => router.push("/newsletter/TemplatesListPage")}
-                className="w-full sm:w-auto bg-gray-300 hover:bg-gray-400 text-gray-700 px-8 py-2 rounded-md text-base font-medium transition-colors"
+                className="w-full sm:w-auto bg-gray-300 hover:bg-gray-400 text-gray-700 px-8 py-1.5 rounded-md text-base font-medium transition-colors"
               >
                 Cancel
               </button>
