@@ -67,8 +67,8 @@ export default function ContactList() {
   };
 
   return (
-    <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
-      <div className="bg-white w-full border border-[black] max-w-[1400px] h-full overflow-y-auto">
+    <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start">
+      <div className="bg-white w-full border max-w-[1400px] h-full overflow-y-auto">
         <div className="bg-white w-full px-4 sm:px-6 py-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <h1 className="text-xl sm:text-2xl font-normal text-gray-700">
@@ -81,7 +81,7 @@ export default function ContactList() {
               Add Contacts
             </button>
           </div>
-          <hr className="-mx-4 sm:-mx-6 border-t border-gray-300 mt-4 mb-0" />
+          <hr className="-mx-4 sm:-mx-6 border-t border-gray-400 mt-4 mb-0" />
         </div>
 
         <div className="px-4 sm:px-6 py-4 bg-white">

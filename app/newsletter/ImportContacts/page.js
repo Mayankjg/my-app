@@ -77,7 +77,7 @@ export default function ImportContacts() {
 
     return (
       <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
-        <div className="bg-white w-full max-w-[1400px] h-100 overflow-y-auto">
+        <div className="bg-white w-full max-w-[1400px] h-110 overflow-y-auto">
           <div className="bg-white w-full px-4 sm:px-6 py-4">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <h1 className="text-xl sm:text-2xl font-normal text-gray-700">
@@ -123,7 +123,7 @@ export default function ImportContacts() {
 
                     <div className="flex flex-col gap-3 flex-1">
                       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                        <label className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-1.5 rounded border border-gray-400 text-sm font-medium cursor-pointer transition-colors whitespace-nowrap">
+                        <label className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-1 rounded border border-gray-400 text-sm font-medium cursor-pointer transition-colors whitespace-nowrap">
                           Choose File
                           <input
                             type="file"
@@ -146,13 +146,13 @@ export default function ImportContacts() {
                       <div className="flex flex-col sm:flex-row gap-3">
                         <button
                           onClick={handleNext}
-                          className="w-full sm:w-auto bg-[#0ea5e9] hover:bg-[#0284c7] text-white px-12 py-1.5 cursor-pointer rounded-md text-sm font-medium transition-colors"
+                          className="w-full sm:w-auto bg-[#0ea5e9] hover:bg-[#0284c7] text-white px-10 py-2 cursor-pointer rounded-sm text-sm font-medium transition-colors"
                         >
                           Next
                         </button>
                         <button
                           onClick={handleCancel}
-                          className="w-full sm:w-auto bg-gray-300 hover:bg-gray-400 text-gray-700 px-12 py-1.5 cursor-pointer rounded-md text-sm font-medium transition-colors"
+                          className="w-full sm:w-auto bg-gray-300 hover:bg-gray-400 text-gray-700 px-10 py-2 cursor-pointer rounded-sm text-sm font-medium transition-colors"
                         >
                           Cancel
                         </button>
@@ -217,23 +217,22 @@ export default function ImportContacts() {
     };
 
     return (
-      <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
+      <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-hidden flex justify-center items-start">
         <div className="bg-white w-full max-w-[1400px] h-full overflow-y-auto">
-          <div className="bg-white w-full px-4 sm:px-6 py-4">
+         <div className="bg-gray-200 w-full px-4 sm:px-0 py-4">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <h1 className="text-xl sm:text-2xl font-normal text-gray-700">
                 Import Contact <strong>Detail</strong>
               </h1>
             </div>
-            <hr className="-mx-4 sm:-mx-6 border-t border-gray-300 mt-4 mb-0" />
           </div>
 
-          <div className="w-full px-4 sm:px-6 pb-8">
-            <div className="max-w-4xl">
-              <h2 className="text-lg sm:text-xl font-normal text-gray-700 mb-6">
+          <div className="w-full px-4 py-4 sm:px-3 pb-8">
+            <div className="max-w-3xl">
+              <h2 className="text-lg sm:text-xl font-normal text-gray-700 mb-3">
                 Contact <strong>Import</strong>
               </h2>
-
+              <hr className="-mx-4 sm:-mx-113 border-t border-gray-300 mt-4 mb-3" />
               <div className="mb-6">
                 <p className="text-sm text-gray-600 mb-2">
                   Adjust field names with the appropriate column names of the source file that you import.
