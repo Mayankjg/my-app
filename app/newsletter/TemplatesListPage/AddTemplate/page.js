@@ -134,21 +134,6 @@ export default function AddTemplatePage() {
       const updatedTemplates = [newTemplate, ...existingTemplates];
       localStorage.setItem("emailTemplates", JSON.stringify(updatedTemplates));
 
-      // Add activity log
-      const activityLog = {
-        id: crypto.randomUUID(),
-        from: "System",
-        to: templateName,
-        subject: `Template: ${templateName}`,
-        message: editorContent,
-        status: "Created",
-        date: new Date().toLocaleString("en-GB"),
-      };
-
-      const existingLogs = JSON.parse(localStorage.getItem("emailLogs") || "[]");
-      const updatedLogs = [activityLog, ...existingLogs];
-      localStorage.setItem("emailLogs", JSON.stringify(updatedLogs));
-
       alert('Template saved successfully!');
       router.push("/newsletter/TemplatesListPage");
     } catch (error) {
@@ -248,7 +233,6 @@ export default function AddTemplatePage() {
     </div>
   );
 }
-
 
 
 // "use client";
