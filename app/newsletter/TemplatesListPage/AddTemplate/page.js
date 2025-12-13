@@ -24,17 +24,14 @@ export default function AddTemplatePage() {
         const content = event.target.result;
         setHtmlContent(content);
         
-        // Extract heading from HTML
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = content;
         const heading = tempDiv.querySelector('h1, h2, h3, h4, h5, h6');
         if (heading) {
           setHeadingText(heading.textContent || heading.innerText);
-          // Remove heading from content
           heading.remove();
           setHtmlContent(tempDiv.innerHTML);
         } else {
-          // Try to get first paragraph or any text
           const firstText = tempDiv.textContent.trim().split('\n')[0];
           if (firstText) {
             setHeadingText(firstText);
@@ -65,7 +62,7 @@ export default function AddTemplatePage() {
               ['link', 'image', 'video', 'formula'], ['clean']]
           }
         });
-        // Load heading and HTML content together
+
         if (quillRef.current) {
           let fullContent = '';
           if (headingText) {
@@ -118,15 +115,14 @@ export default function AddTemplatePage() {
       return;
     }
     
-    try {
-      // Save template to emailTemplates for Choose Template dropdown
+    try { 
       const newTemplate = {
         id: crypto.randomUUID(),
         name: templateName,
         content: editorContent,
         product: selectedProduct,
         visibility: visibility,
-        isCustom: false, // Set to false as it's from uploaded HTML file
+        isCustom: false, 
         createdAt: new Date().toISOString()
       };
 
@@ -156,9 +152,9 @@ export default function AddTemplatePage() {
   };
 
   return (
-    <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-y-auto flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
+    <div className="bg-[#F2F2F2] p-0 sm:p-5 h-screen overflow-y-auto flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
       <style>{`.ql-editor{color:black!important}.ql-editor p,.ql-editor h1,.ql-editor h2,.ql-editor h3,.ql-editor h4,.ql-editor h5,.ql-editor h6,.ql-editor span,.ql-editor div,.ql-editor li,.ql-editor ol,.ql-editor ul{color:black!important}.ql-editor strong,.ql-editor em,.ql-editor u{color:black!important}.ql-container{font-family:inherit}.ql-tooltip{left:auto!important;right:0!important;transform:none!important}`}</style>
-      <div className="bg-white w-full border border-[black] max-w-[1400px]">
+      <div className="bg-white w-full border max-w-[1400px]">
         <div className="bg-white w-full px-4 sm:px-6 py-2">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <h1 className="text-xl sm:text-2xl font-normal text-gray-700">
