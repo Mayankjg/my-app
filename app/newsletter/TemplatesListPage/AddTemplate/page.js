@@ -12,6 +12,7 @@ export default function AddTemplatePage() {
   const [templateFile, setTemplateFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [htmlContent, setHtmlContent] = useState("");
+  const [headingText, setHeadingText] = useState("");
   const [visibility, setVisibility] = useState("admin");
 
   const handleFileChange = (e) => {
@@ -19,7 +20,27 @@ export default function AddTemplatePage() {
     setTemplateFile(file);
     if (file && file.type === "text/html") {
       const reader = new FileReader();
-      reader.onload = (event) => setHtmlContent(event.target.result);
+      reader.onload = (event) => {
+        const content = event.target.result;
+        setHtmlContent(content);
+        
+        // Extract heading from HTML
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = content;
+        const heading = tempDiv.querySelector('h1, h2, h3, h4, h5, h6');
+        if (heading) {
+          setHeadingText(heading.textContent || heading.innerText);
+          // Remove heading from content
+          heading.remove();
+          setHtmlContent(tempDiv.innerHTML);
+        } else {
+          // Try to get first paragraph or any text
+          const firstText = tempDiv.textContent.trim().split('\n')[0];
+          if (firstText) {
+            setHeadingText(firstText);
+          }
+        }
+      };
       reader.readAsText(file);
     }
   };
@@ -44,7 +65,19 @@ export default function AddTemplatePage() {
               ['link', 'image', 'video', 'formula'], ['clean']]
           }
         });
-        if (htmlContent && quillRef.current) quillRef.current.root.innerHTML = htmlContent;
+        // Load heading and HTML content together
+        if (quillRef.current) {
+          let fullContent = '';
+          if (headingText) {
+            fullContent = `<h1 style="font-size: 2em; font-weight: bold; margin-bottom: 0.5em;">${headingText}</h1>`;
+          }
+          if (htmlContent) {
+            fullContent += htmlContent;
+          }
+          if (fullContent) {
+            quillRef.current.root.innerHTML = fullContent;
+          }
+        }
       }
     }, 100);
   };
@@ -104,8 +137,7 @@ export default function AddTemplatePage() {
 
   return (
     <div className="bg-[#e5e7eb] p-0 sm:p-5 h-screen overflow-y-auto flex justify-center items-start font-['Segoe_UI',Tahoma,Geneva,Verdana,sans-serif]">
-      <style>{`.ql-editor{color:black!important}.ql-editor p,.ql-editor h1,.ql-editor h2,.ql-editor h3,.ql-editor h4,.ql-editor h5,.ql-editor h6,.ql-editor span,.ql-editor div,.ql-editor li,.ql-editor ol,
-      .ql-editor ul{color:black!important}.ql-editor strong,.ql-editor em,.ql-editor u{color:black!important}.ql-container{font-family:inherit}.ql-tooltip{left:auto!important;right:0!important;transform:none!important}`}</style>
+      <style>{`.ql-editor{color:black!important}.ql-editor p,.ql-editor h1,.ql-editor h2,.ql-editor h3,.ql-editor h4,.ql-editor h5,.ql-editor h6,.ql-editor span,.ql-editor div,.ql-editor li,.ql-editor ol,.ql-editor ul{color:black!important}.ql-editor strong,.ql-editor em,.ql-editor u{color:black!important}.ql-container{font-family:inherit}.ql-tooltip{left:auto!important;right:0!important;transform:none!important}`}</style>
       <div className="bg-white w-full border border-[black] max-w-[1400px]">
         <div className="bg-white w-full px-4 sm:px-6 py-2">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -120,13 +152,11 @@ export default function AddTemplatePage() {
             <div className="max-w-3xl">
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">Template Name</label>
-                <input type="text" placeholder="Template Name" className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none
-                 focus:ring-2 hover:bg-gray-100 focus:border-transparent" value={templateName} onChange={(e) => setTemplateName(e.target.value)} />
+                <input type="text" placeholder="Template Name" className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 hover:bg-gray-100 focus:border-transparent" value={templateName} onChange={(e) => setTemplateName(e.target.value)} />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">Product</label>
-                <select className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none 
-                focus:ring-2 hover:bg-gray-100 focus:border-transparent" value={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)}>
+                <select className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 hover:bg-gray-100 focus:border-transparent" value={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)}>
                   <option value="">Select Products</option>
                   <option value="product1">Product 1</option>
                   <option value="product2">Product 2</option>
@@ -134,14 +164,12 @@ export default function AddTemplatePage() {
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-3">Template File</label>
-                <input type="file" className="w-full text-sm text-gray-700 file:mr-4 file:py-0.5 file:px-4 file:rounded file:border border-gray-400 
-                file:text-sm file:font-medium file:bg-gray-200 file:text-black hover:file:hover:bg-gray-300 file:cursor-pointer" accept=".html" onChange={handleFileChange} />
+                <input type="file" className="w-full text-sm text-gray-700 file:mr-4 file:py-0.5 file:px-4 file:rounded file:border border-gray-400 file:text-sm file:font-medium file:bg-gray-200 file:text-black hover:file:hover:bg-gray-300 file:cursor-pointer" accept=".html" onChange={handleFileChange} />
                 <p className="text-red-500 text-sm mt-2">Only .HTML Format Allow</p>
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-3">Preview Images</label>
-                <input type="file" className="w-full text-sm text-gray-700 file:mr-4 file:py-0.5 file:px-4 file:rounded file:border border-gray-400 file:text-sm 
-                file:font-medium file:bg-gray-200 file:text-black hover:file:hover:bg-gray-300 file:cursor-pointer" accept="image/*" onChange={(e) => setPreviewImage(e.target.files[0])} />
+                <input type="file" className="w-full text-sm text-gray-700 file:mr-4 file:py-0.5 file:px-4 file:rounded file:border border-gray-400 file:text-sm file:font-medium file:bg-gray-200 file:text-black hover:file:hover:bg-gray-300 file:cursor-pointer" accept="image/*" onChange={(e) => setPreviewImage(e.target.files[0])} />
               </div>
               <div className="bg-red-50 border border-red-200 rounded-md px-4 py-2 mb-4">
                 <p className="text-sm text-red-600"><span className="font-semibold">Note:</span> Please Do not Include <span className="font-semibold">Background-image</span> Tag in Template.</p>
