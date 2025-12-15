@@ -163,7 +163,7 @@ export default function EmailSection() {
         .ql-container { font-family: inherit; }
         .ql-tooltip { left: auto !important; right: 0 !important; transform: none !important; }
       `}</style>
-      
+
       {showAddForm && (
         <div className="fixed inset-0 bg-black/60 flex items-start justify-center z-50 pt-10">
           <div className="bg-white w-[90%] md:w-[700px] rounded-lg shadow-xl p-6 relative animate-slideDown">
@@ -175,7 +175,12 @@ export default function EmailSection() {
             <div className="mb-3"><label className="block mb-2 text-sm text-gray-700 font-medium">Email</label>
               <input type="email" value={newEmailField} onChange={(e) => setNewEmailField(e.target.value)} className="w-full border border-gray-300 px-3 py-2 rounded" placeholder="Enter email address" /></div>
             <div className="flex gap-3">
-              <button className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded font-medium" onClick={() => { if (newEmailField.trim()) { alert("Verification sent to: " + newEmailField); setShowAddForm(false); setNewEmailField(""); } else alert("Enter email"); }}>Verify</button>
+              <button className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded font-medium" onClick={() => {
+                if (newEmailField.trim()) {
+                  alert("Verification sent to: " + newEmailField);
+                  setShowAddForm(false); setNewEmailField("");
+                } else alert("Enter email");
+              }}>Verify</button>
               <button className="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 px-6 py-2 rounded font-medium" onClick={() => { setShowAddForm(false); setNewEmailField(""); }}>Cancel</button>
             </div>
           </div>
@@ -192,12 +197,17 @@ export default function EmailSection() {
             <div className="mb-4"><label className="block mb-2 text-sm text-gray-700 font-medium">Template</label>
               <div className="border border-gray-300 rounded p-3 bg-gray-50 max-h-[200px] overflow-y-auto"><div dangerouslySetInnerHTML={{ __html: quillRef.current?.root.innerHTML || '' }} /></div></div>
             <div className="mb-6"><div className="flex gap-6">
-                <label className="flex items-center gap-2 cursor-pointer"><input type="radio" name="visibility" value="admin" checked={templateVisibility === "admin"} onChange={(e) => setTemplateVisibility(e.target.value)} className="w-4 h-4 text-cyan-500" /><span className="text-sm text-gray-700">Visible To Admin</span></label>
-                <label className="flex items-center gap-2 cursor-pointer"><input type="radio" name="visibility" value="all" checked={templateVisibility === "all"} onChange={(e) => setTemplateVisibility(e.target.value)} className="w-4 h-4 text-cyan-500" /><span className="text-sm text-gray-700">Visible To All</span></label>
-              </div></div>
+              <label className="flex items-center gap-2 cursor-pointer"><input type="radio" name="visibility" value="admin" checked={templateVisibility === "admin"}
+                onChange={(e) => setTemplateVisibility(e.target.value)} className="w-4 h-4 text-cyan-500" />
+                <span className="text-sm text-gray-700">Visible To Admin</span></label>
+              <label className="flex items-center gap-2 cursor-pointer"><input type="radio" name="visibility" value="all" checked={templateVisibility === "all"}
+                onChange={(e) => setTemplateVisibility(e.target.value)} className="w-4 h-4 text-cyan-500" />
+                <span className="text-sm text-gray-700">Visible To All</span></label>
+            </div></div>
             <div className="flex gap-3">
               <button className="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-2 rounded font-medium" onClick={saveTemplate}>Save Template</button>
-              <button className="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 px-6 py-2 rounded font-medium" onClick={() => { setShowTemplateForm(false); setTemplateName(""); setTemplateVisibility("admin"); }}>Cancel</button>
+              <button className="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 px-6 py-2 rounded font-medium"
+                onClick={() => { setShowTemplateForm(false); setTemplateName(""); setTemplateVisibility("admin"); }}>Cancel</button>
             </div>
           </div>
         </div>
@@ -232,19 +242,19 @@ export default function EmailSection() {
       <div className="overflow-x-auto hidden md:block">
         <table className="w-full text-sm border-collapse border border-gray-300">
           <thead><tr className="bg-[#e8eef2]">
-              <th className="px-4 py-3 text-left font-semibold text-gray-700 uppercase text-xs tracking-wider border border-gray-300">TO</th>
-              <th className="px-4 py-3 text-left font-semibold text-gray-700 uppercase text-xs tracking-wider border border-gray-300">STATUS</th>
-              <th className="px-4 py-3 text-left font-semibold text-gray-700 uppercase text-xs tracking-wider border border-gray-300">DATE</th>
-              <th className="px-4 py-3 text-left font-semibold text-gray-700 uppercase text-xs tracking-wider border border-gray-300">ACTION</th>
-            </tr></thead>
+            <th className="px-4 py-3 text-left font-semibold text-gray-700 uppercase text-xs tracking-wider border border-gray-300">TO</th>
+            <th className="px-4 py-3 text-left font-semibold text-gray-700 uppercase text-xs tracking-wider border border-gray-300">STATUS</th>
+            <th className="px-4 py-3 text-left font-semibold text-gray-700 uppercase text-xs tracking-wider border border-gray-300">DATE</th>
+            <th className="px-4 py-3 text-left font-semibold text-gray-700 uppercase text-xs tracking-wider border border-gray-300">ACTION</th>
+          </tr></thead>
           <tbody>
             {emailLogs.length === 0 ? (<tr><td colSpan="4" className="py-8 text-center text-red-500 font-medium border border-gray-300">No Records</td></tr>) : (
               emailLogs.map(log => (<tr key={log.id} className="bg-white">
-                  <td className="px-4 py-4 text-gray-600 border border-gray-300">{log.to}</td>
-                  <td className="px-4 py-4 border border-gray-300"><span className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">{log.status}</span></td>
-                  <td className="px-4 py-4 text-[#00bcd4] font-medium border border-gray-300">{log.date}</td>
-                  <td className="px-4 py-4 border border-gray-300"><button onClick={() => deleteLog(log.id)} className="text-gray-500 hover:text-gray-700 transition"><Trash2 className="w-5 h-5" /></button></td>
-                </tr>))
+                <td className="px-4 py-4 text-gray-600 border border-gray-300">{log.to}</td>
+                <td className="px-4 py-4 border border-gray-300"><span className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">{log.status}</span></td>
+                <td className="px-4 py-4 text-[#00bcd4] font-medium border border-gray-300">{log.date}</td>
+                <td className="px-4 py-4 border border-gray-300"><button onClick={() => deleteLog(log.id)} className="text-gray-500 hover:text-gray-700 transition"><Trash2 className="w-5 h-5" /></button></td>
+              </tr>))
             )}
           </tbody>
         </table>
@@ -253,11 +263,11 @@ export default function EmailSection() {
       <div className="md:hidden space-y-3">
         {emailLogs.length === 0 ? (<div className="py-8 text-center text-red-500 font-medium border border-gray-300 rounded">No Records</div>) : (
           emailLogs.map(log => (<div key={log.id} className="border border-gray-300 bg-white rounded-lg overflow-hidden">
-              <div className="border-b border-gray-200 p-4 text-sm text-gray-600">{log.to}</div>
-              <div className="border-b border-gray-200 p-4 text-sm"><span className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs inline-block">{log.status}</span></div>
-              <div className="border-b border-gray-200 p-4 text-sm font-semibold text-[#00bcd4]">{log.date}</div>
-              <div className="p-4 flex justify-start"><button className="text-gray-500 hover:text-gray-700" onClick={() => deleteLog(log.id)}><Trash2 className="w-5 h-5" /></button></div>
-            </div>))
+            <div className="border-b border-gray-200 p-4 text-sm text-gray-600">{log.to}</div>
+            <div className="border-b border-gray-200 p-4 text-sm"><span className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs inline-block">{log.status}</span></div>
+            <div className="border-b border-gray-200 p-4 text-sm font-semibold text-[#00bcd4]">{log.date}</div>
+            <div className="p-4 flex justify-start"><button className="text-gray-500 hover:text-gray-700" onClick={() => deleteLog(log.id)}><Trash2 className="w-5 h-5" /></button></div>
+          </div>))
         )}
       </div>
     </div>
