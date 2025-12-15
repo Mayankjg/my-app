@@ -26,8 +26,10 @@ export default function EmailSection() {
     link.href = 'https://cdn.quilljs.com/1.3.6/quill.snow.css';
     link.rel = 'stylesheet';
     document.head.appendChild(link);
+
     const script = document.createElement('script');
     script.src = 'https://cdn.quilljs.com/1.3.6/quill.js';
+    
     script.onload = () => {
       if (window.Quill && !quillRef.current) {
         quillRef.current = new window.Quill('#editor', {
