@@ -189,7 +189,7 @@ export default function EmailSection() {
 
       {showTemplateForm && (
         <div className="fixed inset-0 bg-black/60 flex items-start justify-center z-50 pt-10">
-          <div className="bg-white w-[90%] md:w-[700px] rounded-lg shadow-xl p-6 relative animate-slideDown">
+          <div className="bg-white w-[90%] md:w-[800px] rounded-lg shadow-xl p-6 relative animate-slideDown">
             <button onClick={() => { setShowTemplateForm(false); setTemplateName(""); setTemplateVisibility("admin"); }} className="absolute top-4 right-4 text-2xl text-gray-500 hover:text-gray-700">×</button>
             <h3 className="text-lg font-semibold mb-4 text-gray-800">Save as template</h3>
             <div className="mb-4"><label className="block mb-2 text-sm text-gray-700 font-medium">Template Name</label>
