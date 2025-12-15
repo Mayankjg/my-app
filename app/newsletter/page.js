@@ -23,7 +23,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-const REDIRECT_TO = '/newsletter/UnsubscribeUserList';
+const REDIRECT_TO = '/newsletter/TemplatesListPage';
 
 
 export default function Home() {
