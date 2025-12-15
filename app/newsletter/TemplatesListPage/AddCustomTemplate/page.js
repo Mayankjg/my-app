@@ -242,38 +242,3 @@ export default function AddCustomTemplatePage() {
   );
 }
 
-
-// "use client";
-
-// import React, {useState,useRef,useEffect} from "react";
-
-// import { useRouter } from "next/navigation";
-// import { Script } from "vm";
-// import { Quill } from "react-quill";
-
-// export default function AddCustomTemplatePage() {
-//   const [templateName, setTemplateName] = useState("");
-//   const [visibility, setVisibility] = useState("admin");
-//   const [showPreview, setShowPreview] = useState(false);
-//   const [savedTemplates, setSavedTemplates] = useState("");
-//   const quillRef = useRef(null);
-//   const router = useRouter();
-
-//   useEffect(() => {
-//     const link = document.createElement("script");
-//     Script.src = 'https://cdn.quilljs.com/1.3.6/quill.js';
-//     Script.onload = () => {
-//       if (window.Quill && !quillRef.current) {
-//         quillRef.current = new window.Quill('#editor', {
-//           theme: 'snow',
-//           placeholder:'Write your template content here...',
-//           modules: { toolbar: [ [{ 'font': [] }, { 'size': ['small', false, 'large', 'huge'] }], [{ 'header': [1, 2, 3, 4, 5, 6, false] }], ['bold', 'italic', 'underline', 'strike'], [{ 'color': [] }, { 'background': [] }], [{ 'script': 'sub'}, { 'script': 'super' }], [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'indent': '-1'}, { 'indent': '+1' }], [{ 'direction': 'rtl' }, { 'align': [] }], ['blockquote', 'code-block'], ['link', 'image', 'video', 'formula'], ['clean']
-//         ]
-//           }
-//         });
-//       }
-//     };
-
-//     document.body.append
-//   })
-// }
