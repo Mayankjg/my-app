@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Trash2 } from "lucide-react";
+import { Trash2, X } from "lucide-react";
 
 const defaultTemplate = {
   id: "default-1",
@@ -23,6 +23,8 @@ export default function EmailSection() {
   const [newEmailField, setNewEmailField] = useState("");
   const [templateName, setTemplateName] = useState("");
   const [templateVisibility, setTemplateVisibility] = useState("admin");
+  const [previewImage, setPreviewImage] = useState(null);
+  const [showTemplateDropdown, setShowTemplateDropdown] = useState(false);
 
   useEffect(() => {
     const link = document.createElement('link');
@@ -117,11 +119,25 @@ export default function EmailSection() {
     }
   };
 
+  const deleteTemplate = (id, e) => {
+    e.stopPropagation();
+    if (window.confirm("Delete this template?")) {
+      const existing = JSON.parse(localStorage.getItem("emailTemplates") || "[]");
+      const updated = existing.filter(t => t.id !== id);
+      localStorage.setItem("emailTemplates", JSON.stringify(updated));
+      setTemplates([defaultTemplate, ...updated]);
+      if (selectedTemplate === id) {
+        setSelectedTemplate("");
+      }
+    }
+  };
+
   const applyTemplate = (id) => {
     if (!id) return setSelectedTemplate("");
     setSelectedTemplate(id);
     const temp = templates.find(t => t.id === id);
     if (temp && quillRef.current) quillRef.current.root.innerHTML = temp.content;
+    setShowTemplateDropdown(false);
   };
 
   const sendEmail = () => {
@@ -223,11 +239,57 @@ export default function EmailSection() {
           <textarea className="border border-gray-300 w-full p-2.5 rounded-sm hover:bg-gray-100 resize" value={toEmail} onChange={(e) => setToEmail(e.target.value)} rows={2} /></div>
         <div className="mb-4"><label className="block mb-2 text-gray-700 font-medium">Subject</label>
           <input type="text" className="border border-gray-300 w-full p-2.5 rounded-sm hover:bg-gray-100" value={subject} placeholder="Enter subject" onChange={(e) => setSubject(e.target.value)} /></div>
-        <div className="mb-4"><label className="block mb-2 text-gray-700 font-medium">Reply with Template</label>
-          <select className="border border-gray-300 w-full p-2.5 rounded-sm bg-white hover:bg-gray-100" value={selectedTemplate} onChange={(e) => applyTemplate(e.target.value)}>
-            <option value="">Choose Template</option>
-            {templates.map(t => t?.id && <option key={t.id} value={t.id}>{t.isCustom ? '📝 ' : '📄 '}{t.name}</option>)}
-          </select></div>
+        
+        <div className="mb-4 relative">
+          <label className="block mb-2 text-gray-700 font-medium">Reply with Template</label>
+          <div className="relative">
+            <button 
+              onClick={() => setShowTemplateDropdown(!showTemplateDropdown)}
+              className="border border-gray-300 w-full p-2.5 rounded-sm bg-white hover:bg-gray-100 text-left flex justify-between items-center"
+            >
+              <span className="text-gray-700">
+                {selectedTemplate 
+                  ? templates.find(t => t.id === selectedTemplate)?.name || "Choose Template"
+                  : "Choose Template"}
+              </span>
+              <span className="text-gray-400">▼</span>
+            </button>
+            
+            {showTemplateDropdown && (
+              <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-sm shadow-lg max-h-60 overflow-y-auto">
+                <div 
+                  onClick={() => applyTemplate("")}
+                  className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-gray-700"
+                >
+                  Choose Template
+                </div>
+                {templates.map(t => t?.id && (
+                  <div 
+                    key={t.id}
+                    className="px-3 py-2 hover:bg-gray-100 cursor-pointer flex justify-between items-center group"
+                  >
+                    <span 
+                      onClick={() => applyTemplate(t.id)}
+                      className="flex-1 text-gray-700"
+                    >
+                      {t.isCustom ? '📝 ' : '📄 '}{t.name}
+                    </span>
+                    {t.isCustom && (
+                      <button
+                        onClick={(e) => deleteTemplate(t.id, e)}
+                        className="ml-2 p-1 text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity"
+                        title="Delete template"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
         <div className="mb-4"><label className="block mb-2 text-gray-700 font-medium">Message</label>
           <div className="border-2 border-gray-300 rounded overflow-auto resize"><div id="editor" style={{ minHeight: '150px', backgroundColor: 'white' }}></div></div></div>
         <button onClick={openTemplateModal} className="mt-3 px-4 py-2 bg-blue-100 border border-blue-400 text-blue-700 rounded hover:bg-blue-200">📄 Save as Template</button>
