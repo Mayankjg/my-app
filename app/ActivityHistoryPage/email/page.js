@@ -233,7 +233,16 @@ export default function EmailSection() {
         <button onClick={openTemplateModal} className="mt-3 px-4 py-2 bg-blue-100 border border-blue-400 text-blue-700 rounded hover:bg-blue-200">📄 Save as Template</button>
       </div>
 
-      
+      <div className="mt-10">
+        <label className="block text-sm font-medium text-gray-500 mb-3">Attachment</label>
+        <input type="file" className="w-full text-sm text-gray-700 file:mr-4 file:py-0.5 file:px-4 file:rounded file:border border-gray-400 file:text-sm 
+        file:font-medium file:bg-gray-200 file:text-black hover:file:hover:bg-gray-300 file:cursor-pointer" accept="image/*" onChange={(e) => setPreviewImage(e.target.files[0])} />
+      </div>
+
+      <div className="bg-red-50 border border-red-200 rounded-md px-4 py-2 mt-7">
+        <p className="text-sm text-red-400"><span className="font-semibold"></span> Note : (1) Maximum File Size 4 MB (2) Maximum All Files Size 12 Mb (3)
+          Only jpg, jpeg, png, bmp, gif, xls, xlsx, docx, doc, pdf Files Allow.</p>
+      </div>
 
       <div className="flex gap-4 mt-4">
         <button onClick={sendEmail} className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Send Email</button>
