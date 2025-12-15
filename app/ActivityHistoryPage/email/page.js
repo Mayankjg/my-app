@@ -233,6 +233,8 @@ export default function EmailSection() {
         <button onClick={openTemplateModal} className="mt-3 px-4 py-2 bg-blue-100 border border-blue-400 text-blue-700 rounded hover:bg-blue-200">📄 Save as Template</button>
       </div>
 
+      
+
       <div className="flex gap-4 mt-4">
         <button onClick={sendEmail} className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Send Email</button>
         <button onClick={resetForm} className="border border-gray-400 px-6 py-2 rounded hover:bg-gray-100">Cancel</button>
