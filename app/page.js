@@ -7,7 +7,7 @@ export default function Home() {
   const router = useRouter();
   
   useEffect(() => {
-    router.push('/newsletter/ImportContacts'); 
+    router.push('/ActivityHistoryPage'); 
   }, [router]);
 
   return (

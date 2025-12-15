@@ -1,11 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CommentsSection from "./comments/page";
 import EmailSection from "./email/page";
+import { useRouter } from 'next/navigation';
 
 export default function ActivityHistory() {
   const [activeTab, setActiveTab] = useState("comments");
+  const router = useRouter();
+  
+  useEffect(() => {
+    router.push('/ActivityHistoryPage'); 
+  }, [router]);
 
   return (
     <div className="bg-white w-full text-black p-4 sm:p-6 md:p-8 lg:p-10 xl:p-6 h-screen overflow-y-auto">
