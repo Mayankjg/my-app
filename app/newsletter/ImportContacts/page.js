@@ -152,7 +152,7 @@ export default function ImportContacts() {
                         </button>
                         <button
                           onClick={handleCancel}
-                          className="w-full sm:w-auto bg-gray-300 hover:bg-gray-400 text-gray-700 px-10 py-2 cursor-pointer rounded-sm text-sm font-medium transition-colors"
+                          className="w-full sm:w-auto bg-white hover:bg-gray-100 text-gray-700 px-10 py-2 cursor-pointer rounded-sm border border-black text-sm font-medium transition-colors"
                         >
                           Cancel
                         </button>
