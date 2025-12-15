@@ -81,7 +81,8 @@ export default function EmailSection() {
       if (selectedTemplate === id) setSelectedTemplate("");
     }
   };
-  const applyTemplate = (id) => { if (!id) return setSelectedTemplate(""); setSelectedTemplate(id); const temp = templates.find(t => t.id === id); if (temp && quillRef.current) quillRef.current.root.innerHTML = temp.content; setShowTemplateDropdown(false); };
+  const applyTemplate = (id) => { if (!id) return setSelectedTemplate(""); setSelectedTemplate(id); const temp = templates.find(t => t.id === id); 
+    if (temp && quillRef.current) quillRef.current.root.innerHTML = temp.content; setShowTemplateDropdown(false); };
   const sendEmail = () => {
     if (!quillRef.current) return;
     if (!quillRef.current.getText().trim()) return alert("Please write a message!");
@@ -111,7 +112,8 @@ export default function EmailSection() {
             <div className="mb-3"><label className="block mb-2 text-sm text-gray-700 font-medium">Email</label>
               <input type="email" value={newEmailField} onChange={(e) => setNewEmailField(e.target.value)} className="w-full border border-gray-300 px-3 py-2 rounded" placeholder="Enter email address" /></div>
             <div className="flex gap-3">
-              <button className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded font-medium" onClick={() => { if (newEmailField.trim()) { alert("Verification sent to: " + newEmailField); setShowAddForm(false); setNewEmailField(""); } else alert("Enter email"); }}>Verify</button>
+              <button className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded font-medium" onClick={() => { if (newEmailField.trim()) { alert("Verification sent to: " + newEmailField); 
+                setShowAddForm(false); setNewEmailField(""); } else alert("Enter email"); }}>Verify</button>
               <button className="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 px-6 py-2 rounded font-medium" onClick={() => { setShowAddForm(false); setNewEmailField(""); }}>Cancel</button>
             </div>
           </div>
@@ -128,12 +130,18 @@ export default function EmailSection() {
             <div className="mb-4"><label className="block mb-2 text-sm text-gray-700 font-medium">Template</label>
               <div className="border border-gray-300 rounded p-3 bg-gray-50 max-h-[200px] overflow-y-auto"><div dangerouslySetInnerHTML={{ __html: quillRef.current?.root.innerHTML || '' }} /></div></div>
             <div className="mb-6"><div className="flex gap-6">
-              <label className="flex items-center gap-2 cursor-pointer"><input type="radio" name="visibility" value="admin" checked={templateVisibility === "admin"} onChange={(e) => setTemplateVisibility(e.target.value)} className="w-4 h-4 text-cyan-500" /><span className="text-sm text-gray-700">Visible To Admin</span></label>
-              <label className="flex items-center gap-2 cursor-pointer"><input type="radio" name="visibility" value="all" checked={templateVisibility === "all"} onChange={(e) => setTemplateVisibility(e.target.value)} className="w-4 h-4 text-cyan-500" /><span className="text-sm text-gray-700">Visible To All</span></label>
+              <label className="flex items-center gap-2 cursor-pointer"><input type="radio" name="visibility" value="admin" checked={templateVisibility === "admin"} 
+              onChange={(e) => setTemplateVisibility(e.target.value)} className="w-4 h-4 text-cyan-500" />
+              <span className="text-sm text-gray-700">Visible To Admin</span></label>
+              <label className="flex items-center gap-2 cursor-pointer"><input type="radio" name="visibility" value="all" checked={templateVisibility === "all"} 
+              onChange={(e) => setTemplateVisibility(e.target.value)} className="w-4 h-4 text-cyan-500" />
+              <span className="text-sm text-gray-700">Visible To All</span></label>
             </div></div>
             <div className="flex gap-3">
               <button className="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-2 rounded font-medium" onClick={saveTemplate}>Save Template</button>
-              <button className="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 px-6 py-2 rounded font-medium" onClick={() => { setShowTemplateForm(false); setTemplateName(""); setTemplateVisibility("admin"); }}>Cancel</button>
+              <button className="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 px-6 py-2 rounded font-medium" onClick={() => { 
+                setShowTemplateForm(false); setTemplateName(""); setTemplateVisibility("admin"); }
+                }>Cancel</button>
             </div>
           </div>
         </div>
@@ -163,7 +171,8 @@ export default function EmailSection() {
                 {templates.map(t => t?.id && (
                   <div key={t.id} className="px-3 py-2 hover:bg-gray-100 cursor-pointer flex justify-between items-center group">
                     <span onClick={() => applyTemplate(t.id)} className="flex-1 text-gray-700">{t.isCustom ? '📝 ' : '📄 '}{t.name}</span>
-                    {t.isCustom && (<button onClick={(e) => deleteTemplate(t.id, e)} className="ml-2 p-1 text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity" title="Delete template"><Trash2 className="w-4 h-4" /></button>)}
+                    {t.isCustom && (<button onClick={(e) => deleteTemplate(t.id, e)} className="ml-2 p-1 text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity" title="Delete template">
+                      <Trash2 className="w-4 h-4" /></button>)}
                   </div>
                 ))}
               </div>
@@ -178,7 +187,9 @@ export default function EmailSection() {
 
       <div className="mt-10">
         <label className="block text-sm font-medium text-gray-500 mb-3">Attachment</label>
-        <input type="file" className="w-full text-sm text-gray-700 file:mr-4 file:py-0.5 file:px-4 file:rounded file:border border-gray-400 file:text-sm file:font-medium file:bg-gray-200 file:text-black hover:file:hover:bg-gray-300 file:cursor-pointer" accept="image/*" onChange={(e) => setPreviewImage(e.target.files[0])} />
+        <input type="file" className="w-full text-sm text-gray-700 file:mr-4 file:py-0.5 file:px-4 file:rounded file:border border-gray-400 
+        file:text-sm file:font-medium file:bg-gray-200 file:text-black hover:file:hover:bg-gray-300 file:cursor-pointer" accept="image/*"
+         onChange={(e) => setPreviewImage(e.target.files[0])} />
       </div>
 
       <div className="bg-red-50 border border-red-200 rounded-md px-4 py-2 mt-7">
