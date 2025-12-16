@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 export default function AddCustomTemplatePage() {
   const [templateName, setTemplateName] = useState("");
   const [visibility, setVisibility] = useState("admin");
-  const [showPreview, setShowPreview] = useState(false);
   const [savedTemplates, setSavedTemplates] = useState("");
   const quillRef = useRef(null);
   const router = useRouter();
@@ -89,7 +88,6 @@ export default function AddCustomTemplatePage() {
 
     setTemplateName('');
     setVisibility('admin');
-    setShowPreview(false);
     if (quillRef.current) {
       quillRef.current.setContents([]);
     }
@@ -193,12 +191,7 @@ export default function AddCustomTemplatePage() {
             >
               Save Template
             </button>
-            <button
-              onClick={() => setShowPreview(!showPreview)}
-              className="w-full sm:w-auto bg-green-500 text-white px-6 sm:px-8 py-2.5 rounded-md text-sm sm:text-base hover:bg-green-600 active:bg-green-700 font-medium transition-colors shadow-sm"
-            >
-              {showPreview ? 'Hide Preview' : 'Show Preview'}
-            </button>
+          
             <button
               onClick={() => router.push("/newsletter/TemplatesListPage")}
               className="w-full sm:w-auto bg-gray-300 hover:bg-gray-400 active:bg-gray-500 text-gray-700 px-6 sm:px-8 py-2.5 rounded-md text-sm sm:text-base font-medium transition-colors shadow-sm"
@@ -206,36 +199,6 @@ export default function AddCustomTemplatePage() {
               Cancel
             </button>
           </div>
-
-          {showPreview && (
-            <div className="mt-6">
-              <div className="border-2 border-gray-300 rounded-lg bg-white overflow-hidden shadow-sm">
-                <div className="bg-gray-100 border-b border-gray-300 px-4 sm:px-6 py-3 sm:py-4">
-                  <h2 className="text-base sm:text-lg font-semibold text-gray-700">
-                    Template Preview
-                  </h2>
-                </div>
-                <div className="p-4 sm:p-6">
-                  <div className="border border-gray-300 rounded-lg bg-white overflow-hidden">
-                    <div className="bg-gray-50 border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4">
-                      <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-800 break-words">
-                        {templateName || 'Untitled Template'}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-gray-500 mt-1">
-                        Visibility: <span className="font-medium">{visibility === 'admin' ? 'Admin Only' : 'All Users'}</span>
-                      </p>
-                    </div>
-                    <div
-                      className="p-4 sm:p-6 text-sm sm:text-base"
-                      dangerouslySetInnerHTML={{
-                        __html: quillRef.current?.root.innerHTML || '<p class="text-gray-400 italic">No content yet...</p>'
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>
