@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/jagla/OneDrive/Desktop/CRM/my-app/app/newsletter/ContactList/page.js"],"sourcesContent":["\"use client\";\r\n\r\nimport React, { useState } from 'react';\r\nimport { useRouter } from 'next/navigation';"],"names":[],"mappings":";AAEA;AACA;AAHA","debugId":null}},
+    {"offset": {"line": 16, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/jagla/OneDrive/Desktop/CRM/my-app/node_modules/next/navigation.js"],"sourcesContent":["module.exports = require('./dist/client/components/navigation')\n"],"names":[],"mappings":"AAAA,OAAO,OAAO","ignoreList":[0],"debugId":null}}]
+}
