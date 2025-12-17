@@ -5,7 +5,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/newsletter/TemplatesListPage',
+        destination: '/AdminProfile',
         permanent: true, 
       },
     ];
@@ -13,6 +13,17 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+
+
+
+
+
+
+
+
+
+
+
 
 
 
