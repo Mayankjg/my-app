@@ -104,7 +104,7 @@ export default function AdminProfile() {
                                         value={formData.userName}
                                         onChange={handleInputChange}
                                         placeholder="User Name"
-                                        className="w-full text-black px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-gray-400"
+                                        className="w-full text-black px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 focus:outline-none focus:border-gray-400"
                                     />
                                 </div>
 
@@ -122,14 +122,14 @@ export default function AdminProfile() {
 
                                 <div className="md:col-span-2">
                                     <label className="block text-sm text-gray-600 mb-1">Profile Image</label>
-                                    <div className="flex flex-col sm:flex-row gap-2">
+                                    <div className="flex flex-col sm:flex-row gap-1 items-start">
                                         <input
                                             type="file"
                                             accept="image/*"
                                             onChange={handleImageChange}
-                                            className="text-black text-sm file:px-4 file:py-1 file:border file:border-gray-300 file:rounded file:text-sm file:bg-white file:text-gray-700 hover:file:bg-gray-50"
+                                            className="text-black text-sm file:px-2 file:py-1 file:border file:border-gray-300 file:rounded-l-none file:rounded-r-none file:text-sm file:bg-white file:text-gray-700 hover:file:bg-gray-50"
                                         />
-                                        <div className="w-20 h-20 border border-gray-300 rounded overflow-hidden flex items-center justify-center flex-shrink-0">
+                                        <div className="w-20 h-20 border border-gray-300 rounded hover:bg-gray-50 overflow-hidden flex items-center justify-center flex-shrink-0">
                                             {imagePreview ? (
                                                 <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
                                             ) : (
@@ -149,7 +149,7 @@ export default function AdminProfile() {
                                         value={formData.firstName}
                                         onChange={handleInputChange}
                                         placeholder="First Name"
-                                        className="w-full text-black px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-gray-400"
+                                        className="w-full text-black px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 focus:outline-none focus:border-gray-400"
                                     />
                                 </div>
 
@@ -161,7 +161,7 @@ export default function AdminProfile() {
                                         value={formData.lastName}
                                         onChange={handleInputChange}
                                         placeholder="Last Name"
-                                        className="w-full text-black px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-gray-400"
+                                        className="w-full text-black px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 focus:outline-none focus:border-gray-400"
                                     />
                                 </div>
 
@@ -175,7 +175,7 @@ export default function AdminProfile() {
                                                 value="male"
                                                 checked={formData.gender === 'male'}
                                                 onChange={handleInputChange}
-                                                className="w-4 h-4 text-cyan-500"
+                                                className="w-4 h-4 text-cyan-500 cursor-pointer"
                                             />
                                             <span className="text-gray-700 text-sm">Male</span>
                                         </label>
@@ -186,7 +186,7 @@ export default function AdminProfile() {
                                                 value="female"
                                                 checked={formData.gender === 'female'}
                                                 onChange={handleInputChange}
-                                                className="w-4 h-4 text-cyan-500"
+                                                className="w-4 h-4 text-cyan-500 cursor-pointer"
                                             />
                                             <span className="text-gray-700 text-sm">Female</span>
                                         </label>
@@ -203,7 +203,7 @@ export default function AdminProfile() {
                                         value={formData.designation}
                                         onChange={handleInputChange}
                                         placeholder="Designation"
-                                        className="w-full text-black px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-gray-400"
+                                        className="w-full text-black px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 focus:outline-none focus:border-gray-400"
                                     />
                                 </div>
 
@@ -249,7 +249,7 @@ export default function AdminProfile() {
                                         value={formData.contactNo}
                                         onChange={handleInputChange}
                                         placeholder="Contact No"
-                                        className="w-43 text-black px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-gray-400"
+                                        className="w-43 text-black px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 focus:outline-none focus:border-gray-400"
                                     />
                                 </div>
 
@@ -259,16 +259,16 @@ export default function AdminProfile() {
 
                         <div className="border-t bg-gray-100 border-gray-200 px-4 sm:px-6 py-3 sm:py-3 flex flex-col-reverse sm:flex-row justify-end gap-3">
                             <button
-                                onClick={handleCancel}
-                                className="w-full sm:w-auto px-6 py-2 text-gray-600 bg-white border border-gray-300 rounded hover:bg-gray-50"
-                            >
-                                Cancel
-                            </button>
-                            <button
                                 onClick={handleSave}
-                                className="w-full sm:w-auto px-8 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600"
+                                className="w-full sm:w-auto px-8 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600 cursor-pointer"
                             >
                                 Save
+                            </button>
+                            <button
+                                onClick={handleCancel}
+                                className="w-full sm:w-auto px-6 py-2 text-gray-600 bg-white border border-gray-300 rounded hover:bg-gray-50 cursor-pointer"
+                            >
+                                Cancel
                             </button>
                         </div>
                     </div>
@@ -296,7 +296,7 @@ export default function AdminProfile() {
 
                             <button
                                 onClick={handleEmailUpdate}
-                                className="px-6 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600 transition-colors"
+                                className="px-6 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600 transition-colors cursor-pointer"
                             >
                                 Update
                             </button>
@@ -313,7 +313,7 @@ export default function AdminProfile() {
                         <div className="p-6">
                             <button
                                 onClick={handleDeleteAccount}
-                                className="px-6 py-2 text-white bg-red-500 rounded hover:bg-red-600 transition-colors"
+                                className="px-6 py-2 text-white bg-red-500 rounded hover:bg-red-600 transition-colors cursor-pointer"
                             >
                                 Delete Account
                             </button>
@@ -355,7 +355,7 @@ export default function AdminProfile() {
                                             value="Yes"
                                             checked={reminderMandatory === 'Yes'}
                                             onChange={(e) => setReminderMandatory(e.target.value)}
-                                            className="w-4 h-4 text-cyan-500"
+                                            className="w-4 h-4 text-cyan-500 cursor-pointer"
                                         />
                                         <span className="text-gray-700 text-sm">Yes</span>
                                     </label>
@@ -366,7 +366,7 @@ export default function AdminProfile() {
                                             value="No"
                                             checked={reminderMandatory === 'No'}
                                             onChange={(e) => setReminderMandatory(e.target.value)}
-                                            className="w-4 h-4 text-cyan-500"
+                                            className="w-4 h-4 text-cyan-500 cursor-pointer"
                                         />
                                         <span className="text-gray-700 text-sm">No</span>
                                     </label>
@@ -375,7 +375,7 @@ export default function AdminProfile() {
 
                             <button
                                 onClick={handleReminderDateUpdate}
-                                className="px-6 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600 transition-colors"
+                                className="px-6 py-2 text-white bg-[#0aa699] rounded cursor-pointer transition-colors"
                             >
                                 Update
                             </button>
@@ -390,45 +390,45 @@ export default function AdminProfile() {
                             </h2>
                         </div>
 
-                        
-                            <div className="mb-6">
-                                <p className="text-red-600 text-sm mt-4 ml-6">
-                                    Your Current Timezone : <span className="font-semibold">Asia/Kolkata</span>
-                                </p>
 
-                                <label className="block text-gray-700 text-sm font-medium mt-4 ml-6">
-                                    Time Zone
-                                </label>
+                        <div className="mb-6">
+                            <p className="text-red-600 text-sm mt-4 ml-6">
+                                Your Current Timezone : <span className="font-semibold">Asia/Kolkata</span>
+                            </p>
 
-                                <select
-                                    className="w-60 text-black px-4 py-2.5 mt-4 ml-6 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                                    value={timezone}
-                                    onChange={(e) => setTimezone(e.target.value)}
-                                >
-                                    <option value="Asia/Kolkata">Asia/Kolkata</option>
-                                    <option value="America/New_York">America/New_York</option>
-                                    <option value="Europe/London">Europe/London</option>
-                                    <option value="Asia/Tokyo">Asia/Tokyo</option>
-                                </select>
-                            </div>
+                            <label className="block text-gray-700 text-sm font-medium mt-4 ml-6">
+                                Time Zone
+                            </label>
 
-                            <div className="border-t bg-gray-100 border-gray-200 px-6 pt-6 flex flex-col-reverse sm:flex-row gap-2">
-                                <button
-                                    onClick={handleCancel}
-                                    className="w-full mb-3 sm:w-auto px-6 py-2 text-gray-600 bg-white border border-gray-300 rounded hover:bg-gray-50"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    onClick={handleSave}
-                                    className="w-full mb-3 sm:w-auto px-8 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600"
-                                >
-                                    Save
-                                </button>
-                            </div>
+                            <select
+                                className="w-60 text-black px-4 py-2.5 mt-4 ml-6 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                                value={timezone}
+                                onChange={(e) => setTimezone(e.target.value)}
+                            >
+                                <option value="Asia/Kolkata">Asia/Kolkata</option>
+                                <option value="America/New_York">America/New_York</option>
+                                <option value="Europe/London">Europe/London</option>
+                                <option value="Asia/Tokyo">Asia/Tokyo</option>
+                            </select>
+                        </div>
+
+                        <div className="border-t bg-gray-100 border-gray-200 px-6 pt-6 flex flex-col-reverse sm:flex-row gap-2">
+                            <button
+                                onClick={handleSave}
+                                className="w-full mb-3 sm:w-auto px-8 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600 cursor-pointer"
+                            >
+                                Save
+                            </button>
+                            <button
+                                onClick={handleCancel}
+                                className="w-full mb-3 sm:w-auto px-6 py-2 text-gray-600 bg-white border border-gray-300 rounded hover:bg-gray-50 cursor-pointer"
+                            >
+                                Cancel
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     );
 }
