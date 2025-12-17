@@ -25,7 +25,7 @@ export default function AdminProfile() {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
-    
+
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
