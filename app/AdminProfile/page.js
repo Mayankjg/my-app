@@ -1,7 +1,15 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
+ const router = useRouter();
+      
+      useEffect(() => {
+        router.push('/AdminProfile'); 
+      }, [router]);
+      
 export default function AdminProfile() {
     const [formData, setFormData] = useState({
         userName: '',

@@ -7,7 +7,7 @@ export default function Home() {
   const router = useRouter();
   
   useEffect(() => {
-    router.push('/newsletter/TemplatesListPage'); 
+    router.push('/AdminProfile'); 
   }, [router]);
 
   return (
