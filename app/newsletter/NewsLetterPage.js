@@ -7,7 +7,7 @@ export default function NewsletterPage() {
   const router = useRouter();
   
   useEffect(() => {
-    router.push('/Newsletter/TemplatesListPage');
+    router.push('/newsletter/TemplatesListPage');
   }, [router]);
 
   return (
