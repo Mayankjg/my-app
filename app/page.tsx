@@ -7,7 +7,7 @@ export default function HomePage() {
   const router = useRouter();
   
   useEffect(() => {
-    router.push('/Manageitem/categories');
+    router.push('/Manageitem/lead-source');
   }, [router]);
 
   return (
