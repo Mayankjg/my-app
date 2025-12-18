@@ -7,7 +7,7 @@ export default function ManageItemPage() {
   const router = useRouter();
   
   useEffect(() => {
-    router.push('/manageitem/lead-source');
+    router.push('/Manageitem/categories');
   }, [router]);
 
   return (
