@@ -3,14 +3,11 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-const REDIRECT_TO = '/newsletter/TemplatesListPage';
-
-
-export default function Home() {
+export default function NewsletterPage() {
   const router = useRouter();
   
   useEffect(() => {
-    router.push(REDIRECT_TO); 
+    router.push('/Newsletter/TemplatesListPage');
   }, [router]);
 
   return (
