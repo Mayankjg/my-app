@@ -1,0 +1,41 @@
+"use client";
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+export default function NewsLetterPage() {
+  const router = useRouter();
+  
+  useEffect(() => {
+    router.push('/newsletter/ImportContacts');
+  }, [router]);
+
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    </div>
+  );
+}
+
+
+// "use client";
+
+// import { useEffect } from 'react';
+// import { useRouter } from 'next/navigation';
+
+// const REDIRECT_TO = '/newsletter/TemplatesListPage';
+
+
+// export default function Home() {
+//   const router = useRouter();
+  
+//   useEffect(() => {
+//     router.push(REDIRECT_TO); 
+//   }, [router]);
+
+//   return (
+//     <div className="min-h-screen flex items-center justify-center">
+//       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+//     </div>
+//   );
+// }

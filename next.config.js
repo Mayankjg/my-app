@@ -1,7 +1,37 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  transpilePackages: ['react-quill'],
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/AdminProfile',
+        permanent: true, 
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import type { NextConfig } from "next";
+
+// const nextConfig: NextConfig = {
+//       transpilePackages: ['react-quill'],
+// };
+
+// export default nextConfig;
