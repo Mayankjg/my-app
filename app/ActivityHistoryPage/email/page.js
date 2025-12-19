@@ -250,7 +250,6 @@ export default function EmailSection() {
         }
       `}</style>
 
-      {/* Add Email Modal */}
       {showAddForm && (
         <div className="fixed inset-0 bg-black/60 flex items-start justify-center z-50 pt-10">
           <div className="bg-white w-[90%] md:w-[700px] rounded-lg shadow-xl p-6 relative animate-slideDown">
@@ -317,7 +316,6 @@ export default function EmailSection() {
         </div>
       )}
 
-      {/* Save Template Modal */}
       {showTemplateForm && (
         <div className="fixed inset-0 bg-black/60 flex items-start justify-center z-50 pt-10">
           <div className="bg-white w-[90%] md:w-[800px] rounded-lg shadow-xl p-6 relative animate-slideDown max-h-[90vh] overflow-y-auto hide-scrollbar">
@@ -405,9 +403,8 @@ export default function EmailSection() {
         </div>
       )}
 
-      {/* Main Email Form */}
       <div className="text-sm">
-        {/* From Field */}
+
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-4">
           <div className="flex-1 w-full">
             <label className="block mb-2 text-gray-700 font-medium">From</label>
@@ -427,7 +424,6 @@ export default function EmailSection() {
           </button>
         </div>
 
-        {/* To Field */}
         <div className="mb-4">
           <label className="block mb-2 text-gray-700 font-medium">To</label>
           <textarea 
@@ -438,7 +434,6 @@ export default function EmailSection() {
           />
         </div>
 
-        {/* Subject Field */}
         <div className="mb-4">
           <label className="block mb-2 text-gray-700 font-medium">Subject</label>
           <input 
@@ -450,7 +445,6 @@ export default function EmailSection() {
           />
         </div>
         
-        {/* Template Dropdown */}
         <div className="mb-4 relative">
           <label className="block mb-2 text-gray-700 font-medium">Reply with Template</label>
           <div className="relative">
@@ -500,7 +494,6 @@ export default function EmailSection() {
           </div>
         </div>
 
-        {/* Message Editor */}
         <div className="mb-4">
           <label className="block mb-2 text-gray-700 font-medium">Message</label>
           <div className="border-2 border-gray-300 rounded overflow-hidden">
@@ -516,7 +509,6 @@ export default function EmailSection() {
         </button>
       </div>
 
-      {/* Attachment Field */}
       <div className="mt-10">
         <label className="block text-sm font-medium text-gray-500 mb-3">Attachment</label>
         <input 
@@ -528,14 +520,12 @@ export default function EmailSection() {
         />
       </div>
 
-      {/* Note */}
       <div className="bg-red-50 border border-red-200 rounded-md px-4 py-2 mt-7">
         <p className="text-sm text-red-400">
           Note : (1) Maximum File Size 4 MB (2) Maximum All Files Size 12 MB (3) Only jpg, jpeg, png, bmp, gif, xls, xlsx, docx, doc, pdf Files Allow.
         </p>
       </div>
 
-      {/* Action Buttons */}
       <div className="flex gap-4 mt-4">
         <button 
           onClick={sendEmail} 
@@ -553,7 +543,6 @@ export default function EmailSection() {
 
       <div className="border-t border-dashed border-gray-300 my-6"></div>
 
-      {/* Desktop Table */}
       <div className="overflow-x-auto hidden md:block hide-scrollbar">
         <table className="w-full text-sm border-collapse border border-gray-300">
           <thead>
@@ -608,7 +597,6 @@ export default function EmailSection() {
         </table>
       </div>
 
-      {/* Mobile Cards */}
       <div className="md:hidden space-y-3">
         {emailLogs.length === 0 ? (
           <div className="py-8 text-center text-red-500 font-medium border border-gray-300 rounded">

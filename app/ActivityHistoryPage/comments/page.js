@@ -66,7 +66,6 @@ export default function CommentsSection() {
 
           <div className="border-t border-dashed border-gray-300 my-6"></div>
 
-          {/* DESKTOP TABLE */}
           <div className="overflow-x-auto hidden md:block">
             <table className="w-full text-sm border-collapse border border-gray-300">
               <thead>
@@ -106,7 +105,6 @@ export default function CommentsSection() {
             </table>
           </div>
 
-          {/* MOBILE CARDS */}
           <div className="md:hidden space-y-3">
             {comments.map((c) => (
               <div key={c.id} className="border border-gray-300 bg-white rounded-lg overflow-hidden">
