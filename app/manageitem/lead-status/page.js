@@ -1,32 +1,51 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 
 export default function LeadStatus() {
-  const [statuses, setStatuses] = useState([
-    { id: 1, name: "Closed" },
-    { id: 2, name: "Open" },
-    { id: 3, name: "Pending" },
-    { id: 4, name: "Special" },
-  ]);
-
+  const [statuses, setStatuses] = useState([]);
   const [selected, setSelected] = useState([]);
   const [search, setSearch] = useState("");
-
   const [showAddModal, setShowAddModal] = useState(false);
   const [newStatusName, setNewStatusName] = useState("");
-
   const [editingId, setEditingId] = useState(null);
   const [editedName, setEditedName] = useState("");
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("leadStatuses") || "[]");
+    if (saved.length === 0) {
+      // Initialize with default data if empty
+      const defaultStatuses = [
+        { id: 1, name: "Closed" },
+        { id: 2, name: "Open" },
+        { id: 3, name: "Pending" },
+        { id: 4, name: "Special" },
+      ];
+      setStatuses(defaultStatuses);
+      localStorage.setItem("leadStatuses", JSON.stringify(defaultStatuses));
+    } else {
+      setStatuses(saved);
+    }
+  }, []);
+
+  // Save to localStorage
+  const saveStatuses = (list) => {
+    setStatuses(list);
+    localStorage.setItem("leadStatuses", JSON.stringify(list));
+  };
 
   const filtered = statuses.filter((s) =>
     s.name.toLowerCase().includes(search.toLowerCase())
   );
 
   const handleDelete = (id) => {
-    setStatuses(statuses.filter((status) => status.id !== id));
-    setSelected(selected.filter((sid) => sid !== id));
+    if (confirm("Are you sure?")) {
+      const updated = statuses.filter((status) => status.id !== id);
+      saveStatuses(updated);
+      setSelected(selected.filter((sid) => sid !== id));
+    }
   };
 
   const handleSelectAll = () => {
@@ -57,13 +76,29 @@ export default function LeadStatus() {
     }
 
     const newItem = {
-      id: Math.max(...statuses.map((s) => s.id), 0) + 1,
+      id: Date.now(),
       name: newStatusName.trim(),
     };
 
-    setStatuses([...statuses, newItem]);
+    const updated = [...statuses, newItem];
+    saveStatuses(updated);
     setNewStatusName("");
     setShowAddModal(false);
+  };
+
+  const handleUpdate = (id) => {
+    if (!editedName.trim()) {
+      alert("Please enter lead status");
+      return;
+    }
+
+    const updated = statuses.map((s) =>
+      s.id === id ? { ...s, name: editedName.trim() } : s
+    );
+
+    saveStatuses(updated);
+    setEditingId(null);
+    setEditedName("");
   };
 
   const handleBulkDelete = () => {
@@ -72,7 +107,8 @@ export default function LeadStatus() {
       return;
     }
     if (confirm(`Delete ${selected.length} lead status(es)?`)) {
-      setStatuses(statuses.filter((s) => !selected.includes(s.id)));
+      const updated = statuses.filter((s) => !selected.includes(s.id));
+      saveStatuses(updated);
       setSelected([]);
     }
   };
@@ -111,9 +147,6 @@ export default function LeadStatus() {
             className="border rounded-md px-3 py-2 w-full sm:w-64 text-xs sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
             style={{ borderColor: "#e6e6e6" }}
           />
-          <button className="bg-cyan-500 hover:bg-cyan-600 text-white px-5 py-2 rounded-md text-xs sm:text-base w-full sm:w-auto">
-            Search
-          </button>
         </div>
 
         <div className="overflow-x-auto w-full">
@@ -210,26 +243,16 @@ export default function LeadStatus() {
                         <>
                           <button
                             className="text-blue-600 font-semibold mr-2"
-                            onClick={() => {
-                              if (!editedName.trim()) {
-                                alert("Please enter lead status");
-                                return;
-                              }
-                              setStatuses((prev) =>
-                                prev.map((s) =>
-                                  s.id === status.id
-                                    ? { ...s, name: editedName.trim() }
-                                    : s
-                                )
-                              );
-                              setEditingId(null);
-                            }}
+                            onClick={() => handleUpdate(status.id)}
                           >
                             Update
                           </button>
                           <button
                             className="text-red-600 font-semibold"
-                            onClick={() => setEditingId(null)}
+                            onClick={() => {
+                              setEditingId(null);
+                              setEditedName("");
+                            }}
                           >
                             Cancel
                           </button>
@@ -277,7 +300,7 @@ export default function LeadStatus() {
                       onClick={handleBulkDelete}
                       className="bg-red-500 hover:bg-red-700 text-white px-6 sm:px-12 py-2 rounded-md text-xs sm:text-base"
                     >
-                      Delete
+                      Delete ({selected.length})
                     </button>
                   </td>
                 </tr>
@@ -307,7 +330,10 @@ export default function LeadStatus() {
 
             <div className="flex justify-end gap-3">
               <button
-                onClick={() => setShowAddModal(false)}
+                onClick={() => {
+                  setShowAddModal(false);
+                  setNewStatusName("");
+                }}
                 className="bg-gray-300 hover:bg-gray-400 px-5 py-2 rounded"
               >
                 Cancel

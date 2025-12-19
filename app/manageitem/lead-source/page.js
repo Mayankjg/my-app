@@ -1,15 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaTrash, FaPen } from "react-icons/fa";
 
 export default function LeadSource() {
   const [leadSources, setLeadSources] = useState([]);
+  const [selected, setSelected] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [editedName, setEditedName] = useState("");
   const [search, setSearch] = useState("");
   const [showAddForm, setShowAddForm] = useState(false);
   const [newLeadSource, setNewLeadSource] = useState("");
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("leadSources") || "[]");
+    setLeadSources(saved);
+  }, []);
+
+  // Save to localStorage
+  const saveLeadSources = (list) => {
+    setLeadSources(list);
+    localStorage.setItem("leadSources", JSON.stringify(list));
+  };
+
+  // Filter lead sources based on search
+  const filteredLeadSources = leadSources.filter((lead) =>
+    lead.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   const handleAddLeadSource = () => {
     if (!newLeadSource.trim()) {
@@ -18,27 +36,60 @@ export default function LeadSource() {
     }
 
     const newItem = {
-      id:
-        leadSources.length > 0
-          ? leadSources[leadSources.length - 1].id + 1
-          : 1,
+      id: Date.now(),
       name: newLeadSource.trim(),
     };
 
-    setLeadSources([...leadSources, newItem]);
+    const updated = [...leadSources, newItem];
+    saveLeadSources(updated);
+
     setNewLeadSource("");
     setShowAddForm(false);
   };
 
   const handleUpdate = (id) => {
-    setLeadSources((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, name: editedName } : item))
+    const updated = leadSources.map((item) =>
+      item.id === id ? { ...item, name: editedName.trim() } : item
     );
+
+    saveLeadSources(updated);
     setEditingId(null);
+    setEditedName("");
   };
 
-  const handleDelete = (id) => {
-    setLeadSources((prev) => prev.filter((l) => l.id !== id));
+  const handleDeleteSingle = (id) => {
+    if (confirm("Are you sure?")) {
+      const updated = leadSources.filter((l) => l.id !== id);
+      saveLeadSources(updated);
+      setSelected((prev) => prev.filter((x) => x !== id));
+    }
+  };
+
+  const handleDeleteSelected = () => {
+    if (selected.length === 0) {
+      alert("Please select items to delete");
+      return;
+    }
+
+    if (confirm(`Are you sure you want to delete ${selected.length} item(s)?`)) {
+      const updated = leadSources.filter((lead) => !selected.includes(lead.id));
+      saveLeadSources(updated);
+      setSelected([]);
+    }
+  };
+
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setSelected(filteredLeadSources.map((lead) => lead.id));
+    } else {
+      setSelected([]);
+    }
+  };
+
+  const handleSelectRow = (id) => {
+    setSelected((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
   };
 
   return (
@@ -58,101 +109,101 @@ export default function LeadSource() {
 
         {showAddForm && (
           <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
+            <div className="bg-white w-[90%] md:w-[430px] rounded-lg shadow-[0_0_25px_rgba(0,0,0,0.3)]">
+              <div className="border-b px-6 py-3">
+                <h2 className="text-xl font-semibold text-gray-800">Add New Lead Source</h2>
+              </div>
 
-            <div className="bg-white w-[90%] md:w-[430px] rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.3)] p-6">
+              <div className="px-6 py-4">
+                <label className="block mb-2 text-sm text-gray-700">
+                  Lead Source Name
+                </label>
 
-              <h3 className="text-lg font-semibold mb-4 text-gray-800 border-b pb-2">
-                Add New Lead Source
-              </h3>
+                <input
+                  type="text"
+                  value={newLeadSource}
+                  onChange={(e) => setNewLeadSource(e.target.value)}
+                  className="w-full border border-gray-300 px-3 py-2 rounded text-black"
+                  placeholder="Enter lead source name"
+                />
+              </div>
 
-              <label className="block mb-2 text-sm text-gray-700">
-                Lead Source Name
-              </label>
-
-              <input
-                type="text"
-                value={newLeadSource}
-                onChange={(e) => setNewLeadSource(e.target.value)}
-                className="w-full border border-gray-300 px-3 py-2 rounded text-black mb-4"
-                placeholder="Enter lead source name"
-              />
-
-              <div className="flex justify-end gap-3">
+              <div className="px-6 py-4 flex justify-end gap-3 border-t">
                 <button
-                  className="bg-gray-300 hover:bg-gray-400 px-5 py-2 rounded"
                   onClick={() => setShowAddForm(false)}
+                  className="px-5 py-2 rounded bg-gray-200 hover:bg-gray-300"
                 >
                   Cancel
                 </button>
 
                 <button
-                  className="bg-sky-500 hover:bg-sky-600 text-white px-5 py-2 rounded"
                   onClick={handleAddLeadSource}
+                  className="px-5 py-2 rounded bg-sky-600 hover:bg-sky-700 text-white"
                 >
                   Save
                 </button>
               </div>
-
             </div>
           </div>
         )}
 
-        <div className="flex justify-end mb-4 space-x-2">
+        <div className="flex justify-end gap-2 mb-4">
           <input
             type="text"
             placeholder="Lead Source"
-            className="border border-gray-300 px-3 py-2 rounded w-60 text-gray-700 placeholder-gray-400"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            className="border text-black border-[#d9d9d9] rounded-sm px-3 py-2 text-sm"
           />
-          <button className="bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded">
-            Search
-          </button>
         </div>
 
-        <table className="w-full border-collapse text-gray-700">
-          <thead>
-            <tr className="bg-gray-200 text-gray-800 font-medium">
-              <th className="border px-3 py-2">
-                <input type="checkbox" />
-              </th>
-              <th className="border px-3 py-2">SR. NO.</th>
-              <th className="border px-3 py-2">LEAD SOURCE</th>
-              <th className="border px-3 py-2">EDIT</th>
-              <th className="border px-3 py-2">DELETE</th>
-              <th className="border px-3 py-2">VIEW LEADS</th>
-            </tr>
-          </thead>
+        <div className="overflow-x-auto border border-[#d9d9d9] rounded-md">
+          <table className="w-full border-collapse text-sm">
+            <thead className="bg-[#f1f1f1] text-gray-800 font-semibold">
+              <tr>
+                <th className="border p-2 text-center" style={{ width: "50px" }}>
+                  <input
+                    type="checkbox"
+                    checked={selected.length === filteredLeadSources.length && filteredLeadSources.length > 0}
+                    onChange={handleSelectAll}
+                    className="w-3.5 h-4 mx-auto"
+                  />
+                </th>
+                <th className="border p-2">SR. NO.</th>
+                <th className="border p-2">LEAD SOURCE</th>
+                <th className="border p-2 text-center">EDIT</th>
+                <th className="border p-2 text-center">DELETE</th>
+                <th className="border p-2 text-center">VIEW LEADS</th>
+              </tr>
+            </thead>
 
-          <tbody>
-            {leadSources
-              .filter((l) =>
-                l.name.toLowerCase().includes(search.toLowerCase())
-              )
-              .map((lead, index) => (
-                <tr
-                  key={lead.id}
-                  className="text-center hover:bg-gray-50 transition-colors"
-                >
-                  <td className="border px-3 py-2">
-                    <input type="checkbox" />
+            <tbody>
+              {filteredLeadSources.map((lead, index) => (
+                <tr key={lead.id} className="hover:bg-gray-50 text-gray-700">
+                  <td className="border p-2 text-center" style={{ width: "20px" }}>
+                    <input
+                      type="checkbox"
+                      checked={selected.includes(lead.id)}
+                      onChange={() => handleSelectRow(lead.id)}
+                      className="w-3.5 h-4 mx-auto"
+                    />
                   </td>
 
-                  <td className="border px-3 py-2">{index + 1}</td>
+                  <td className="border p-2">{index + 1}</td>
 
-                  <td className="border px-3 py-2">
+                  <td className="border p-2">
                     {editingId === lead.id ? (
                       <input
+                        className="border px-2 py-1 w-full rounded"
                         value={editedName}
                         onChange={(e) => setEditedName(e.target.value)}
-                        className="border px-2 py-1 w-full rounded text-gray-700"
                       />
                     ) : (
-                      <span>{lead.name}</span>
+                      lead.name
                     )}
                   </td>
 
-                  <td className="border px-3 py-2">
+                  <td className="border p-2 text-center">
                     {editingId === lead.id ? (
                       <>
                         <button
@@ -181,29 +232,33 @@ export default function LeadSource() {
                     )}
                   </td>
 
-                  <td className="border px-3 py-2">
+                  <td className="border p-2 text-center">
                     <button
+                      onClick={() => handleDeleteSingle(lead.id)}
                       className="text-red-600 hover:text-red-700"
-                      onClick={() => handleDelete(lead.id)}
                     >
                       <FaTrash />
                     </button>
                   </td>
 
-                  <td className="border px-3 py-2">
-                    <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded">
+                  <td className="border p-2 text-center">
+                    <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded text-sm">
                       View Leads
                     </button>
                   </td>
                 </tr>
               ))}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
 
-        <div className="mt-4">
-          <button className="bg-red-600 text-white px-5 py-2 rounded hover:bg-red-700">
-            Delete
-          </button>
+          <div className="p-4">
+            <button
+              onClick={handleDeleteSelected}
+              className="bg-red-600 hover:bg-red-700 text-white px-8 py-2 rounded-sm"
+            >
+              Delete ({selected.length})
+            </button>
+          </div>
         </div>
       </div>
     </div>

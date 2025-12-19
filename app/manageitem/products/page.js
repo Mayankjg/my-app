@@ -1,24 +1,40 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaPen, FaTrash } from "react-icons/fa";
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState([
-    { id: 1, name: "Bandhani" },
-    { id: 2, name: "Galaxy S1" },
-    { id: 3, name: "Galaxy S2" },
-    { id: 4, name: "Lenovo Ideapad" },
-  ]);
-
+  const [products, setProducts] = useState([]);
   const [selected, setSelected] = useState([]);
   const [search, setSearch] = useState("");
-
   const [showAddForm, setShowAddForm] = useState(false);
   const [newProduct, setNewProduct] = useState("");
-
   const [editingId, setEditingId] = useState(null);
   const [editedName, setEditedName] = useState("");
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("products") || "[]");
+    if (saved.length === 0) {
+      // Initialize with default data if empty
+      const defaultProducts = [
+        { id: 1, name: "Bandhani" },
+        { id: 2, name: "Galaxy S1" },
+        { id: 3, name: "Galaxy S2" },
+        { id: 4, name: "Lenovo Ideapad" },
+      ];
+      setProducts(defaultProducts);
+      localStorage.setItem("products", JSON.stringify(defaultProducts));
+    } else {
+      setProducts(saved);
+    }
+  }, []);
+
+  // Save to localStorage
+  const saveProducts = (list) => {
+    setProducts(list);
+    localStorage.setItem("products", JSON.stringify(list));
+  };
 
   const filtered = products.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase())
@@ -31,13 +47,29 @@ export default function ProductsPage() {
     }
 
     const newItem = {
-      id: products.length > 0 ? products[products.length - 1].id + 1 : 1,
+      id: Date.now(),
       name: newProduct.trim(),
     };
 
-    setProducts([...products, newItem]);
+    const updated = [...products, newItem];
+    saveProducts(updated);
     setNewProduct("");
     setShowAddForm(false);
+  };
+
+  const handleUpdate = (id) => {
+    if (!editedName.trim()) {
+      alert("Please enter product name");
+      return;
+    }
+
+    const updated = products.map((item) =>
+      item.id === id ? { ...item, name: editedName.trim() } : item
+    );
+
+    saveProducts(updated);
+    setEditingId(null);
+    setEditedName("");
   };
 
   const handleSelectRow = (id) => {
@@ -46,22 +78,33 @@ export default function ProductsPage() {
     );
   };
 
-  const handleSelectAll = () => {
-    if (selected.length === filtered.length) {
-      setSelected([]);
-    } else {
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
       setSelected(filtered.map((p) => p.id));
+    } else {
+      setSelected([]);
     }
   };
 
   const handleDelete = (id) => {
-    setProducts(products.filter((p) => p.id !== id));
-    setSelected(selected.filter((sid) => sid !== id));
+    if (confirm("Are you sure?")) {
+      const updated = products.filter((p) => p.id !== id);
+      saveProducts(updated);
+      setSelected(selected.filter((sid) => sid !== id));
+    }
   };
 
   const handleBulkDelete = () => {
-    setProducts(products.filter((p) => !selected.includes(p.id)));
-    setSelected([]);
+    if (selected.length === 0) {
+      alert("Please select items to delete");
+      return;
+    }
+
+    if (confirm(`Are you sure you want to delete ${selected.length} item(s)?`)) {
+      const updated = products.filter((p) => !selected.includes(p.id));
+      saveProducts(updated);
+      setSelected([]);
+    }
   };
 
   return (
@@ -80,9 +123,7 @@ export default function ProductsPage() {
 
         {showAddForm && (
           <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-
             <div className="bg-white w-[90%] max-w-md rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.3)] p-6">
-
               <h3 className="text-lg font-semibold mb-4 text-gray-800 border-b pb-2">
                 Add New Product
               </h3>
@@ -102,7 +143,10 @@ export default function ProductsPage() {
               <div className="flex justify-end gap-3 mt-3">
                 <button
                   className="bg-gray-300 hover:bg-gray-400 px-5 py-2 rounded"
-                  onClick={() => setShowAddForm(false)}
+                  onClick={() => {
+                    setShowAddForm(false);
+                    setNewProduct("");
+                  }}
                 >
                   Cancel
                 </button>
@@ -114,11 +158,10 @@ export default function ProductsPage() {
                   Save
                 </button>
               </div>
-
             </div>
-
           </div>
         )}
+
         <div className="flex justify-end gap-2 mb-4">
           <input
             type="text"
@@ -180,23 +223,17 @@ export default function ProductsPage() {
                     <>
                       <button
                         className="text-blue-600 font-semibold mr-2"
-                        onClick={() => {
-                          setProducts((prev) =>
-                            prev.map((item) =>
-                              item.id === p.id
-                                ? { ...item, name: editedName }
-                                : item
-                            )
-                          );
-                          setEditingId(null);
-                        }}
+                        onClick={() => handleUpdate(p.id)}
                       >
                         Update
                       </button>
 
                       <button
                         className="text-red-600 font-semibold"
-                        onClick={() => setEditingId(null)}
+                        onClick={() => {
+                          setEditingId(null);
+                          setEditedName("");
+                        }}
                       >
                         Cancel
                       </button>

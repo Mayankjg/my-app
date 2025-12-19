@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "frontend/app/page.js", "frontend/app/layout.tsx", "app/layout.tsx", "next.config.ts"  ],
+, "frontend/app/page.js", "frontend/app/layout.tsx", "app/layout.tsx", "next.config.ts", "app/manageitem/categories/page.js"  ],
   "exclude": ["node_modules"]
 }
