@@ -7,7 +7,7 @@ export default function RootPage() {
   const router = useRouter();
   
   useEffect(() => {
-    router.replace('/newsletter');
+    router.replace('/activityHistoryPage');
   }, [router]);
 
   return null;
