@@ -4,10 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { Trash2 } from "lucide-react";
 
 const defaultTemplate = { 
-  id: "default-1", 
-  name: "Choose Template", 
-  content: "<p>Hello, this is a follow-up email.</p>", 
-  isCustom: false 
+  id: "default-1",name: "Choose Template",content: "<p>Hello, this is a follow-up email.</p>",isCustom: false 
 };
 
 export default function EmailSection() {
@@ -26,7 +23,6 @@ export default function EmailSection() {
   const [previewImage, setPreviewImage] = useState(null);
   const [showTemplateDropdown, setShowTemplateDropdown] = useState(false);
 
-  // Load Quill Editor
   useEffect(() => {
     const link = document.createElement('link');
     link.href = 'https://cdn.quilljs.com/1.3.6/quill.snow.css';
@@ -66,7 +62,6 @@ export default function EmailSection() {
     };
   }, []);
 
-  // Load data from localStorage
   useEffect(() => {
     const loadData = () => {
       try {
