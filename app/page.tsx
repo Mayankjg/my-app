@@ -1,14 +1,14 @@
-// "use client";
+"use client";
 
-// import { useEffect } from 'react';
-// import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-// export default function HomePage() {
-//   const router = useRouter();
+export default function RootPage() {
+  const router = useRouter();
   
-//   useEffect(() => {
-//     router.push('/activityHistoryPage');
-//   }, [router]);
+  useEffect(() => {
+    router.replace('/newsletter');
+  }, [router]);
 
-//   return null;
-// }
+  return null;
+}

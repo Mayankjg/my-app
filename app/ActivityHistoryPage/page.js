@@ -6,7 +6,7 @@ import EmailSection from "./email/page";
 
 export default function ActivityHistoryPage() {
   const [activeTab, setActiveTab] = useState("comments");
-
+  
   return (
     <div className="bg-white w-full text-black p-4 sm:p-6 md:p-8 lg:p-10 xl:p-6 h-screen overflow-y-auto">
       <h2 className="text-[18px] md:text-[20px] font-semibold mb-3">
