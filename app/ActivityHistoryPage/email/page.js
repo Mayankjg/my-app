@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Trash2 } from "lucide-react";
+import { Trash2, ChevronDown } from "lucide-react";
 
 const defaultTemplate = { 
   id: "default-1",name: "Choose Template",content: "<p>Hello, this is a follow-up email.</p>",isCustom: false 
@@ -22,6 +22,10 @@ export default function EmailSection() {
   const [templateVisibility, setTemplateVisibility] = useState("admin");
   const [previewImage, setPreviewImage] = useState(null);
   const [showTemplateDropdown, setShowTemplateDropdown] = useState(false);
+  const [openMenu, setOpenMenu] = useState(null);
+  const [showSourceCode, setShowSourceCode] = useState(false);
+  const [sourceCode, setSourceCode] = useState("");
+  const editorContainerRef = useRef(null);
 
   useEffect(() => {
     const link = document.createElement('link');
@@ -79,6 +83,200 @@ export default function EmailSection() {
     const interval = setInterval(loadData, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  const handleMenuClick = (menu) => {
+    setOpenMenu(openMenu === menu ? null : menu);
+  };
+
+  // File Menu Actions
+  const handleFileAction = (action) => {
+    if (action === 'new') {
+      if (window.confirm('Create new message? Unsaved changes will be lost.')) {
+        if (quillRef.current) {
+          quillRef.current.setContents([]);
+        }
+      }
+    } else if (action === 'print') {
+      const content = quillRef.current?.root.innerHTML || '';
+      const printWindow = window.open('', '_blank');
+      if (printWindow) {
+        printWindow.document.write(`
+          <html>
+            <head>
+              <title>Print Email</title>
+              <style>body { font-family: Arial, sans-serif; padding: 20px; }</style>
+            </head>
+            <body>
+              <h2>From: ${from || '(no sender)'}</h2>
+              <h2>To: ${toEmail}</h2>
+              <h2>Subject: ${subject || '(no subject)'}</h2>
+              <hr/>
+              ${content}
+            </body>
+          </html>
+        `);
+        printWindow.document.close();
+        printWindow.print();
+      }
+    }
+    setOpenMenu(null);
+  };
+
+  // Edit Menu Actions
+  const handleEditAction = (action) => {
+    const editor = quillRef.current;
+    if (!editor) return;
+
+    switch(action) {
+      case 'undo':
+        editor.history.undo();
+        break;
+      case 'redo':
+        editor.history.redo();
+        break;
+      case 'cut':
+        document.execCommand('cut');
+        break;
+      case 'copy':
+        document.execCommand('copy');
+        break;
+      case 'paste':
+        break;
+      case 'selectAll':
+        editor.setSelection(0, editor.getLength());
+        break;
+    }
+    setOpenMenu(null);
+  };
+
+  // Insert Menu Actions
+  const handleInsertAction = (action) => {
+    const editor = quillRef.current;
+    if (!editor) return;
+
+    const range = editor.getSelection();
+    const index = range ? range.index : editor.getLength();
+
+    switch(action) {
+      case 'image':
+        const imageUrl = window.prompt('Enter image URL:');
+        if (imageUrl) {
+          editor.insertEmbed(index, 'image', imageUrl);
+        }
+        break;
+      case 'link':
+        const url = window.prompt('Enter URL:');
+        if (url) {
+          if (range && range.length > 0) {
+            editor.formatText(range.index, range.length, 'link', url);
+          } else {
+            const text = window.prompt('Enter link text:');
+            if (text) {
+              editor.insertText(index, text, 'link', url);
+            }
+          }
+        }
+        break;
+      case 'video':
+        const videoUrl = window.prompt('Enter video URL (YouTube, Vimeo):');
+        if (videoUrl) {
+          editor.insertEmbed(index, 'video', videoUrl);
+        }
+        break;
+      case 'table':
+        const rows = window.prompt('Enter number of rows:', '3');
+        const cols = window.prompt('Enter number of columns:', '3');
+        if (rows && cols) {
+          let tableHTML = '<table border="1" style="border-collapse: collapse; width: 100%;">';
+          for (let i = 0; i < parseInt(rows); i++) {
+            tableHTML += '<tr>';
+            for (let j = 0; j < parseInt(cols); j++) {
+              tableHTML += '<td style="border: 1px solid #ddd; padding: 8px;">&nbsp;</td>';
+            }
+            tableHTML += '</tr>';
+          }
+          tableHTML += '</table>';
+          editor.clipboard.dangerouslyPasteHTML(index, tableHTML);
+        }
+        break;
+      case 'hr':
+        editor.insertText(index, '\n---\n');
+        break;
+    }
+    setOpenMenu(null);
+  };
+
+  // View Menu Actions
+  const handleViewAction = (action) => {
+    if (action === 'sourceCode') {
+      if (!showSourceCode) {
+        setSourceCode(quillRef.current?.root.innerHTML || '');
+      } else {
+        if (quillRef.current) {
+          quillRef.current.root.innerHTML = sourceCode;
+        }
+      }
+      setShowSourceCode(!showSourceCode);
+    } else if (action === 'fullscreen') {
+      if (!document.fullscreenElement) {
+        editorContainerRef.current?.requestFullscreen().catch(err => {
+          console.log('Fullscreen error:', err);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    }
+    setOpenMenu(null);
+  };
+
+  // Format Menu Actions
+  const handleFormatAction = (format, value) => {
+    const editor = quillRef.current;
+    if (!editor) return;
+
+    const range = editor.getSelection();
+    if (range && range.length > 0) {
+      if (value) {
+        editor.formatText(range.index, range.length, format, value);
+      } else {
+        const currentFormat = editor.getFormat(range);
+        editor.formatText(range.index, range.length, format, !currentFormat[format]);
+      }
+    }
+    setOpenMenu(null);
+  };
+
+  // Menu Button Component
+  const MenuButton = ({ label, items }) => (
+    <div className="relative inline-block">
+      <button
+        onClick={() => handleMenuClick(label.toLowerCase())}
+        className="px-3 py-1 text-sm text-gray-700 hover:bg-gray-200 transition-colors"
+      >
+        {label} <ChevronDown className="inline" size={12} />
+      </button>
+      {openMenu === label.toLowerCase() && items && (
+        <div className="absolute top-full left-0 mt-0 bg-white border border-gray-300 shadow-lg z-50 min-w-[180px]">
+          {items.map((item, idx) => (
+            item === 'divider' ? (
+              <div key={idx} className="border-t border-gray-200 my-1"></div>
+            ) : (
+              <button
+                key={idx}
+                onClick={item.onClick}
+                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center justify-between"
+              >
+                <span>{item.label}</span>
+                {item.shortcut && (
+                  <span className="text-xs text-gray-400 ml-4">{item.shortcut}</span>
+                )}
+              </button>
+            )
+          ))}
+        </div>
+      )}
+    </div>
+  );
 
   const resetForm = () => { 
     setFrom(""); 
@@ -224,6 +422,23 @@ export default function EmailSection() {
           left: auto !important; 
           right: 0 !important; 
           transform: none !important; 
+        }
+        .ql-editor table { 
+          border-collapse: collapse; 
+          width: 100%; 
+          margin: 10px 0; 
+        }
+        .ql-editor table td, .ql-editor table th { 
+          border: 1px solid #ddd; 
+          padding: 8px; 
+        }
+        
+        /* Resizable Editor */
+        .resizable-editor {
+          resize: vertical;
+          overflow: auto;
+          min-height: 150px;
+          max-height: 600px;
         }
         
         /* Hide scrollbar for Chrome, Safari and Opera */
@@ -496,9 +711,95 @@ export default function EmailSection() {
 
         <div className="mb-4">
           <label className="block mb-2 text-gray-700 font-medium">Message</label>
-          <div className="border-2 border-gray-300 rounded overflow-hidden">
-            <div id="editor" style={{ minHeight: '150px', backgroundColor: 'white' }}></div>
-          </div>
+          
+          {showSourceCode ? (
+            <div>
+              <div className="mb-2 text-sm text-orange-600 bg-orange-50 p-2 rounded">
+                🔧 Source Code Mode - Edit HTML directly
+              </div>
+              <textarea
+                value={sourceCode}
+                onChange={(e) => setSourceCode(e.target.value)}
+                className="w-full border-2 border-gray-300 rounded-lg p-4 font-mono text-sm min-h-[400px] bg-gray-50 resize-y"
+                placeholder="HTML source code..."
+              />
+            </div>
+          ) : (
+            <div ref={editorContainerRef} className="border-2 border-gray-300 rounded overflow-hidden resizable-editor">
+              {/* Custom Menu Bar */}
+              <div style={{ background: '#f5f5f5', borderBottom: '1px solid #ccc', padding: '4px 8px' }}>
+                <MenuButton 
+                  label="File"
+                  items={[
+                    { label: 'New message', shortcut: 'Ctrl+N', onClick: () => handleFileAction('new') },
+                    { label: 'Print', shortcut: 'Ctrl+P', onClick: () => handleFileAction('print') }
+                  ]}
+                />
+                <MenuButton 
+                  label="Edit"
+                  items={[
+                    { label: 'Undo', shortcut: 'Ctrl+Z', onClick: () => handleEditAction('undo') },
+                    { label: 'Redo', shortcut: 'Ctrl+Y', onClick: () => handleEditAction('redo') },
+                    'divider',
+                    { label: 'Cut', shortcut: 'Ctrl+X', onClick: () => handleEditAction('cut') },
+                    { label: 'Copy', shortcut: 'Ctrl+C', onClick: () => handleEditAction('copy') },
+                    { label: 'Paste', shortcut: 'Ctrl+V', onClick: () => handleEditAction('paste') },
+                    'divider',
+                    { label: 'Select all', shortcut: 'Ctrl+A', onClick: () => handleEditAction('selectAll') }
+                  ]}
+                />
+                <MenuButton 
+                  label="Insert"
+                  items={[
+                    { label: 'Insert image', onClick: () => handleInsertAction('image') },
+                    { label: 'Insert link', shortcut: 'Ctrl+K', onClick: () => handleInsertAction('link') },
+                    { label: 'Insert video', onClick: () => handleInsertAction('video') },
+                    { label: 'Insert table', onClick: () => handleInsertAction('table') },
+                    { label: 'Horizontal line', onClick: () => handleInsertAction('hr') }
+                  ]}
+                />
+                <MenuButton 
+                  label="View"
+                  items={[
+                    { label: 'Fullscreen', shortcut: 'F11', onClick: () => handleViewAction('fullscreen') },
+                    { label: 'Source code', onClick: () => handleViewAction('sourceCode') }
+                  ]}
+                />
+                <MenuButton 
+                  label="Format"
+                  items={[
+                    { label: 'Bold', shortcut: 'Ctrl+B', onClick: () => handleFormatAction('bold') },
+                    { label: 'Italic', shortcut: 'Ctrl+I', onClick: () => handleFormatAction('italic') },
+                    { label: 'Underline', shortcut: 'Ctrl+U', onClick: () => handleFormatAction('underline') },
+                    { label: 'Strikethrough', onClick: () => handleFormatAction('strike') },
+                    'divider',
+                    { label: 'Superscript', onClick: () => handleFormatAction('script', 'super') },
+                    { label: 'Subscript', onClick: () => handleFormatAction('script', 'sub') }
+                  ]}
+                />
+                <MenuButton 
+                  label="Table"
+                  items={[
+                    { label: 'Insert table', onClick: () => handleInsertAction('table') }
+                  ]}
+                />
+                <MenuButton 
+                  label="Tools"
+                  items={[
+                    { label: 'Source code', onClick: () => handleViewAction('sourceCode') },
+                    { label: 'Word count', onClick: () => {
+                      const text = quillRef.current?.getText() || '';
+                      const words = text.trim().split(/\s+/).filter(w => w).length;
+                      const chars = text.length;
+                      alert(`📊 Statistics:\n\nWords: ${words}\nCharacters: ${chars}`);
+                    }}
+                  ]}
+                />
+              </div>
+
+              <div id="editor" style={{ minHeight: '150px', backgroundColor: 'white' }}></div>
+            </div>
+          )}
         </div>
 
         <button 

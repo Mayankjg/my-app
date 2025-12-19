@@ -314,6 +314,14 @@ export default function AddCustomTemplatePage() {
           border: 1px solid #ddd; 
           padding: 8px; 
         }
+        
+        /* Resizable Editor */
+        .resizable-editor {
+          resize: vertical;
+          overflow: auto;
+          min-height: 150px;
+          max-height: 600px;
+        }
       `}</style>
       
       <div ref={editorContainerRef} className="bg-white w-full border border-[black] max-w-[1400px]">
@@ -358,12 +366,12 @@ export default function AddCustomTemplatePage() {
                 <textarea
                   value={sourceCode}
                   onChange={(e) => setSourceCode(e.target.value)}
-                  className="w-full border-2 border-gray-300 rounded-lg p-4 font-mono text-sm min-h-[400px] bg-gray-50"
+                  className="w-full border-2 border-gray-300 rounded-lg p-4 font-mono text-sm min-h-[400px] bg-gray-50 resize-y"
                   placeholder="HTML source code..."
                 />
               </div>
             ) : (
-              <div className="border-2 border-gray-300 rounded-lg overflow-hidden">
+              <div className="border-2 border-gray-300 rounded-lg overflow-hidden resizable-editor">
                 <div style={{ background: '#f5f5f5', borderBottom: '1px solid #ccc', padding: '4px 8px' }}>
                   <MenuButton 
                     label="File"
@@ -488,7 +496,6 @@ export default function AddCustomTemplatePage() {
     </div>
   );
 }
-
 
 
 
