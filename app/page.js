@@ -1,14 +1,21 @@
-"use client";
+// "use client";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+// import { useEffect } from 'react';
+// import { useRouter } from 'next/navigation';
 
-export default function RootPage() {
-  const router = useRouter();
+// export default function RootPage() {
+//   const router = useRouter();
   
-  useEffect(() => {
-    router.replace('/activityHistoryPage');
-  }, [router]);
+//   useEffect(() => {
+//     router.replace('/activityHistoryPage');
+//   }, [router]);
 
-  return null;
+//   return null;
+// }
+
+
+import { redirect } from 'next/navigation'
+
+export default function Home() {
+  redirect('/activityHistory')
 }
