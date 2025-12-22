@@ -12,11 +12,10 @@ export default function LeadStatus() {
   const [editingId, setEditingId] = useState(null);
   const [editedName, setEditedName] = useState("");
 
-  // Load from localStorage on mount
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("leadStatuses") || "[]");
     if (saved.length === 0) {
-      // Initialize with default data if empty
+    
       const defaultStatuses = [
         { id: 1, name: "Closed" },
         { id: 2, name: "Open" },
@@ -30,7 +29,6 @@ export default function LeadStatus() {
     }
   }, []);
 
-  // Save to localStorage
   const saveStatuses = (list) => {
     setStatuses(list);
     localStorage.setItem("leadStatuses", JSON.stringify(list));
