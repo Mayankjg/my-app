@@ -88,7 +88,6 @@ export default function EmailSection() {
     setOpenMenu(openMenu === menu ? null : menu);
   };
 
-  // File Menu Actions
   const handleFileAction = (action) => {
     if (action === 'new') {
       if (window.confirm('Create new message? Unsaved changes will be lost.')) {
@@ -122,7 +121,6 @@ export default function EmailSection() {
     setOpenMenu(null);
   };
 
-  // Edit Menu Actions
   const handleEditAction = (action) => {
     const editor = quillRef.current;
     if (!editor) return;
@@ -149,7 +147,6 @@ export default function EmailSection() {
     setOpenMenu(null);
   };
 
-  // Insert Menu Actions
   const handleInsertAction = (action) => {
     const editor = quillRef.current;
     if (!editor) return;
@@ -206,7 +203,6 @@ export default function EmailSection() {
     setOpenMenu(null);
   };
 
-  // View Menu Actions
   const handleViewAction = (action) => {
     if (action === 'sourceCode') {
       if (!showSourceCode) {
@@ -229,7 +225,6 @@ export default function EmailSection() {
     setOpenMenu(null);
   };
 
-  // Format Menu Actions
   const handleFormatAction = (format, value) => {
     const editor = quillRef.current;
     if (!editor) return;
@@ -246,7 +241,6 @@ export default function EmailSection() {
     setOpenMenu(null);
   };
 
-  // Menu Button Component
   const MenuButton = ({ label, items }) => (
     <div className="relative inline-block">
       <button
@@ -406,7 +400,7 @@ export default function EmailSection() {
   };
 
   return (
-    <div className="w-full bg-white">
+    <div className="bg-white w-full text-black p-4 sm:p-6 md:p-8 lg:p-10 xl:p-6 h-screen overflow-y-auto">
       <style>{`
         @keyframes slideDown { 
           from { opacity: 0; transform: translateY(-50px); } 
@@ -433,7 +427,6 @@ export default function EmailSection() {
           padding: 8px; 
         }
         
-        /* Resizable Editor */
         .resizable-editor {
           resize: vertical;
           overflow: auto;
@@ -441,27 +434,53 @@ export default function EmailSection() {
           max-height: 600px;
         }
         
-        /* Hide scrollbar for Chrome, Safari and Opera */
+        /* Hide all scrollbars globally */
+        * {
+          scrollbar-width: none !important;
+          -ms-overflow-style: none !important;
+        }
+        
+        *::-webkit-scrollbar {
+          display: none !important;
+          width: 0 !important;
+          height: 0 !important;
+        }
+        
         .hide-scrollbar::-webkit-scrollbar {
-          display: none;
+          display: none !important;
         }
         
-        /* Hide scrollbar for IE, Edge and Firefox */
         .hide-scrollbar {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
+          -ms-overflow-style: none !important;
+          scrollbar-width: none !important;
         }
         
-        /* Hide scrollbar globally for body and html */
         body::-webkit-scrollbar,
         html::-webkit-scrollbar {
-          display: none;
+          display: none !important;
         }
         
         body,
         html {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
+          -ms-overflow-style: none !important;
+          scrollbar-width: none !important;
+        }
+        
+        /* Ensure Quill editor also hides scrollbar */
+        .ql-editor::-webkit-scrollbar,
+        .ql-container::-webkit-scrollbar {
+          display: none !important;
+        }
+        
+        .ql-editor,
+        .ql-container {
+          scrollbar-width: none !important;
+          -ms-overflow-style: none !important;
+        }
+        
+        /* Hide scrollbars in dropdowns and modals */
+        div[class*="overflow"]::-webkit-scrollbar {
+          display: none !important;
         }
       `}</style>
 
@@ -619,7 +638,6 @@ export default function EmailSection() {
       )}
 
       <div className="text-sm">
-
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-4">
           <div className="flex-1 w-full">
             <label className="block mb-2 text-gray-700 font-medium">From</label>
@@ -726,7 +744,6 @@ export default function EmailSection() {
             </div>
           ) : (
             <div ref={editorContainerRef} className="border-2 border-gray-300 rounded overflow-hidden resizable-editor">
-              {/* Custom Menu Bar */}
               <div style={{ background: '#f5f5f5', borderBottom: '1px solid #ccc', padding: '4px 8px' }}>
                 <MenuButton 
                   label="File"

@@ -6,7 +6,7 @@ import { Trash2 } from "lucide-react";
 export default function CommentsSection() {
   const [comments, setComments] = useState([
     {
-      id: 1,
+      id: 1,    
       text: "Need to have a followup call. - By Test",
       date: "28-Oct-25 10:29",
     },
@@ -38,7 +38,44 @@ export default function CommentsSection() {
   };
 
   return (
-    <div className="w-full bg-white">
+    <div className="bg-white w-full text-black p-4 sm:p-6 md:p-8 lg:p-10 xl:p-6 h-screen overflow-y-auto">
+      <style>{`
+        /* Hide all scrollbars globally */
+        * {
+          scrollbar-width: none !important;
+          -ms-overflow-style: none !important;
+        }
+        
+        *::-webkit-scrollbar {
+          display: none !important;
+          width: 0 !important;
+          height: 0 !important;
+        }
+        
+        body::-webkit-scrollbar,
+        html::-webkit-scrollbar {
+          display: none !important;
+        }
+        
+        body,
+        html {
+          -ms-overflow-style: none !important;
+          scrollbar-width: none !important;
+        }
+        
+        /* Hide scrollbars in all scrollable elements */
+        div[class*="overflow"]::-webkit-scrollbar,
+        textarea::-webkit-scrollbar {
+          display: none !important;
+        }
+        
+        div[class*="overflow"],
+        textarea {
+          scrollbar-width: none !important;
+          -ms-overflow-style: none !important;
+        }
+      `}</style>
+
       <div className="w-full">
         <div className="text-sm">
           <textarea

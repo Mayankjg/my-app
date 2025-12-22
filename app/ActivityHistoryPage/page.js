@@ -4,7 +4,7 @@ import { useState } from "react";
 import CommentsSection from "./comments/page";
 import EmailSection from "./email/page";
 
-export default function ActivityHistoryPage() {
+export default function activityHistoryPage() {
   const [activeTab, setActiveTab] = useState("comments");
   
   return (
