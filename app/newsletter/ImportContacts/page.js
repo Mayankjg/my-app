@@ -255,7 +255,7 @@ export default function ImportContacts() {
                       <select
                         value={selectedProduct}
                         onChange={(e) => setSelectedProduct(e.target.value)}
-                        className="w-full sm:flex-1 border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00a7cf] focus:border-transparent"
+                        className="w-full sm:flex-1 border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring hover:bg-gray-100 focus:border-transparent"
                       >
                         <option value="">Select Products</option>
                         <option value="Bandhani">Bandhani</option>
@@ -275,7 +275,7 @@ export default function ImportContacts() {
                       <select
                         value={nameColumnIndex}
                         onChange={(e) => setNameColumnIndex(e.target.value)}
-                        className="w-full sm:flex-1 border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00a7cf] focus:border-transparent"
+                        className="w-full sm:flex-1 border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring hover:bg-gray-100 focus:border-transparent"
                       >
                         <option value="">None</option>
                         {columnHeaders.map((header, index) => (
@@ -294,7 +294,7 @@ export default function ImportContacts() {
                       <select
                         value={emailColumnIndex}
                         onChange={(e) => setEmailColumnIndex(e.target.value)}
-                        className="w-full sm:flex-1 border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00a7cf] focus:border-transparent"
+                        className="w-full sm:flex-1 border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring hover:bg-gray-100 focus:border-transparent"
                       >
                         <option value="">None</option>
                         {columnHeaders.map((header, index) => (
