@@ -79,7 +79,7 @@ export default function activityHistoryPage() {
           </button>
         </div>
 
-        <div className="p-4 sm:p-5 overflow-hidden">
+        <div className="p-4 sm:p-5">
           {activeTab === "comments" ? <CommentsSection /> : <EmailSection />}
         </div>
       </div>

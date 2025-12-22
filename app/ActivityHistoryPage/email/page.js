@@ -400,7 +400,7 @@ export default function EmailSection() {
   };
 
   return (
-    <div className="bg-white w-full text-black">
+    <>
       <style>{`
         @keyframes slideDown { 
           from { opacity: 0; transform: translateY(-50px); } 
@@ -947,6 +947,6 @@ export default function EmailSection() {
           ))
         )}
       </div>
-    </div>
+    </>
   );
 }
