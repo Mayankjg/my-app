@@ -9,6 +9,41 @@ export default function activityHistoryPage() {
   
   return (
     <div className="bg-white w-full text-black p-4 sm:p-6 md:p-8 lg:p-10 xl:p-6 h-screen overflow-y-auto">
+      <style>{`
+        /* Hide all scrollbars globally */
+        * {
+          scrollbar-width: none !important;
+          -ms-overflow-style: none !important;
+        }
+        
+        *::-webkit-scrollbar {
+          display: none !important;
+          width: 0 !important;
+          height: 0 !important;
+        }
+        
+        body::-webkit-scrollbar,
+        html::-webkit-scrollbar {
+          display: none !important;
+        }
+        
+        body,
+        html {
+          -ms-overflow-style: none !important;
+          scrollbar-width: none !important;
+        }
+        
+        /* Hide scrollbars in all scrollable elements */
+        div[class*="overflow"]::-webkit-scrollbar {
+          display: none !important;
+        }
+        
+        div[class*="overflow"] {
+          scrollbar-width: none !important;
+          -ms-overflow-style: none !important;
+        }
+      `}</style>
+
       <h2 className="text-[18px] md:text-[20px] font-semibold mb-3">
         Activity <span className="text-gray-500">history</span>
       </h2>
@@ -44,7 +79,7 @@ export default function activityHistoryPage() {
           </button>
         </div>
 
-        <div className="p-4 sm:p-5">
+        <div className="p-4 sm:p-5 overflow-hidden">
           {activeTab === "comments" ? <CommentsSection /> : <EmailSection />}
         </div>
       </div>

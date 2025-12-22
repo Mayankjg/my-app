@@ -400,7 +400,7 @@ export default function EmailSection() {
   };
 
   return (
-    <div className="bg-white w-full text-black p-4 sm:p-6 md:p-8 lg:p-10 xl:p-6 h-screen overflow-y-auto">
+    <div className="bg-white w-full text-black">
       <style>{`
         @keyframes slideDown { 
           from { opacity: 0; transform: translateY(-50px); } 
