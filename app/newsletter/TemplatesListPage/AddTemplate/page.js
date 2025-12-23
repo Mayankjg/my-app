@@ -180,12 +180,12 @@ export default function AddTemplatePage() {
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-3">Template File</label>
-                <input type="file" className="w-full text-sm text-gray-700 file:mr-4 file:py-0.5 file:px-4 file:rounded file:border border-gray-400 file:text-sm file:font-medium file:bg-gray-200 file:text-black hover:file:hover:bg-gray-300 file:cursor-pointer" accept=".html" onChange={handleFileChange} />
+                <input type="file" className="w-full text-sm text-gray-700 file:mr-4 file:py-0.5 file:px-4 file:rounded file:border border-gray-400 file:text-sm file:font-medium file:bg-gray-100 file:text-black hover:file:hover:bg-gray-300 file:cursor-pointer" accept=".html" onChange={handleFileChange} />
                 <p className="text-red-500 text-sm mt-2">Only .HTML Format Allow</p>
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-3">Preview Images</label>
-                <input type="file" className="w-full text-sm text-gray-700 file:mr-4 file:py-0.5 file:px-4 file:rounded file:border border-gray-400 file:text-sm file:font-medium file:bg-gray-200 file:text-black hover:file:hover:bg-gray-300 file:cursor-pointer" accept="image/*" onChange={(e) => setPreviewImage(e.target.files[0])} />
+                <input type="file" className="w-full text-sm text-gray-700 file:mr-4 file:py-0.5 file:px-4 file:rounded file:border border-gray-400 file:text-sm file:font-medium file:bg-gray-100 file:text-black hover:file:hover:bg-gray-300 file:cursor-pointer" accept="image/*" onChange={(e) => setPreviewImage(e.target.files[0])} />
               </div>
               <div className="bg-red-50 border border-red-200 rounded-md px-4 py-2 mb-4">
                 <p className="text-sm text-red-600"><span className="font-semibold">Note:</span> Please Do not Include <span className="font-semibold">Background-image</span> Tag in Template.</p>
