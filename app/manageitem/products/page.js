@@ -12,11 +12,9 @@ export default function ProductsPage() {
   const [editingId, setEditingId] = useState(null);
   const [editedName, setEditedName] = useState("");
 
-  // Load from localStorage on mount
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("products") || "[]");
     if (saved.length === 0) {
-      // Initialize with default data if empty
       const defaultProducts = [
         { id: 1, name: "Bandhani" },
         { id: 2, name: "Galaxy S1" },
