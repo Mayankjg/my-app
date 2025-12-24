@@ -8,9 +8,9 @@ export default function SendMail() {
   const [selectedEmail, setSelectedEmail] = useState('');
   const [subject, setSubject] = useState('');
 
-  return ( 
-    <div className="bg-gray-200 min-h-screen overflow-y-auto p-4 sm:p-6 md:p-8 flex flex-col items-center">
-      <div className="w-full max-w-7xl bg-white shadow-sm rounded-t-lg border-b border-gray-300 px-4 sm:px-6 md:px-8 py-3 flex justify-between items-center sticky top-0 z-10">
+  return (
+    <div className="bg-gray-200 min-h-screen overflow-y-auto p-4 sm:p-6 md:p-8 flex flex-col items-center hide-scrollbar">
+      <div className="w-full max-w-6xl bg-white shadow-sm rounded-t-lg border-b border-gray-300 px-4 sm:px-6 md:px-8 py-3 flex justify-between items-center sticky top-0 z-10">
         <h1 className="text-xl sm:text-2xl font-normal text-gray-700">Send Mail</h1>
         <div className="flex items-center gap-4">
           <div className="bg-amber-800 text-white px-4 sm:px-6 py-2.5 rounded-md flex items-center gap-3">
@@ -23,7 +23,7 @@ export default function SendMail() {
         </div>
       </div>
 
-      <div className="w-full max-w-7xl bg-white rounded-b-lg shadow-md px-4 sm:px-6 md:px-8 py-6 mb-8">
+      <div className="w-full max-w-6xl bg-white rounded-b-lg shadow-md px-4 sm:px-6 md:px-8 py-6 mb-8">
         <div className="mb-6">
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Choose Message Type
@@ -58,7 +58,7 @@ export default function SendMail() {
           <label htmlFor="product-select" className="block text-sm font-semibold text-gray-700 mb-2">
             Select Product
           </label>
-          <div className="relative">
+          <div className="relative max-w-130">
             <select
               id="product-select"
               value={selectedProduct}
@@ -66,13 +66,13 @@ export default function SendMail() {
               className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none hover:bg-gray-100 text-sm text-gray-700"
             >
               <option value="">Select Products</option>
-              <option value="product1">Product 1</option>
-              <option value="product2">Product 2</option>
-              <option value="product3">Product 3</option>
+              <option value="product1">Galaxy S1</option>
+              <option value="product2">Motorola</option>
+              <option value="product3">Iphone 15</option>
             </select>
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
               <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M9.293 12.95l.707.707L15.646 7.354a.75.75 0 011.06 1.06l-6.177 6.177a.75.75 0 01-1.06 0L3.354 8.414a.75.75 0 011.06-1.06l4.878 4.879z"/>
+                <path d="M9.293 12.95l.707.707L15.646 7.354a.75.75 0 011.06 1.06l-6.177 6.177a.75.75 0 01-1.06 0L3.354 8.414a.75.75 0 011.06-1.06l4.878 4.879z" />
               </svg>
             </div>
           </div>
@@ -82,7 +82,7 @@ export default function SendMail() {
           <label htmlFor="email-select" className="block text-sm font-semibold text-gray-700 mb-2">
             From Email
           </label>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 max-w-154">
             <div className="relative flex-grow">
               <select
                 id="email-select"
@@ -91,12 +91,12 @@ export default function SendMail() {
                 className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none hover:bg-gray-100 text-sm text-gray-700"
               >
                 <option value="">Select Email</option>
-                <option value="email1@example.com">email1@example.com</option>
-                <option value="email2@example.com">email2@example.com</option>
+                <option value="email1@example.com">mayank@gmail.com</option>
+                <option value="email2@example.com">magan@gmail.com</option>
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                  <path d="M9.293 12.95l.707.707L15.646 7.354a.75.75 0 011.06 1.06l-6.177 6.177a.75.75 0 01-1.06 0L3.354 8.414a.75.75 0 011.06-1.06l4.878 4.879z"/>
+                  <path d="M9.293 12.95l.707.707L15.646 7.354a.75.75 0 011.06 1.06l-6.177 6.177a.75.75 0 01-1.06 0L3.354 8.414a.75.75 0 011.06-1.06l4.878 4.879z" />
                 </svg>
               </div>
             </div>
@@ -119,11 +119,11 @@ export default function SendMail() {
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
             placeholder="Subject"
-            className="shadow appearance-none border border-gray-300 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none hover:bg-gray-100 text-sm"
+            className="shadow appearance-none border border-gray-300 rounded w-full max-w-130 py-2 px-4 text-gray-700 leading-tight focus:outline-none hover:bg-gray-100 text-sm"
           />
         </div>
 
-        <div className="flex flex-wrap gap-3 pt-4 border-t border-gray-200">
+        <div className="flex flex-wrap gap-6 pt-1">
           <button
             onClick={() => alert('Single mail sent!')}
             className="bg-cyan-500 hover:bg-cyan-600 text-white font-medium py-2 px-6 rounded text-sm flex items-center space-x-2 shadow-md focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-75"
